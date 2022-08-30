@@ -4,13 +4,13 @@
   <Set name="maxFormContentSize">2000000</Set>
 </Configure>
 <filter>
-	<filter-name>lpserver</filter-name>
-	<filter-class>com.dvarasolutions.lpserver.core.Intercept</filter-class>
+	<filter-name>TSI Accelerator</filter-name>
+	<filter-class>in.tsiconsulting.accelerator.core.Intercept</filter-class>
 </filter>
 	
 <filter-mapping>
-	<filter-name>lpserver</filter-name>
-	<url-pattern>/lps/*</url-pattern>
+	<filter-name>TSI Accelerator</filter-name>
+	<url-pattern>/tsi/*</url-pattern>
 </filter-mapping>
 
 </web-app>
