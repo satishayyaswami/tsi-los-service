@@ -14,16 +14,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import in.tsiconsulting.accelerator.util.OutputProcessor;
-import org.apache.log4j.Logger;
-
 import in.tsiconsulting.accelerator.util.Config;
 import in.tsiconsulting.accelerator.util.InputProcessor;
-import org.json.simple.JSONObject;
+import in.tsiconsulting.accelerator.util.OutputProcessor;
 
 public class Intercept implements Filter {
-
-    private static final Logger log = Logger.getLogger(Intercept.class);
 
     private static final String URL_DELIMITER = "/";
     private static final String LIQUIDITY_PLATFORM_FRAMEWORK = "lps";
@@ -105,7 +100,6 @@ public class Intercept implements Filter {
                     res.sendError(400);
                 }
             } catch (Exception e) {
-                log.error("", e);
                 e.printStackTrace();
                 res.sendError(400);
             }
@@ -122,7 +116,6 @@ public class Intercept implements Filter {
         while (en.hasMoreElements()) {
             name = (String) en.nextElement();
             value = filterConfig.getInitParameter(name);
-            log.info("Registering " + name + " - " + value);
             handlers.put(name, value);
         }
 

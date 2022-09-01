@@ -2,7 +2,6 @@ package in.tsiconsulting.accelerator.util;
 
 import java.util.LinkedHashMap;
 
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.servlet.http.HttpServletResponse;

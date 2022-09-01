@@ -3,18 +3,14 @@ package in.tsiconsulting.accelerator.util;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-
-import org.json.simple.JSONObject;
 
 public class InputProcessor {
     private static final Logger log = Logger.getLogger(InputProcessor.class);
