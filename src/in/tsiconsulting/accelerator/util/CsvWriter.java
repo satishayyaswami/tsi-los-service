@@ -44,15 +44,7 @@ public class CsvWriter {
      */
     public static final int ESCAPE_MODE_BACKSLASH = 2;
 
-    /**
-     * Creates a {@link epoch.util.csvreader.CsvWriter CsvWriter} object using a file
-     * as the data destination.
-     *
-     * @param fileName  The path to the file to output the data.
-     * @param delimiter The character to use as the column delimiter.
-     * @param charset   The {@link Charset Charset} to use while
-     *                  writing the data.
-     */
+
     public CsvWriter(String fileName, char delimiter, Charset charset) {
         if (fileName == null) {
             throw new IllegalArgumentException("Parameter fileName can not be null.");
@@ -67,24 +59,10 @@ public class CsvWriter {
         this.charset = charset;
     }
 
-    /**
-     * Creates a {@link epoch.util.csvreader.CsvWriter CsvWriter} object using a file
-     * as the data destination.&nbsp;Uses a comma as the column delimiter and
-     * ISO-8859-1 as the {@link Charset Charset}.
-     *
-     * @param fileName The path to the file to output the data.
-     */
     public CsvWriter(String fileName) {
         this(fileName, Letters.COMMA, StandardCharsets.ISO_8859_1);
     }
 
-    /**
-     * Creates a {@link epoch.util.csvreader.CsvWriter CsvWriter} object using a Writer
-     * to write data to.
-     *
-     * @param outputStream The stream to write the column delimited data to.
-     * @param delimiter    The character to use as the column delimiter.
-     */
     public CsvWriter(Writer outputStream, char delimiter) {
         if (outputStream == null) {
             throw new IllegalArgumentException("Parameter outputStream can not be null.");
@@ -95,15 +73,6 @@ public class CsvWriter {
         initialized = true;
     }
 
-    /**
-     * Creates a {@link epoch.util.csvreader.CsvWriter CsvWriter} object using an
-     * OutputStream to write data to.
-     *
-     * @param outputStream The stream to write the column delimited data to.
-     * @param delimiter    The character to use as the column delimiter.
-     * @param charset      The {@link Charset Charset} to use while
-     *                     writing the data.
-     */
     public CsvWriter(OutputStream outputStream, char delimiter, Charset charset) {
         this(new OutputStreamWriter(outputStream, charset), delimiter);
     }
