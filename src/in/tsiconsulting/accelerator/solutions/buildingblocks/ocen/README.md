@@ -1,4 +1,4 @@
-TSI Accelerator - Solutions - Base - Beckn - v0.1
+TSI Accelerator - Solutions - Building Blocks - OCEN - v0.1
 --------------------------------------------------------------------------------------------
 
 

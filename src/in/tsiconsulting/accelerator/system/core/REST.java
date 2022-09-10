@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.core;
+package in.tsiconsulting.accelerator.system.core;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

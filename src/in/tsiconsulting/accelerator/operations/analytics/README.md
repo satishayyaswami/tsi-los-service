@@ -1,4 +1,4 @@
-TSI Accelerator - Management - v0.1
+TSI Accelerator - Operations - Analytics - v0.1
 --------------------------------------------------------------------------------------------
 
 

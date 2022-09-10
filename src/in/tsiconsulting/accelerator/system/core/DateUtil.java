@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.util;
+package in.tsiconsulting.accelerator.system.core;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

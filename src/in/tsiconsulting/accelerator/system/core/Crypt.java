@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.util;
+package in.tsiconsulting.accelerator.system.core;
 
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;

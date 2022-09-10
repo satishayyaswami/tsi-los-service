@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.core;
+package in.tsiconsulting.accelerator.system.core;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -13,10 +13,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import in.tsiconsulting.accelerator.util.Config;
-import in.tsiconsulting.accelerator.util.InputProcessor;
-import in.tsiconsulting.accelerator.util.OutputProcessor;
 
 public class Intercept implements Filter {
 

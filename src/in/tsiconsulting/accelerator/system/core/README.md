@@ -1,4 +1,4 @@
-TSI Accelerator - Solutions - Base - KYC - v0.1
+TSI Accelerator - System - Core - v0.1
 --------------------------------------------------------------------------------------------
 
 

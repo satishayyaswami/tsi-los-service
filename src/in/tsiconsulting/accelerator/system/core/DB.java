@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.core;
+package in.tsiconsulting.accelerator.system.core;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 //import jxl.write.WritableWorkbook;
 //import jxl.write.WriteException;
 
-import in.tsiconsulting.accelerator.util.Config;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.apache.commons.dbcp2.BasicDataSource;
