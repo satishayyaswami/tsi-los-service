@@ -3,45 +3,57 @@ package in.tsiconsulting.accelerator.system.core;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-
 import javax.servlet.ServletContext;
-
-import org.apache.log4j.Logger;
 
 
 public class Config {
-    private static Properties props;
-    //static Logger log = Logger.getLogger(Config.class.getName());
-    private static final Logger log = Logger.getLogger(Config.class);
+    private static Properties appConfig;
+    private static Properties schemaConfig;
+    private static Properties processorConfig;
 
     public static void load(ServletContext ctx) {
-        if (props == null) {
-            Properties prop = new Properties();
+        if (appConfig == null) {
+            appConfig = new Properties();
             try {
-                prop.load(ctx.getResourceAsStream("/WEB-INF/lpserver.properties"));
+                appConfig.load(ctx.getResourceAsStream("/WEB-INF/_accelerator.tsi"));
             } catch (IOException ex) {
-                //ex.printStackTrace();
-                log.error("", ex);
+                ex.printStackTrace();
             }
-            props = prop;
-            log.info("propertyName" + props);
+            System.out.println("Loaded "+ appConfig);
+        }
+
+        if (schemaConfig == null) {
+            schemaConfig = new Properties();
+            try {
+                schemaConfig.load(ctx.getResourceAsStream("/WEB-INF/_schema.tsi"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            System.out.println("Loaded "+ schemaConfig);
+        }
+
+        if (processorConfig == null) {
+            processorConfig = new Properties();
+            try {
+                processorConfig.load(ctx.getResourceAsStream("/WEB-INF/_processor.tsi"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            System.out.println("Loaded "+ processorConfig);
         }
     }
 
-    public static void load(String propertyFilePath) {
-        if (props == null) {
-            Properties prop = new Properties();
-            try {
-                prop.load(new FileInputStream(propertyFilePath));
-            } catch (IOException ex) {
-                //ex.printStackTrace();
-                log.error("", ex);
-            }
-            props = prop;
-        }
+    public static String getAppConfig(String propertyName) {
+        return appConfig.getProperty(propertyName);
+    }
+    public static String getSchema(String propertyName) {
+        return schemaConfig.getProperty(propertyName);
+    }
+    public static String getProcessor(String propertyName) {
+        return processorConfig.getProperty(propertyName);
     }
 
-    public static String get(String propertyName) {
-        return props.getProperty(propertyName);
+    public static Properties getProcessorConfig(){
+        return processorConfig;
     }
 }

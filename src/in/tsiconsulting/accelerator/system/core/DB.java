@@ -36,9 +36,9 @@ public class DB {
         if (basicDataSource != null) {
             basicDataSource = new BasicDataSource();
             basicDataSource.setDriverClassName("org.postgresql.Driver");
-            basicDataSource.setUrl(Config.get("lpserver.master.url"));
-            basicDataSource.setUsername(Config.get("lpserver.master.user"));
-            basicDataSource.setPassword(Config.get("lpserver.master.password"));
+            basicDataSource.setUrl(Config.getAppConfig("tsi.accelerator.db.url"));
+            basicDataSource.setUsername(Config.getAppConfig("tsi.accelerator.db.user"));
+            basicDataSource.setPassword(Config.getAppConfig("tsi.accelerator.db.password"));
             basicDataSource.setInitialSize(10);
             basicDataSource.setMaxTotal(300);
             basicDataSource.setTestOnBorrow(true);
@@ -49,82 +49,19 @@ public class DB {
         }
     }
 
-    public static Connection getMasterDBConnection(boolean autoCommit) throws SQLException {
-        Connection con = getMasterDBConnection();
-        con.setAutoCommit(false);
+    public static Connection getDBConnection(boolean autoCommit) throws SQLException {
+        Connection con = getDBConnection();
+        con.setAutoCommit(autoCommit);
         return con;
     }
 
-    public static Connection getMasterDBConnection() throws SQLException {
+    public static Connection getDBConnection() throws SQLException {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(Config.get("lpserver.master.url"),
-                    Config.get("lpserver.master.user"),
-                    Config.get("lpserver.master.password"));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        connection.setAutoCommit(false);
-        return connection;
-
-//		if(basicDataSource == null) {
-//			initBasicDataSource();
-//		}
-//		connection = basicDataSource.getConnection();
-//		connection.setAutoCommit(false);
-//		return connection;
-    }
-
-    public static Connection getMasterDBAutoCommitConnection() throws SQLException {
-        Connection connection = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(Config.get("lpserver.master.url"),
-                    Config.get("lpserver.master.user"),
-                    Config.get("lpserver.master.password"));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-
-//		if(basicDataSource == null) {
-//			initBasicDataSource();
-//		}
-//		connection = basicDataSource.getConnection();
-//		connection.setAutoCommit(false);
-//		return connection;
-    }
-
-    public static Connection getTenantDBConnection(String tenantDB) throws SQLException {
-        Connection connection = null;
-        tenantDB = tenantDB.toLowerCase();
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + tenantDB,
-                    Config.get("lpserver.master.user"),
-                    Config.get("lpserver.master.password"));
-            connection.setAutoCommit(false);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-
-//		if(basicDataSource == null) {
-//			initBasicDataSource();
-//		}
-//		connection = basicDataSource.getConnection();
-//		connection.setAutoCommit(false);
-//		return connection;
-    }
-
-    public static Connection getTenantDBAutoCommitConnection(String tenantDB) throws SQLException {
-        Connection connection = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + tenantDB,
-                    Config.get("lpserver.master.user"),
-                    Config.get("lpserver.master.password"));
+            connection = DriverManager.getConnection(Config.getAppConfig("tsi.accelerator.db.url"),
+                    Config.getAppConfig("tsi.accelerator.db.user"),
+                    Config.getAppConfig("tsi.accelerator.db.password"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
