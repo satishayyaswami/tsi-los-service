@@ -25,10 +25,10 @@ public class Bootstrap implements REST {
     public void post(HttpServletRequest req, HttpServletResponse res) {
         JSONObject input = null;
         JSONObject output = null;
-        String reboot = null;
+        boolean reboot = false;
         try {
             input = (JSONObject) new JSONParser().parse((String) req.getAttribute(InputProcessor.REQUEST_DATA));
-            reboot = (String) input.get("reboot");
+            reboot = (Boolean) input.get("reboot");
             output = bootstrap();
         }catch(Exception e){
             output = new JSONObject();
@@ -56,17 +56,15 @@ public class Bootstrap implements REST {
         try {
             con = DB.getDBConnection(true);
             // insert schema mgr
-            buff.append("CREATE TABLE _sys_schema_mgr (");
+            buff = new StringBuffer();
+            buff.append("CREATE TABLE _sys_schema_registry (");
             buff.append("schema_seq SERIAL PRIMARY KEY,");
             buff.append("sql VARCHAR(1000) NOT NULL,");
             buff.append("active SMALLINT NOT NULL,");
-            buff.append("created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-
+            buff.append("created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)");
+            pstmt = con.prepareStatement(buff.toString());
             int i = pstmt.executeUpdate();
-            System.out.println(i+" records inserted");
-            con.commit();
-            DB.close(pstmt);
-            DB.close(con);
+            System.out.println("_sys_schema_registry created");
         } finally {
             DB.close(pstmt);
             DB.close(con);

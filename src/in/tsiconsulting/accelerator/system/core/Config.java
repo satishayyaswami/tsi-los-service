@@ -19,7 +19,7 @@ public class Config {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            System.out.println("Loaded "+ appConfig);
+            System.out.println("Loaded _accelerator.tsi");
         }
 
         if (schemaConfig == null) {
@@ -29,7 +29,7 @@ public class Config {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            System.out.println("Loaded "+ schemaConfig);
+            System.out.println("Loaded _schema.tsi");
         }
 
         if (processorConfig == null) {
@@ -39,7 +39,7 @@ public class Config {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            System.out.println("Loaded "+ processorConfig);
+            System.out.println("Loaded _processor.tsi");
         }
     }
 

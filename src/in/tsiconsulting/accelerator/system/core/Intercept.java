@@ -37,18 +37,18 @@ public class Intercept implements Filter {
         String method = req.getMethod();
         String servletPath = req.getServletPath();
         String uri = req.getRequestURI();
-        Properties apiRegistry = Config.getProcessorConfig();
+        String classname = null;
+        String operation = null;
+        Properties apiRegistry = null;
 
         // set response header
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setCharacterEncoding("UTF-8");
 
+        apiRegistry = Config.getProcessorConfig();
+
         if (apiRegistry.containsKey(servletPath.trim())) {
             StringTokenizer strTok = new StringTokenizer(servletPath, URL_DELIMITER);
-            if (strTok.countTokens() != 3) {
-                res.sendError(400);
-                return;
-            }
             String framework = strTok.nextToken();
             if (!framework.equalsIgnoreCase(TSI_ACCELERATOR_FRAMEWORK)) {
                 res.sendError(400);
@@ -57,8 +57,8 @@ public class Intercept implements Filter {
 
             // Check
             InputProcessor.processInput(req, res);
-            String operation = strTok.nextToken();
-            String classname = (String) apiRegistry.get(servletPath.trim());
+            operation = strTok.nextToken();
+            classname = apiRegistry.getProperty(servletPath.trim());
             System.out.println("operation:" + operation + " classname:" + classname);
             if (classname == null || method == null) res.sendError(400);
             try {
