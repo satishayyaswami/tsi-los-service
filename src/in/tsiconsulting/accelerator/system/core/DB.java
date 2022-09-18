@@ -49,19 +49,25 @@ public class DB {
         }
     }
 
-    public static Connection getDBConnection(boolean autoCommit) throws SQLException {
-        Connection con = getDBConnection();
+    public static Connection getMaster(boolean autoCommit) throws SQLException {
+        Connection con = getDBConnection(   Config.getAppConfig("tsi.accelerator.db.url"),
+                                            Config.getAppConfig("tsi.accelerator.db.user"),
+                                            Config.getAppConfig("tsi.accelerator.db.password"));
         con.setAutoCommit(autoCommit);
         return con;
     }
 
-    public static Connection getDBConnection() throws SQLException {
+    public static Connection getTenant(String dbUrl, String user, String pass, boolean autoCommit) throws SQLException {
+        Connection con = getDBConnection(dbUrl,user,pass);
+        con.setAutoCommit(autoCommit);
+        return con;
+    }
+
+    public static Connection getDBConnection(String dbUrl, String user, String pass) throws SQLException {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(Config.getAppConfig("tsi.accelerator.db.url"),
-                    Config.getAppConfig("tsi.accelerator.db.user"),
-                    Config.getAppConfig("tsi.accelerator.db.password"));
+            connection = DriverManager.getConnection(dbUrl, user, pass);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

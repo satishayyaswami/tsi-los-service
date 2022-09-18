@@ -23,12 +23,11 @@ public class OutputProcessor {
 
     }
 
-    public static void send(HttpServletResponse res, Object data) {
+    public static void send(HttpServletResponse res, int status, Object data) {
         try {
             res.setContentType(MEDIA_TYPE_JSON);
             res.setCharacterEncoding("UTF-8");
-            //int status = (Integer)(((JSONObject)data).get("status"));
-            //res.setStatus(status);
+            res.setStatus(status);
             if (data != null) {
                 if (data instanceof byte[]) {
                     res.getOutputStream().write((byte[]) data);
@@ -36,6 +35,13 @@ public class OutputProcessor {
                     res.getOutputStream().print(String.valueOf(data));
                 }
             }
+        } catch (Exception e) {
+        }
+    }
+
+    public static void sendError(HttpServletResponse res, int status, String message) {
+        try {
+            res.sendError(status,message);
         } catch (Exception e) {
         }
     }

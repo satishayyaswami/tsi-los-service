@@ -63,23 +63,20 @@ public class Intercept implements Filter {
             if (classname == null || method == null) res.sendError(400);
             try {
 
-                REST action = ((REST) Class.forName(classname).newInstance());
+                REST action = ((REST) Class.forName(classname).getConstructor().newInstance());
+                action.validate(method,req,res);
                 if (method.equalsIgnoreCase("GET")) {
                     res.setContentType("application/json");
                     action.get(req, res);
-                    OutputProcessor.send(res, req.getAttribute(InputProcessor.OUTPUT_DATA));
                 } else if (method.equalsIgnoreCase("POST")) {
                     res.setContentType("application/json");
                     action.post(req, res);
-                    OutputProcessor.send(res, req.getAttribute(InputProcessor.OUTPUT_DATA));
                 } else if (method.equalsIgnoreCase("PUT")) {
                     res.setContentType("application/json");
                     action.put(req, res);
-                    OutputProcessor.send(res, req.getAttribute(InputProcessor.OUTPUT_DATA));
                 } else if (method.equalsIgnoreCase("DELETE")) {
                     res.setContentType("application/json");
                     action.delete(req, res);
-                    OutputProcessor.send(res, req.getAttribute(InputProcessor.OUTPUT_DATA));
                 } else {
                     res.sendError(400);
                 }

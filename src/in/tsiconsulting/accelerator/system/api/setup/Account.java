@@ -2,18 +2,17 @@ package in.tsiconsulting.accelerator.system.api.setup;
 
 
 import in.tsiconsulting.accelerator.system.core.DB;
+import in.tsiconsulting.accelerator.system.core.OutputProcessor;
 import in.tsiconsulting.accelerator.system.core.REST;
 import in.tsiconsulting.accelerator.system.core.InputProcessor;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-public class Bootstrap implements REST {
+public class Account implements REST {
 
     public static final String TSI_ACCELERATOR_DATABASE = "_tsi_accelerator";
 
@@ -27,16 +26,13 @@ public class Bootstrap implements REST {
         JSONObject output = null;
         boolean reboot = false;
         try {
-            input = (JSONObject) new JSONParser().parse((String) req.getAttribute(InputProcessor.REQUEST_DATA));
+            input = InputProcessor.getInput(req);
             reboot = (Boolean) input.get("reboot");
-            output = bootstrap();
+            bootstrap();
         }catch(Exception e){
-            output = new JSONObject();
-            output.put("status",500);
-            output.put("message",e.getMessage());
-            e.printStackTrace();
+            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
         }
-        req.setAttribute(InputProcessor.OUTPUT_DATA,output);
+        OutputProcessor.send(res,HttpServletResponse.SC_OK,null);
     }
 
     @Override
@@ -47,18 +43,29 @@ public class Bootstrap implements REST {
     public void put(HttpServletRequest req, HttpServletResponse res) {
     }
 
-    private static JSONObject bootstrap() throws SQLException {
+    @Override
+    public void validate(String method, HttpServletRequest req, HttpServletResponse res) {
+        // To do
+    }
+
+    private void bootstrap() throws Exception{
+        //createSchemaRegistry();
+    }
+
+
+    private void createSchemaRegistry() throws Exception {
         PreparedStatement pstmt = null;
         StringBuffer buff = null;
         Connection con = null;
-        JSONObject result = null;
 
         try {
-            con = DB.getDBConnection(true);
+            con = DB.getMaster(true);
             // insert schema mgr
             buff = new StringBuffer();
-            buff.append("CREATE TABLE _sys_schema_registry (");
+            buff.append("CREATE TABLE IF NOT EXISTS _sys_schema_registry (");
             buff.append("schema_seq SERIAL PRIMARY KEY,");
+            buff.append("account_code VARCHAR(6) NOT NULL,");
+            buff.append("schema_no INTEGER NOT NULL,");
             buff.append("sql VARCHAR(1000) NOT NULL,");
             buff.append("active SMALLINT NOT NULL,");
             buff.append("created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)");
@@ -69,8 +76,5 @@ public class Bootstrap implements REST {
             DB.close(pstmt);
             DB.close(con);
         }
-        result = new JSONObject();
-        result.put("status",HttpServletResponse.SC_OK);
-        return result;
     }
 }

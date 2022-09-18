@@ -1,4 +1,4 @@
-TSI Accelerator - System - Configuration - v0.1
+TSI Accelerator - System - Queue - v0.1
 --------------------------------------------------------------------------------------------
 
 

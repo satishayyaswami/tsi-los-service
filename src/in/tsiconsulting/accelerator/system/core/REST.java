@@ -1,5 +1,7 @@
 package in.tsiconsulting.accelerator.system.core;
 
+import org.json.simple.JSONObject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +12,7 @@ public interface REST {
     String JSON_OUTPUT = "json";
     String XML_OUTPUT = "xml";
     String DELIMITER = ".";
+    JSONObject validator = null;
 
     void get(HttpServletRequest req, HttpServletResponse res);
 
@@ -18,4 +21,6 @@ public interface REST {
     void delete(HttpServletRequest req, HttpServletResponse res);
 
     void put(HttpServletRequest req, HttpServletResponse res);
+
+    void validate(String method, HttpServletRequest req, HttpServletResponse res);
 }

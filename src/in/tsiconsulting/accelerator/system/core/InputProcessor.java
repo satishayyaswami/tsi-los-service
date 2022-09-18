@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 
@@ -16,7 +18,6 @@ public class InputProcessor {
     private static final Logger log = Logger.getLogger(InputProcessor.class);
 
     public final static String REQUEST_DATA = "input_json";
-    public final static String OUTPUT_DATA = "output_json";
 
     public static void processInput(HttpServletRequest request,
                                     HttpServletResponse response) throws IOException {
@@ -29,7 +30,11 @@ public class InputProcessor {
             buffer.append(System.lineSeparator());
         }
         String data = buffer.toString();
-        request.setAttribute("input_json", data);
+        request.setAttribute(REQUEST_DATA, data);
+    }
+
+    public static JSONObject getInput(HttpServletRequest req) throws Exception{
+        return (JSONObject) new JSONParser().parse((String) req.getAttribute(InputProcessor.REQUEST_DATA));
     }
 
     public static String applyRules(String value) {
