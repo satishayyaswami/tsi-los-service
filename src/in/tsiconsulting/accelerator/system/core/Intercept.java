@@ -89,8 +89,6 @@ public class Intercept implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        String name = null;
-        String value = null;
-        Config.load(filterConfig.getServletContext()); // load property files
+
     }
 }

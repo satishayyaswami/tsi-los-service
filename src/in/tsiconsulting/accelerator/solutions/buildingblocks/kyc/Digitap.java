@@ -37,7 +37,7 @@ public class Digitap implements REST {
             output.put("message",e.getMessage());
             e.printStackTrace();
         }
-        req.setAttribute(InputProcessor.OUTPUT_DATA,output);
+        //req.setAttribute(InputProcessor.OUTPUT_DATA,output);
     }
 
     @Override

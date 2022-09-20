@@ -28,7 +28,7 @@ public class Account implements REST {
         try {
             input = InputProcessor.getInput(req);
             reboot = (Boolean) input.get("reboot");
-            bootstrap();
+            //bootstrap();
         }catch(Exception e){
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
         }
@@ -48,10 +48,32 @@ public class Account implements REST {
         // To do
     }
 
-    private void bootstrap() throws Exception{
+    private void setup() throws Exception{
         //createSchemaRegistry();
     }
 
+    private void createAccount() throws Exception {
+        PreparedStatement pstmt = null;
+        StringBuffer buff = null;
+        Connection con = null;
+
+        try {
+            con = DB.getMaster(true);
+            // insert schema mgr
+            buff = new StringBuffer();
+            buff.append("CREATE TABLE IF NOT EXISTS _sys_accounts (");
+            buff.append("account_code VARCHAR(6) NOT NULL PRIMARY KEY,");
+            buff.append("account_desc VARCHAR(200) NOT NULL,");
+            buff.append("active SMALLINT NOT NULL,");
+            buff.append("created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)");
+            pstmt = con.prepareStatement(buff.toString());
+            int i = pstmt.executeUpdate();
+            System.out.println("_sys_accounts created");
+        } finally {
+            DB.close(pstmt);
+            DB.close(con);
+        }
+    }
 
     private void createSchemaRegistry() throws Exception {
         PreparedStatement pstmt = null;

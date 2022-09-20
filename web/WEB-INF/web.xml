@@ -1,8 +1,6 @@
 <?xml version="1.0" ?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-<Configure class="org.eclipse.jetty.webapp.WebAppContext">
-  <Set name="maxFormContentSize">2000000</Set>
-</Configure>
+
 <filter>
 	<filter-name>TSI Accelerator</filter-name>
 	<filter-class>in.tsiconsulting.accelerator.system.core.Intercept</filter-class>
@@ -13,4 +11,7 @@
 	<url-pattern>/tsi/*</url-pattern>
 </filter-mapping>
 
+	<listener>
+		<listener-class>in.tsiconsulting.accelerator.system.core.SchemaSync</listener-class>
+	</listener>
 </web-app>

@@ -8,7 +8,9 @@ import javax.servlet.ServletContext;
 
 public class Config {
     private static Properties appConfig;
-    private static Properties schemaConfig;
+    private static Properties mschemaConfig;
+
+    private static Properties tschemaConfig;
     private static Properties processorConfig;
 
     public static void load(ServletContext ctx) {
@@ -22,14 +24,24 @@ public class Config {
             System.out.println("Loaded _accelerator.tsi");
         }
 
-        if (schemaConfig == null) {
-            schemaConfig = new Properties();
+        if (mschemaConfig == null) {
+            mschemaConfig = new Properties();
             try {
-                schemaConfig.load(ctx.getResourceAsStream("/WEB-INF/_schema.tsi"));
+                mschemaConfig.load(ctx.getResourceAsStream("/WEB-INF/_mschema.tsi"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            System.out.println("Loaded _schema.tsi");
+            System.out.println("Loaded _mschema.tsi");
+        }
+
+        if (tschemaConfig == null) {
+            tschemaConfig = new Properties();
+            try {
+                tschemaConfig.load(ctx.getResourceAsStream("/WEB-INF/_tschema.tsi"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            System.out.println("Loaded _tschema.tsi");
         }
 
         if (processorConfig == null) {
@@ -43,15 +55,12 @@ public class Config {
         }
     }
 
-    public static String getAppConfig(String propertyName) {
-        return appConfig.getProperty(propertyName);
+    public static Properties getAppConfig() {
+        return appConfig;
     }
-    public static String getSchema(String propertyName) {
-        return schemaConfig.getProperty(propertyName);
-    }
-    public static String getProcessor(String propertyName) {
-        return processorConfig.getProperty(propertyName);
-    }
+    public static Properties getMasterSchema() { return mschemaConfig;}
+
+    public static Properties getTenantSchema() { return tschemaConfig;}
 
     public static Properties getProcessorConfig(){
         return processorConfig;

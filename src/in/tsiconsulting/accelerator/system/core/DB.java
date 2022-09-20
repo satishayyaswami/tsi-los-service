@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -36,9 +37,9 @@ public class DB {
         if (basicDataSource != null) {
             basicDataSource = new BasicDataSource();
             basicDataSource.setDriverClassName("org.postgresql.Driver");
-            basicDataSource.setUrl(Config.getAppConfig("tsi.accelerator.db.url"));
-            basicDataSource.setUsername(Config.getAppConfig("tsi.accelerator.db.user"));
-            basicDataSource.setPassword(Config.getAppConfig("tsi.accelerator.db.password"));
+            basicDataSource.setUrl(Config.getAppConfig().getProperty("tsi.accelerator.db.url"));
+            basicDataSource.setUsername(Config.getAppConfig().getProperty("tsi.accelerator.db.user"));
+            basicDataSource.setPassword(Config.getAppConfig().getProperty("tsi.accelerator.db.password"));
             basicDataSource.setInitialSize(10);
             basicDataSource.setMaxTotal(300);
             basicDataSource.setTestOnBorrow(true);
@@ -50,9 +51,9 @@ public class DB {
     }
 
     public static Connection getMaster(boolean autoCommit) throws SQLException {
-        Connection con = getDBConnection(   Config.getAppConfig("tsi.accelerator.db.url"),
-                                            Config.getAppConfig("tsi.accelerator.db.user"),
-                                            Config.getAppConfig("tsi.accelerator.db.password"));
+        Connection con = getDBConnection(   Config.getAppConfig().getProperty("tsi.accelerator.db.url"),
+                                            Config.getAppConfig().getProperty("tsi.accelerator.db.user"),
+                                            Config.getAppConfig().getProperty("tsi.accelerator.db.password"));
         con.setAutoCommit(autoCommit);
         return con;
     }
@@ -103,6 +104,15 @@ public class DB {
         try {
             if (pStmt != null) {
                 pStmt.close();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public static void close(Statement stmt) {
+        try {
+            if (stmt != null) {
+                stmt.close();
             }
         } catch (Exception e) {
         }
