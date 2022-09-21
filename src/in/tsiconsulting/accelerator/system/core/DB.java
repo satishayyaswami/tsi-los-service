@@ -37,9 +37,9 @@ public class DB {
         if (basicDataSource != null) {
             basicDataSource = new BasicDataSource();
             basicDataSource.setDriverClassName("org.postgresql.Driver");
-            basicDataSource.setUrl(Config.getAppConfig().getProperty("tsi.accelerator.db.url"));
-            basicDataSource.setUsername(Config.getAppConfig().getProperty("tsi.accelerator.db.user"));
-            basicDataSource.setPassword(Config.getAppConfig().getProperty("tsi.accelerator.db.password"));
+            basicDataSource.setUrl(Config.getAppConfig().getProperty("tsi.admin.db.url"));
+            basicDataSource.setUsername(Config.getAppConfig().getProperty("tsi.admin.db.user"));
+            basicDataSource.setPassword(Config.getAppConfig().getProperty("tsi.admin.db.password"));
             basicDataSource.setInitialSize(10);
             basicDataSource.setMaxTotal(300);
             basicDataSource.setTestOnBorrow(true);
@@ -50,10 +50,10 @@ public class DB {
         }
     }
 
-    public static Connection getMaster(boolean autoCommit) throws SQLException {
-        Connection con = getDBConnection(   Config.getAppConfig().getProperty("tsi.accelerator.db.url"),
-                                            Config.getAppConfig().getProperty("tsi.accelerator.db.user"),
-                                            Config.getAppConfig().getProperty("tsi.accelerator.db.password"));
+    public static Connection getAdmin(boolean autoCommit) throws SQLException {
+        Connection con = getDBConnection(   Config.getAppConfig().getProperty("tsi.admin.db.url"),
+                                            Config.getAppConfig().getProperty("tsi.admin.db.user"),
+                                            Config.getAppConfig().getProperty("tsi.admin.db.password"));
         con.setAutoCommit(autoCommit);
         return con;
     }

@@ -54,7 +54,7 @@ public class SchemaSync implements ServletContextListener {
         Connection con = null;
 
         try {
-            con = DB.getMaster(true);
+            con = DB.getAdmin(true);
             // insert schema mgr
             buff = new StringBuffer();
             buff.append("CREATE TABLE IF NOT EXISTS _sys_master_schema_registry (");
@@ -77,7 +77,7 @@ public class SchemaSync implements ServletContextListener {
         int count = 0;
 
         try {
-            con = DB.getMaster(true);
+            con = DB.getAdmin(true);
             // insert schema mgr
             buff = new StringBuffer();
             buff.append("select count(*) from _sys_master_schema_registry");
@@ -102,7 +102,7 @@ public class SchemaSync implements ServletContextListener {
         PreparedStatement pstmt = null;
 
         try {
-            con = DB.getMaster(false);
+            con = DB.getAdmin(false);
 
             // execute sql
             stmt = con.createStatement();

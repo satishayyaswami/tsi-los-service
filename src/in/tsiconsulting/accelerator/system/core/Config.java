@@ -17,11 +17,11 @@ public class Config {
         if (appConfig == null) {
             appConfig = new Properties();
             try {
-                appConfig.load(ctx.getResourceAsStream("/WEB-INF/_accelerator.tsi"));
+                appConfig.load(ctx.getResourceAsStream("/WEB-INF/_admin.tsi"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            System.out.println("Loaded _accelerator.tsi");
+            System.out.println("Loaded _admin.tsi");
         }
 
         if (mschemaConfig == null) {
