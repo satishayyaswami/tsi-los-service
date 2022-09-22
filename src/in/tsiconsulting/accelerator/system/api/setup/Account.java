@@ -16,8 +16,6 @@ import java.sql.ResultSet;
 
 public class Account implements REST {
 
-    public static final String TSI_ACCELERATOR_DATABASE = "_tsi_accelerator";
-
     @Override
     public void get(HttpServletRequest req, HttpServletResponse res) {
     }
