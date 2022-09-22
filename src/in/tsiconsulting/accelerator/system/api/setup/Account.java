@@ -28,11 +28,11 @@ public class Account implements REST {
         JSONObject output = null;
         try {
             input = InputProcessor.getInput(req);
-            setup(input);
+            output = setup(input);
         }catch(Exception e){
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
         }
-        OutputProcessor.send(res,HttpServletResponse.SC_OK,null);
+        OutputProcessor.send(res,HttpServletResponse.SC_OK,output);
     }
 
     @Override
@@ -48,12 +48,13 @@ public class Account implements REST {
         // To do
     }
 
-    private void setup(JSONObject input) throws Exception{
+    private JSONObject setup(JSONObject input) throws Exception{
         String accountcode = null;
         JSONObject dbconfig = null;
         JSONObject apimodules = null;
+        JSONObject out = new JSONObject();
 
-        accountcode = (String) input.get("account_code");
+        accountcode = (String) input.get("account-code");
         dbconfig = (JSONObject) input.get("db-config");
         apimodules = (JSONObject) input.get("api_modules");
 
@@ -61,11 +62,13 @@ public class Account implements REST {
         if(exists(accountcode)){
             // update
             update(input);
-
+            out.put("updated",true);
         }else{
             // insert
             insert(input);
+            out.put("created",true);
         }
+        return out;
     }
 
     private boolean exists(String accountcode) throws Exception {
@@ -79,8 +82,7 @@ public class Account implements REST {
             con = DB.getAdmin(true);
             // insert schema mgr
             buff = new StringBuffer();
-            buff.append("select * from _sys_accounts \n");
-            buff.append("where account_code=?");
+            buff.append("select * from _sys_accounts where account_code=?");
             pstmt = con.prepareStatement(buff.toString());
             pstmt.setString(1,accountcode);
             rs = pstmt.executeQuery();
@@ -92,6 +94,7 @@ public class Account implements REST {
             DB.close(pstmt);
             DB.close(con);
         }
+        System.out.println("exists:"+exists);
         return exists;
     }
 
@@ -134,9 +137,9 @@ public class Account implements REST {
             buff.append("update _sys_accounts set account_desc=?,db_config=?::json,api_modules=?::json where account_code=?");
             pstmt = con.prepareStatement(buff.toString());
             pstmt.setString(1,(String) input.get("account-desc"));
-            pstmt.setString(2,(String) input.get("db-config"));
-            pstmt.setString(3,dbconfig.toJSONString());
-            pstmt.setString(4,apimodules.toJSONString());
+            pstmt.setString(2,dbconfig.toJSONString());
+            pstmt.setString(3,apimodules.toJSONString());
+            pstmt.setString(4,(String) input.get("account-code"));
             pstmt.executeUpdate();
         } finally {
             DB.close(pstmt);
