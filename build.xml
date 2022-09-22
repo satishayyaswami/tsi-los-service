@@ -26,6 +26,7 @@
 			<lib dir="lib"/>
 			<classes dir="build/classes"/>
 		</war>
+		<delete dir="build" />
 	</target>
 			
 	<target name="run" description="Jetty runner" depends="war">
