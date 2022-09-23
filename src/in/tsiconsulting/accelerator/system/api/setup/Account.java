@@ -28,7 +28,8 @@ public class Account implements REST {
             input = InputProcessor.getInput(req);
             output = setup(input);
         }catch(Exception e){
-            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,e.getMessage());
+            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
+            e.printStackTrace();
         }
         OutputProcessor.send(res,HttpServletResponse.SC_OK,output);
     }

@@ -6,8 +6,7 @@ import java.util.logging.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class Crypt {
-    static Logger log = Logger.getLogger(Crypt.class.getName());
-    private static final String[] DEFAULT_KEYS = {
+   private static final String[] DEFAULT_KEYS = {
             "01210ACB39201293948ABE4839201CDF",
             "123219843895AFDE3920291038103839",
             "89128912093908120983980981098309",
@@ -89,7 +88,6 @@ public class Crypt {
                 }
             }
         }
-
         return toString(ect);
     }
 
@@ -139,11 +137,10 @@ public class Crypt {
         return new String(buf);
     }
 
-    public static String getEncryptedValue(String input) {
-        String encryptedString = null;
-        encryptedString = DigestUtils.md5Hex(input + System.nanoTime());
-
-        return encryptedString;
+    public static String getToken(String input) {
+        String token = null;
+        token = DigestUtils.md5Hex(input + System.nanoTime());
+        return token;
     }
 
     public static void main(String[] args) throws Exception {

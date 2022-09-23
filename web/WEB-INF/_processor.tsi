@@ -1,3 +1,3 @@
 # Processor definitions
 /tsi/system/setup/account=in.tsiconsulting.accelerator.system.api.setup.Account
-
+/tsi/system/setup/apiuser=in.tsiconsulting.accelerator.system.api.setup.APIUser
