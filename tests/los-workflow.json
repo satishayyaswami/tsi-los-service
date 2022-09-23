@@ -1,0 +1,22 @@
+{
+"los-workflow-code":"demo",
+"los-workflow-desc":"Demo Workflow",
+"states":["Begin","LoanApplied","Sanction","Documentation","Checker","Disbursed","Payment","Rejected","Cancelled"]
+
+},{
+"state":"Sanction",
+"inputvars":["v4","v5"]
+}],
+"transitions":[{
+"transition":"ApplyLoan",
+"data-fields":["v1","v2","v3"],
+"actions":{
+"complete":"LoanApplied"
+},{
+"transition":"CreditAppraisal",
+"data-fields":["v4","v5"],
+"actions":{
+"complete":"Sanction",
+"incomplete":"LoanApplication"
+}]
+}

@@ -24,7 +24,7 @@ public class Digitap implements REST {
         JSONObject output = null;
         String method = null;
          try {
-            input = (JSONObject) new JSONParser().parse((String) req.getAttribute(InputProcessor.REQUEST_DATA));
+            input = InputProcessor.getInput(req);
             method = (String) input.get(METHOD);
             if(method == null){
                 if(method.equalsIgnoreCase(PAN_BASIC_VALIDATION)){
