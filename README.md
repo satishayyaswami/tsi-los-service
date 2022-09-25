@@ -7,4 +7,4 @@ curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tes
 # Create New API User
 curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tests\new-api-user.json http://localhost:8080/tsi/system/setup/apiuser
 
-{"api-secret":"967c39ca98c93738eda8edc9db60714c","api-key":"37c818f4a0c3a47d23e7473ebfeaa5dc"}
+{"api-secret":"72a6ed47e992669ceb79d7c22e826e26","api-key":"6198023d7872b2f8b15e3e8158b73d71"}

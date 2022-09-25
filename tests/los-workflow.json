@@ -1,22 +1,29 @@
 {
 "los-workflow-code":"demo",
 "los-workflow-desc":"Demo Workflow",
-"states":["Begin","LoanApplied","Sanction","Documentation","Checker","Disbursed","Payment","Rejected","Cancelled"]
-
-},{
-"state":"Sanction",
-"inputvars":["v4","v5"]
-}],
-"transitions":[{
-"transition":"ApplyLoan",
-"data-fields":["v1","v2","v3"],
-"actions":{
-"complete":"LoanApplied"
-},{
+"states":["loan-applied-state","sanction-state","documentation-state","checker-state","disbursed-state","payment-state","rejected-state","cancelled-state"],
+"transitions":[
+  {
+    "transition": "apply-loan-transition",
+    "input-fields": [
+      "v1",
+      "v2",
+      "v3"
+    ],
+    "output-fields": [
+      "loan-app-id"
+    ],
+    "actions": {
+      "complete": "loan-applied"
+    }
+  },
+  {
 "transition":"CreditAppraisal",
 "data-fields":["v4","v5"],
 "actions":{
 "complete":"Sanction",
 "incomplete":"LoanApplication"
-}]
+}
+  }],
+  "filter-fields": ["branch","region","state","book","product"]
 }

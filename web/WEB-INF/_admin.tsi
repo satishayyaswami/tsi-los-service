@@ -1,5 +1,6 @@
 # TSI Admin Database
-tsi.admin.db.url=jdbc:postgresql://localhost:5432/_tsi_admin
+tsi.admin.db.host=jdbc:postgresql://localhost:5432
+tsi.admin.db.name=_tsi_admin
 tsi.admin.db.user=accelerate
 tsi.admin.db.password=tsi@123
 

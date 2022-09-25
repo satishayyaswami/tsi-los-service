@@ -1,6 +1,4 @@
-# Schema Definitions
+# Master - Schema Definitions
 1=CREATE TABLE IF NOT EXISTS _sys_accounts (account_code VARCHAR(6) NOT NULL PRIMARY KEY,account_desc VARCHAR(200) NOT NULL,db_config JSON NOT NULL,api_modules JSON NOT NULL,active SMALLINT NOT NULL DEFAULT 1,created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)
 2=CREATE TABLE IF NOT EXISTS _sys_api_users (email VARCHAR(40) NOT NULL PRIMARY KEY,account_code VARCHAR(6) NOT NULL,user_name VARCHAR(20) NOT NULL,api_key VARCHAR(50) NOT NULL, api_secret VARCHAR(50) NOT NULL,active SMALLINT NOT NULL DEFAULT 1,created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)
-3=CREATE TABLE IF NOT EXISTS _sys_tenant_schema_registry (schema_seq SERIAL PRIMARY KEY,account_code VARCHAR(6) NOT NULL,schema_no INTEGER NOT NULL,sql VARCHAR(1000) NOT NULL,created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)
-4=ALTER TABLE _sys_api_users ADD FOREIGN KEY (account_code) REFERENCES _sys_accounts;
-5=ALTER TABLE _sys_tenant_schema_registry ADD FOREIGN KEY (account_code) REFERENCES _sys_accounts;
+3=ALTER TABLE _sys_api_users ADD FOREIGN KEY (account_code) REFERENCES _sys_accounts;

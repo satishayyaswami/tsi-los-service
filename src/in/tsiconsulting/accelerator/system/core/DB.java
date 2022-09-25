@@ -37,7 +37,7 @@ public class DB {
         if (basicDataSource != null) {
             basicDataSource = new BasicDataSource();
             basicDataSource.setDriverClassName("org.postgresql.Driver");
-            basicDataSource.setUrl(Config.getAppConfig().getProperty("tsi.admin.db.url"));
+            basicDataSource.setUrl(Config.getAppConfig().getProperty("tsi.admin.db.host")+"/"+Config.getAppConfig().getProperty("tsi.admin.db.name"));
             basicDataSource.setUsername(Config.getAppConfig().getProperty("tsi.admin.db.user"));
             basicDataSource.setPassword(Config.getAppConfig().getProperty("tsi.admin.db.password"));
             basicDataSource.setInitialSize(10);
@@ -51,24 +51,24 @@ public class DB {
     }
 
     public static Connection getAdmin(boolean autoCommit) throws SQLException {
-        Connection con = getDBConnection(   Config.getAppConfig().getProperty("tsi.admin.db.url"),
+        Connection con = getDBConnection(   Config.getAppConfig().getProperty("tsi.admin.db.name"),
                                             Config.getAppConfig().getProperty("tsi.admin.db.user"),
                                             Config.getAppConfig().getProperty("tsi.admin.db.password"));
         con.setAutoCommit(autoCommit);
         return con;
     }
 
-    public static Connection getTenant(String dbUrl, String user, String pass, boolean autoCommit) throws SQLException {
-        Connection con = getDBConnection(dbUrl,user,pass);
+    public static Connection getTenant(String dbname, String user, String pass, boolean autoCommit) throws SQLException {
+        Connection con = getDBConnection(dbname,user,pass);
         con.setAutoCommit(autoCommit);
         return con;
     }
 
-    public static Connection getDBConnection(String dbUrl, String user, String pass) throws SQLException {
+    public static Connection getDBConnection(String dbname, String user, String pass) throws SQLException {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(dbUrl, user, pass);
+            connection = DriverManager.getConnection(Config.getAppConfig().getProperty("tsi.admin.db.host")+"/"+dbname, user, pass);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
