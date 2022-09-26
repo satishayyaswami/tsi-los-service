@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 
 //import jxl.Workbook;
 //import jxl.format.Alignment;
@@ -80,6 +81,108 @@ public class DB {
 //		connection = basicDataSource.getConnection();
 //		connection.setAutoCommit(false);
 //		return connection;
+    }
+
+    public static int fetchCount(DBQuery query) throws Exception{
+        PreparedStatement pstmt = null;
+        StringBuffer buff = null;
+        Connection con = null;
+        ResultSet rs = null;
+        int count = 0;
+        Iterator<JSONObject> filterIt = null;
+        JSONObject filter = null;
+        int type = 0;
+        int i=0;
+
+        try {
+            if(query.tenant != null) {
+                con = DB.getTenant((String) query.tenant.get("db-name"),
+                        (String) query.tenant.get("db-user"),
+                        (String) query.tenant.get("db-pass"),
+                        true);
+            }else{
+                con = DB.getAdmin(true);
+            }
+            pstmt = con.prepareStatement(query.sql);
+            if(query.filters != null){
+                filterIt = query.filters.iterator();
+                while(filterIt.hasNext()){
+                    filter = (JSONObject) filterIt.next();
+                    type = Integer.parseInt((String) filter.get("type"));
+                    i++;
+                    if(type == Types.INTEGER){
+                        pstmt.setInt(i,Integer.parseInt((String) filter.get("value")));
+                    }else if(type == Types.DOUBLE){
+                        pstmt.setDouble(i,Double.parseDouble((String) filter.get("value")));
+                    }else{
+                        pstmt.setString(i,(String) filter.get("value"));
+                    }
+                }
+            }
+            rs = pstmt.executeQuery();
+            rs.next();
+            count = rs.getInt(1);
+        } finally {
+            DB.close(rs);
+            DB.close(pstmt);
+            DB.close(con);
+        }
+        return count;
+    }
+
+    public static JSONObject fetch(DBQuery query) throws Exception{
+        PreparedStatement pstmt = null;
+        StringBuffer buff = null;
+        Connection con = null;
+        ResultSet rs = null;
+        int count = 0;
+        Iterator<JSONObject> filterIt = null;
+        JSONObject filter = null;
+        int type = 0;
+        int i=0;
+        JSONObject output = null;
+
+        try {
+            if(query.tenant != null) {
+                con = DB.getTenant((String) query.tenant.get("db-name"),
+                        (String) query.tenant.get("db-user"),
+                        (String) query.tenant.get("db-pass"),
+                        true);
+            }else{
+                con = DB.getAdmin(true);
+            }
+            pstmt = con.prepareStatement(query.sql);
+            if(query.filters != null){
+                filterIt = query.filters.iterator();
+                while(filterIt.hasNext()){
+                    filter = (JSONObject) filterIt.next();
+                    type = Integer.parseInt((String) filter.get("type"));
+                    i++;
+                    if(type == Types.INTEGER){
+                        pstmt.setInt(i,Integer.parseInt((String) filter.get("value")));
+                    }else if(type == Types.DOUBLE){
+                        pstmt.setDouble(i,Double.parseDouble((String) filter.get("value")));
+                    }else{
+                        pstmt.setString(i,(String) filter.get("value"));
+                    }
+                }
+            }
+            rs = pstmt.executeQuery();
+            output = getResultsWithHeader(rs);
+        } finally {
+            DB.close(rs);
+            DB.close(pstmt);
+            DB.close(con);
+        }
+        return output;
+    }
+
+    public static void insert(DBQuery query) throws Exception{
+
+    }
+
+    public static void update(DBQuery query) throws Exception{
+
     }
 
     public static void close(Connection con) {

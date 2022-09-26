@@ -19,8 +19,7 @@ public class InputProcessor {
 
     public final static String REQUEST_DATA = "input_json";
 
-    public static void processInput(HttpServletRequest request,
-                                    HttpServletResponse response) throws IOException {
+    public static void processInput(HttpServletRequest request) throws IOException {
         String contentType = request.getContentType();
         StringBuilder buffer = new StringBuilder();
         BufferedReader reader = request.getReader();

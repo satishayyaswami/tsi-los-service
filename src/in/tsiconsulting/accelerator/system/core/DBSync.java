@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-public class SchemaSync implements ServletContextListener {
+public class DBSync implements ServletContextListener {
 
     private Properties masterProps = null;
     private Properties tenantProps = null;

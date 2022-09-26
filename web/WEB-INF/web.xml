@@ -12,6 +12,6 @@
 </filter-mapping>
 
 	<listener>
-		<listener-class>in.tsiconsulting.accelerator.system.core.SchemaSync</listener-class>
+		<listener-class>in.tsiconsulting.accelerator.system.core.DBSync</listener-class>
 	</listener>
 </web-app>
