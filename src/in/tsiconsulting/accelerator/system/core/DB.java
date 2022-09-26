@@ -130,7 +130,7 @@ public class DB {
         return count;
     }
 
-    public static JSONObject fetch(DBQuery query) throws Exception{
+    public static JSONArray fetch(DBQuery query) throws Exception{
         PreparedStatement pstmt = null;
         StringBuffer buff = null;
         Connection con = null;
@@ -140,7 +140,7 @@ public class DB {
         JSONObject filter = null;
         int type = 0;
         int i=0;
-        JSONObject output = null;
+        JSONArray output = null;
 
         try {
             if(query.tenant != null) {
@@ -156,7 +156,7 @@ public class DB {
                 filterIt = query.filters.iterator();
                 while(filterIt.hasNext()){
                     filter = (JSONObject) filterIt.next();
-                    type = Integer.parseInt((String) filter.get("type"));
+                    type = (int) filter.get("type");
                     i++;
                     if(type == Types.INTEGER){
                         pstmt.setInt(i,Integer.parseInt((String) filter.get("value")));
@@ -168,7 +168,7 @@ public class DB {
                 }
             }
             rs = pstmt.executeQuery();
-            output = getResultsWithHeader(rs);
+            output = getResults(rs);
         } finally {
             DB.close(rs);
             DB.close(pstmt);

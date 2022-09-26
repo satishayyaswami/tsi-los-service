@@ -20,13 +20,14 @@ public class Digitap implements REST {
 
     @Override
     public void post(HttpServletRequest req, HttpServletResponse res) {
+        System.out.println("In digitap");
         JSONObject input = null;
         JSONObject output = null;
         String method = null;
          try {
             input = InputProcessor.getInput(req);
             method = (String) input.get(METHOD);
-            if(method == null){
+            if(method != null){
                 if(method.equalsIgnoreCase(PAN_BASIC_VALIDATION)){
 
                 }

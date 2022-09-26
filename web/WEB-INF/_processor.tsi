@@ -1,3 +1,6 @@
-# Processor definitions
+# System API definitions
 /tsi/system/setup/account=in.tsiconsulting.accelerator.system.api.setup.Account
 /tsi/system/setup/apiuser=in.tsiconsulting.accelerator.system.api.setup.APIUser
+
+# Solutions - Building blocks
+/tsi/solutions/bb/kyc/digitap=in.tsiconsulting.accelerator.solutions.buildingblocks.kyc.Digitap

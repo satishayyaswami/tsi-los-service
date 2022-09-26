@@ -46,7 +46,6 @@ public class Intercept implements Filter {
         res.setCharacterEncoding("UTF-8");
 
         apiRegistry = Config.getProcessorConfig();
-
         if (apiRegistry.containsKey(servletPath.trim())) {
             StringTokenizer strTok = new StringTokenizer(servletPath, URL_DELIMITER);
             String framework = strTok.nextToken();
@@ -56,12 +55,14 @@ public class Intercept implements Filter {
             }
 
             // Check
-            InputProcessor.processInput(req);
-            operation = strTok.nextToken();
-            classname = apiRegistry.getProperty(servletPath.trim());
-            System.out.println("operation:" + operation + " classname:" + classname);
-            if (classname == null || method == null) res.sendError(400);
-            try {
+             try {
+                InputProcessor.processHeader(req);
+                InputProcessor.processInput(req);
+
+                operation = strTok.nextToken();
+                classname = apiRegistry.getProperty(servletPath.trim());
+                System.out.println("operation:" + operation + " classname:" + classname);
+                if (classname == null || method == null) res.sendError(400);
 
                 REST action = ((REST) Class.forName(classname).getConstructor().newInstance());
                 action.validate(method,req,res);
