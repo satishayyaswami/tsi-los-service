@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
+import java.util.List;
 
 //import jxl.Workbook;
 //import jxl.format.Alignment;
@@ -177,11 +178,11 @@ public class DB {
         return new DBResult(output);
     }
 
-    public static void insert(DBQuery query) throws Exception{
+    public static void update(DBQuery query) throws Exception{
 
     }
 
-    public static void update(DBQuery query) throws Exception{
+    public static void update(List<DBQuery> queries) throws Exception{
 
     }
 

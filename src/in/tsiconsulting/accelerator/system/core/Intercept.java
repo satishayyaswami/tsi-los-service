@@ -61,7 +61,7 @@ public class Intercept implements Filter {
 
                 operation = strTok.nextToken();
                 classname = apiRegistry.getProperty(servletPath.trim());
-                System.out.println("operation:" + operation + " classname:" + classname);
+                //System.out.println("operation:" + operation + " classname:" + classname);
                 if (classname == null || method == null) res.sendError(400);
 
                 REST action = ((REST) Class.forName(classname).getConstructor().newInstance());

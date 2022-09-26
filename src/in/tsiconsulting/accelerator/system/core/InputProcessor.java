@@ -53,7 +53,6 @@ public class InputProcessor {
             if(rs.hasNext()){
                 record = (JSONObject) rs.next();
                 accountcode = (String) record.get("account_code");
-                System.out.println("account code:"+accountcode);
                 request.setAttribute(ACCOUNT_CODE, accountcode);
             }
         }
