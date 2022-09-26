@@ -130,7 +130,7 @@ public class DB {
         return count;
     }
 
-    public static JSONArray fetch(DBQuery query) throws Exception{
+    public static DBResult fetch(DBQuery query) throws Exception{
         PreparedStatement pstmt = null;
         StringBuffer buff = null;
         Connection con = null;
@@ -174,7 +174,7 @@ public class DB {
             DB.close(pstmt);
             DB.close(con);
         }
-        return output;
+        return new DBResult(output);
     }
 
     public static void insert(DBQuery query) throws Exception{

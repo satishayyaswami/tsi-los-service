@@ -56,8 +56,8 @@ public class Intercept implements Filter {
 
             // Check
              try {
-                InputProcessor.processHeader(req);
-                InputProcessor.processInput(req);
+                InputProcessor.processHeader(req,res);
+                InputProcessor.processInput(req,res);
 
                 operation = strTok.nextToken();
                 classname = apiRegistry.getProperty(servletPath.trim());

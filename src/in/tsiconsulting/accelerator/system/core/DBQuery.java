@@ -3,6 +3,8 @@ package in.tsiconsulting.accelerator.system.core;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.sql.Types;
+
 public class DBQuery {
 
     protected JSONObject tenant = null;
@@ -10,10 +12,16 @@ public class DBQuery {
     protected JSONArray filters = null;
 
     public DBQuery(JSONObject tenant,
-                   String sql,
-                   JSONArray filters){
+                   String sql){
         this.tenant = tenant;
         this.sql = sql;
-        this.filters = filters;
+        this.filters = new JSONArray();
+    }
+
+    public void addFilter(int type, String value){
+        JSONObject filter = new JSONObject();
+        filter.put("type", type);
+        filter.put("value",value);
+        filters.add(filter);
     }
 }

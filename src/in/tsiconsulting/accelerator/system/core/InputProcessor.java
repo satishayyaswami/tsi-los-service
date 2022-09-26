@@ -20,8 +20,9 @@ public class InputProcessor {
     private static final Logger log = Logger.getLogger(InputProcessor.class);
 
     public final static String REQUEST_DATA = "input_json";
+    public final static String ACCOUNT_CODE = "account_code";
 
-    public static void processInput(HttpServletRequest request) throws IOException {
+    public static void processInput(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String contentType = request.getContentType();
         StringBuilder buffer = new StringBuilder();
         BufferedReader reader = request.getReader();
@@ -34,31 +35,32 @@ public class InputProcessor {
         request.setAttribute(REQUEST_DATA, data);
     }
 
-    public static void processHeader(HttpServletRequest request) throws Exception {
+    public static void processHeader(HttpServletRequest request, HttpServletResponse response) throws Exception {
         DBQuery query = null;
-        JSONArray filters = null;
-        JSONObject filter1,filter2 = null;
-        JSONArray result = null;
+        DBResult rs = null;
+        JSONObject record = null;
+        String sql = null;
+        String accountcode = null;
         String apikey = request.getHeader("api-key");
         String apisecret = request.getHeader("api-secret");
-        System.out.println("apikey:"+apikey+" "+"apisecret:"+apisecret);
-        if(apikey!=null && apisecret!=null){
-            filters = new JSONArray();
-            filter1 = new JSONObject();
-            filter1.put("type", Types.VARCHAR);
-            filter1.put("value",apikey);
-            filter2 = new JSONObject();
-            filter2.put("type", Types.VARCHAR);
-            filter2.put("value",apisecret);
-            filters.add(filter1);
-            filters.add(filter2);
 
-            query = new DBQuery(    null,
-                                    "select account_code from _sys_api_users where api_key=? and api_secret=?",
-                                     filters);
-            result = DB.fetch(query);
-            System.out.println("output:"+result);
+        if(apikey!=null && apisecret!=null){
+            sql = "select account_code from _sys_api_users where api_key=? and api_secret=?";
+            query = new DBQuery( null, sql);
+            query.addFilter(Types.VARCHAR,apikey);
+            query.addFilter(Types.VARCHAR,apisecret);
+            rs = DB.fetch(query);
+            if(rs.hasNext()){
+                record = (JSONObject) rs.next();
+                accountcode = (String) record.get("account_code");
+                System.out.println("account code:"+accountcode);
+                request.setAttribute(ACCOUNT_CODE, accountcode);
+            }
         }
+    }
+
+    public static String getAccountCode(HttpServletRequest req){
+        return (String) req.getAttribute(InputProcessor.ACCOUNT_CODE);
     }
 
     public static JSONObject getInput(HttpServletRequest req) throws Exception{
