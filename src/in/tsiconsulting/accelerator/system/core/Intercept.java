@@ -45,7 +45,7 @@ public class Intercept implements Filter {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setCharacterEncoding("UTF-8");
 
-        apiRegistry = Config.getProcessorConfig();
+        apiRegistry = SystemConfig.getProcessorConfig();
         if (apiRegistry.containsKey(servletPath.trim())) {
             StringTokenizer strTok = new StringTokenizer(servletPath, URL_DELIMITER);
             String framework = strTok.nextToken();

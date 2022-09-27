@@ -22,9 +22,9 @@ public class DBSync implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        Config.load(servletContextEvent.getServletContext());
-        masterProps = Config.getMasterSchema();
-        tenantProps = Config.getTenantSchema();
+        SystemConfig.load(servletContextEvent.getServletContext());
+        masterProps = SystemConfig.getMasterSchema();
+        tenantProps = SystemConfig.getTenantSchema();
         try {
             syncmaster(masterProps);
         }catch (Exception e){

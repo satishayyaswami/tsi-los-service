@@ -62,6 +62,37 @@ public class InputProcessor {
         return (String) req.getAttribute(InputProcessor.ACCOUNT_CODE);
     }
 
+    public static AccountConfig getAccountConfig(HttpServletRequest req) throws Exception{
+        String accountdesc = null;
+        JSONObject dbconfig = null;
+        JSONArray apimodules = null;
+        String accountcode = (String) req.getAttribute(InputProcessor.ACCOUNT_CODE);
+        DBQuery query = null;
+        DBResult rs = null;
+        JSONObject record = null;
+        String sql = null;
+        JSONParser parser = new JSONParser();
+        AccountConfig aconfig = null;
+
+        if(accountcode != null) {
+            sql = "select account_desc,db_config,api_modules from _sys_accounts where account_code=?";
+            query = new DBQuery(null, sql);
+            query.addFilter(Types.VARCHAR, accountcode);
+            rs = DB.fetch(query);
+            if (rs.hasNext()) {
+                record = (JSONObject) rs.next();
+                accountdesc = (String)record.get("account_desc");
+                dbconfig = (JSONObject) parser.parse((String)record.get("db_config"));
+                apimodules = (JSONArray) parser.parse((String)record.get("api_modules"));
+                aconfig = new AccountConfig(accountcode,
+                                            accountdesc,
+                                            dbconfig,
+                                            apimodules);
+            }
+        }
+        return aconfig;
+    }
+
     public static JSONObject getInput(HttpServletRequest req) throws Exception{
         return (JSONObject) new JSONParser().parse((String) req.getAttribute(InputProcessor.REQUEST_DATA));
     }

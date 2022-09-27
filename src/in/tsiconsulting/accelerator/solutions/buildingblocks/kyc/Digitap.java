@@ -1,5 +1,6 @@
 package in.tsiconsulting.accelerator.solutions.buildingblocks.kyc;
 
+import in.tsiconsulting.accelerator.system.core.AccountConfig;
 import in.tsiconsulting.accelerator.system.core.InputProcessor;
 import in.tsiconsulting.accelerator.system.core.REST;
 import org.json.simple.JSONObject;
@@ -23,9 +24,11 @@ public class Digitap implements REST {
         JSONObject input = null;
         JSONObject output = null;
         String method = null;
+        AccountConfig accountConfig = null;
          try {
             input = InputProcessor.getInput(req);
             method = (String) input.get(METHOD);
+            accountConfig = InputProcessor.getAccountConfig(req);
             if(method != null){
                 if(method.equalsIgnoreCase(PAN_BASIC_VALIDATION)){
 
@@ -37,7 +40,6 @@ public class Digitap implements REST {
             output.put("message",e.getMessage());
             e.printStackTrace();
         }
-        //req.setAttribute(InputProcessor.OUTPUT_DATA,output);
     }
 
     @Override

@@ -1,12 +1,11 @@
 package in.tsiconsulting.accelerator.system.core;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import javax.servlet.ServletContext;
 
 
-public class Config {
+public class SystemConfig {
     private static Properties appConfig;
     private static Properties mschemaConfig;
 
