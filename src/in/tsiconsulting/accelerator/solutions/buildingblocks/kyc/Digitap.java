@@ -1,15 +1,20 @@
 package in.tsiconsulting.accelerator.solutions.buildingblocks.kyc;
 
-import in.tsiconsulting.accelerator.system.core.AccountConfig;
-import in.tsiconsulting.accelerator.system.core.InputProcessor;
-import in.tsiconsulting.accelerator.system.core.REST;
+import in.tsiconsulting.accelerator.system.core.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Types;
+import java.util.Base64;
 
 public class Digitap implements REST {
+
+    private static final String API_PROVIDER = "digitap";
+
+    private static final String API_NAME = "kyc";
+
     private static final String METHOD = "_method";
     private static final String DATA = "_data";
     private static final String PAN_BASIC_VALIDATION="pan_basic";
@@ -25,21 +30,64 @@ public class Digitap implements REST {
         JSONObject output = null;
         String method = null;
         AccountConfig accountConfig = null;
-         try {
+        JSONObject apiConfig = null;
+        String providerUrl = null;
+        String clientId = null;
+        String secret = null;
+        String authinput = null;
+        String authorization = null;
+        String clientuserid = null;
+        String clientrefnum = null;
+        String pan = null;
+        String name = null;
+        String serviceurl = null;
+        JSONObject data = null;
+
+        try {
             input = InputProcessor.getInput(req);
             method = (String) input.get(METHOD);
             accountConfig = InputProcessor.getAccountConfig(req);
+            apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
+            providerUrl = (String) apiConfig.get("provider.config.apiurl");
+            clientId = (String) apiConfig.get("provider.config.apikey");
+            secret = (String) apiConfig.get("provider.config.apisecret");
+            authinput = clientId+":"+secret;
+            authorization = "Basic "+ Base64.getEncoder().encodeToString(authinput.getBytes());
+            clientuserid = (String) input.get("client_user_id");
+
             if(method != null){
                 if(method.equalsIgnoreCase(PAN_BASIC_VALIDATION)){
+                    serviceurl = providerUrl+"kyc/v1/pan_basic";
+                    data = new JSONObject();
+                    data.put("client_ref_num",(String) input.get("client_ref_num"));
+                    data.put("pan",(String) input.get("pan"));
+                    data.put("name",(String) input.get("name"));
 
+                    output = new TSIHttpClient().sendPost(serviceurl, authorization, data);
+                    logtransaction(accountConfig.getTenant(),API_PROVIDER,clientuserid,input,output);
                 }
             }
+            // send output
+            OutputProcessor.send(res,HttpServletResponse.SC_OK,output);
         }catch(Exception e){
             output = new JSONObject();
             output.put("status",500);
             output.put("message",e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void logtransaction(JSONObject tenant, String provider, String clientuserid, JSONObject req, JSONObject res) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+
+        sql = "insert into _solutions_bb_kyc (provider,client_user_id,req,res) values (?,?,?::json,?::json)";
+        query = new DBQuery( tenant, sql);
+        query.setValue(Types.VARCHAR,provider);
+        query.setValue(Types.VARCHAR,clientuserid);
+        query.setValue(Types.VARCHAR, req.toJSONString());
+        query.setValue(Types.VARCHAR, res.toJSONString());
+        DB.update(query);
     }
 
     @Override

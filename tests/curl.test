@@ -1,0 +1,14 @@
+TSI Accelerator - v0.1
+--------------------------------------------------------------------------------------------
+
+# Create Account
+curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tests\new-account.json http://localhost:8080/tsi/system/setup/account
+
+# Create New API User
+curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tests\new-api-user.json http://localhost:8080/tsi/system/setup/apiuser
+
+{"secret":"e8f1adf71a03d2269659e8219440bc93","user":"demo@tsiconsulting.in"}
+
+# Digitap - KYC validation
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOmU4ZjFhZGY3MWEwM2QyMjY5NjU5ZTgyMTk0NDBiYzkz" -d @C:\work\tsi-accelerator\tests\digitap-pan-basic.json http://localhost:8080/tsi/solutions/bb/kyc/digitap
+

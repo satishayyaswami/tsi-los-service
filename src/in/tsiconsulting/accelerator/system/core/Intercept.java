@@ -44,6 +44,8 @@ public class Intercept implements Filter {
         // set response header
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setCharacterEncoding("UTF-8");
+        res.setContentType("application/json");
+
 
         apiRegistry = SystemConfig.getProcessorConfig();
         if (apiRegistry.containsKey(servletPath.trim())) {
@@ -56,7 +58,9 @@ public class Intercept implements Filter {
 
             // Check
              try {
-                InputProcessor.processHeader(req,res);
+                 if(!servletPath.contains("tsi/system")) {
+                     InputProcessor.processHeader(req, res);
+                 }
                 InputProcessor.processInput(req,res);
 
                 operation = strTok.nextToken();

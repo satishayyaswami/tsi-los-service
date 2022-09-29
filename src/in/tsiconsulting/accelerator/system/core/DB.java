@@ -90,8 +90,8 @@ public class DB {
         Connection con = null;
         ResultSet rs = null;
         int count = 0;
-        Iterator<JSONObject> filterIt = null;
-        JSONObject filter = null;
+        Iterator<JSONObject> valueIt = null;
+        JSONObject value = null;
         int type = 0;
         int i=0;
 
@@ -105,18 +105,18 @@ public class DB {
                 con = DB.getAdmin(true);
             }
             pstmt = con.prepareStatement(query.sql);
-            if(query.filters != null){
-                filterIt = query.filters.iterator();
-                while(filterIt.hasNext()){
-                    filter = (JSONObject) filterIt.next();
-                    type = Integer.parseInt((String) filter.get("type"));
+            if(query != null){
+                valueIt = query.values.iterator();
+                while(valueIt.hasNext()){
+                    value = (JSONObject) valueIt.next();
+                    type = Integer.parseInt((String) value.get("type"));
                     i++;
                     if(type == Types.INTEGER){
-                        pstmt.setInt(i,Integer.parseInt((String) filter.get("value")));
+                        pstmt.setInt(i,Integer.parseInt((String) value.get("value")));
                     }else if(type == Types.DOUBLE){
-                        pstmt.setDouble(i,Double.parseDouble((String) filter.get("value")));
+                        pstmt.setDouble(i,Double.parseDouble((String) value.get("value")));
                     }else{
-                        pstmt.setString(i,(String) filter.get("value"));
+                        pstmt.setString(i,(String) value.get("value"));
                     }
                 }
             }
@@ -137,8 +137,8 @@ public class DB {
         Connection con = null;
         ResultSet rs = null;
         int count = 0;
-        Iterator<JSONObject> filterIt = null;
-        JSONObject filter = null;
+        Iterator<JSONObject> valueIt = null;
+        JSONObject value = null;
         int type = 0;
         int i=0;
         JSONArray output = null;
@@ -153,18 +153,18 @@ public class DB {
                 con = DB.getAdmin(true);
             }
             pstmt = con.prepareStatement(query.sql);
-            if(query.filters != null){
-                filterIt = query.filters.iterator();
-                while(filterIt.hasNext()){
-                    filter = (JSONObject) filterIt.next();
-                    type = (int) filter.get("type");
+            if(query.values != null){
+                valueIt = query.values.iterator();
+                while(valueIt.hasNext()){
+                    value = (JSONObject) valueIt.next();
+                    type = (int) value.get("type");
                     i++;
                     if(type == Types.INTEGER){
-                        pstmt.setInt(i,Integer.parseInt((String) filter.get("value")));
+                        pstmt.setInt(i,Integer.parseInt((String) value.get("value")));
                     }else if(type == Types.DOUBLE){
-                        pstmt.setDouble(i,Double.parseDouble((String) filter.get("value")));
+                        pstmt.setDouble(i,Double.parseDouble((String) value.get("value")));
                     }else{
-                        pstmt.setString(i,(String) filter.get("value"));
+                        pstmt.setString(i,(String) value.get("value"));
                     }
                 }
             }
@@ -179,6 +179,45 @@ public class DB {
     }
 
     public static void update(DBQuery query) throws Exception{
+        PreparedStatement pstmt = null;
+        StringBuffer buff = null;
+        Connection con = null;
+        Iterator<JSONObject> valueIt = null;
+        JSONObject value = null;
+        int type = 0;
+        int i=0;
+        JSONArray output = null;
+
+        try {
+            if(query.tenant != null) {
+                con = DB.getTenant((String) query.tenant.get("db-name"),
+                        (String) query.tenant.get("db-user"),
+                        (String) query.tenant.get("db-pass"),
+                        true);
+            }else{
+                con = DB.getAdmin(true);
+            }
+            pstmt = con.prepareStatement(query.sql);
+            if(query.values != null){
+                valueIt = query.values.iterator();
+                while(valueIt.hasNext()){
+                    value = (JSONObject) valueIt.next();
+                    type = (int) value.get("type");
+                    i++;
+                    if(type == Types.INTEGER){
+                        pstmt.setInt(i,Integer.parseInt((String) value.get("value")));
+                    }else if(type == Types.DOUBLE){
+                        pstmt.setDouble(i,Double.parseDouble((String) value.get("value")));
+                    }else{
+                        pstmt.setString(i,(String) value.get("value"));
+                    }
+                }
+            }
+            pstmt.executeUpdate();
+        } finally {
+            DB.close(pstmt);
+            DB.close(con);
+        }
 
     }
 

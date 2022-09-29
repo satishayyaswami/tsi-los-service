@@ -88,8 +88,7 @@ public class APIUser implements REST {
         StringBuffer buff = null;
         Connection con = null;
         JSONObject out = null;
-        String apikey = Crypt.getToken(accountcode + "-" + email);
-        String apisecret = Crypt.getToken(accountcode + "-" + email + "-" + System.currentTimeMillis());
+        String secret = Crypt.getToken(accountcode + "-" + email + "-" + System.currentTimeMillis());
 
         try {
             con = DB.getAdmin(true);
@@ -100,16 +99,16 @@ public class APIUser implements REST {
             pstmt.setString(1, email);
             pstmt.setString(2, accountcode);
             pstmt.setString(3, username);
-            pstmt.setString(4, apikey);
-            pstmt.setString(5, apisecret);
+            pstmt.setString(4, email);
+            pstmt.setString(5, secret);
             pstmt.executeUpdate();
         } finally {
             DB.close(pstmt);
             DB.close(con);
         }
         out = new JSONObject();
-        out.put("api-key",apikey);
-        out.put("api-secret",apisecret);
+        out.put("user",email);
+        out.put("secret",secret);
         return out;
     }
 }

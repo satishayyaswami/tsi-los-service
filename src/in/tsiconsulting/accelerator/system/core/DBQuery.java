@@ -9,19 +9,19 @@ public class DBQuery {
 
     protected JSONObject tenant = null;
     protected String sql = null;
-    protected JSONArray filters = null;
+    protected JSONArray values = null;
 
     public DBQuery(JSONObject tenant,
                    String sql){
         this.tenant = tenant;
         this.sql = sql;
-        this.filters = new JSONArray();
+        this.values = new JSONArray();
     }
 
-    public void addFilter(int type, String value){
+    public void setValue(int type, String value){
         JSONObject filter = new JSONObject();
         filter.put("type", type);
         filter.put("value",value);
-        filters.add(filter);
+        values.add(filter);
     }
 }

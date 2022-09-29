@@ -15,6 +15,8 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 import java.sql.Types;
+import java.util.Base64;
+import java.util.StringTokenizer;
 
 public class InputProcessor {
     private static final Logger log = Logger.getLogger(InputProcessor.class);
@@ -41,14 +43,22 @@ public class InputProcessor {
         JSONObject record = null;
         String sql = null;
         String accountcode = null;
-        String apikey = request.getHeader("api-key");
-        String apisecret = request.getHeader("api-secret");
+        String apikey = null;
+        String apisecret = null;
+        JSONObject keysecret = null;
+
+
+        keysecret = getKeySecret(request,response);
+        apikey = (String) keysecret.get("apikey");
+        apisecret = (String) keysecret.get("apisecret");
+
+        System.out.println(keysecret);
 
         if(apikey!=null && apisecret!=null){
             sql = "select account_code from _sys_api_users where api_key=? and api_secret=?";
             query = new DBQuery( null, sql);
-            query.addFilter(Types.VARCHAR,apikey);
-            query.addFilter(Types.VARCHAR,apisecret);
+            query.setValue(Types.VARCHAR,apikey);
+            query.setValue(Types.VARCHAR,apisecret);
             rs = DB.fetch(query);
             if(rs.hasNext()){
                 record = (JSONObject) rs.next();
@@ -56,6 +66,30 @@ public class InputProcessor {
                 request.setAttribute(ACCOUNT_CODE, accountcode);
             }
         }
+    }
+
+    public static JSONObject getKeySecret(HttpServletRequest req, HttpServletResponse res) throws Exception{
+        JSONObject keysecret = new JSONObject();
+        String authorization = null;
+        StringTokenizer strTok = null;
+        String encodedtoken = null;
+        byte[] decodedBytes = null;
+        String decodedtoken = null;
+
+        try {
+            authorization = req.getHeader("Authorization");
+            strTok = new StringTokenizer(authorization, " ");
+            strTok.nextToken();
+            encodedtoken = strTok.nextToken();
+            decodedBytes = Base64.getDecoder().decode(encodedtoken);
+            decodedtoken = new String(decodedBytes);
+            strTok = new StringTokenizer(decodedtoken, ":");
+            keysecret.put("apikey",strTok.nextToken());
+            keysecret.put("apisecret",strTok.nextToken());
+        }catch (Exception e){
+            res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        }
+        return keysecret;
     }
 
     public static String getAccountCode(HttpServletRequest req){
@@ -77,7 +111,7 @@ public class InputProcessor {
         if(accountcode != null) {
             sql = "select account_desc,db_config,api_modules from _sys_accounts where account_code=?";
             query = new DBQuery(null, sql);
-            query.addFilter(Types.VARCHAR, accountcode);
+            query.setValue(Types.VARCHAR, accountcode);
             rs = DB.fetch(query);
             if (rs.hasNext()) {
                 record = (JSONObject) rs.next();
@@ -94,7 +128,16 @@ public class InputProcessor {
     }
 
     public static JSONObject getInput(HttpServletRequest req) throws Exception{
-        return (JSONObject) new JSONParser().parse((String) req.getAttribute(InputProcessor.REQUEST_DATA));
+        JSONObject input = null;
+        String inputs = null;
+        try {
+            inputs = (String) req.getAttribute(InputProcessor.REQUEST_DATA);
+            if(inputs!=null) inputs = inputs.trim();
+            input = (JSONObject) new JSONParser().parse(inputs);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return input;
     }
 
     public static String applyRules(String value) {
