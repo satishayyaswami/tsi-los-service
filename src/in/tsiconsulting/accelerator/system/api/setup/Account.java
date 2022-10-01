@@ -1,10 +1,7 @@
 package in.tsiconsulting.accelerator.system.api.setup;
 
 
-import in.tsiconsulting.accelerator.system.core.DB;
-import in.tsiconsulting.accelerator.system.core.OutputProcessor;
-import in.tsiconsulting.accelerator.system.core.REST;
-import in.tsiconsulting.accelerator.system.core.InputProcessor;
+import in.tsiconsulting.accelerator.system.core.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -67,6 +64,10 @@ public class Account implements REST {
             insert(input);
             out.put("created",true);
         }
+
+        // sync tenantdb
+        new DBSync().newaccountsync();
+
         return out;
     }
 

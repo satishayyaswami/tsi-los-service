@@ -38,6 +38,11 @@ public class DBSync implements ServletContextListener {
         }
     }
 
+    public void newaccountsync() throws Exception{
+        tenantProps = SystemConfig.getTenantSchema();
+        synctenants(tenantProps);
+    }
+
     private void syncmaster(Properties masterProps) throws Exception{
 
         // No. of sql statements in property file
@@ -59,7 +64,7 @@ public class DBSync implements ServletContextListener {
         System.out.println("Synced master schema registry");
     }
 
-    private void synctenants(Properties tenantProps) throws Exception{
+    public void synctenants(Properties tenantProps) throws Exception{
         JSONArray tenants = null;
         Iterator<JSONObject> tenantIt = null;
         JSONObject tenant = null;
