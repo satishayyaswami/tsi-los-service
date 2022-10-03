@@ -109,7 +109,7 @@ public class DB {
                 valueIt = query.values.iterator();
                 while(valueIt.hasNext()){
                     value = (JSONObject) valueIt.next();
-                    type = Integer.parseInt((String) value.get("type"));
+                    type = (int) value.get("type");
                     i++;
                     if(type == Types.INTEGER){
                         pstmt.setInt(i,Integer.parseInt((String) value.get("value")));

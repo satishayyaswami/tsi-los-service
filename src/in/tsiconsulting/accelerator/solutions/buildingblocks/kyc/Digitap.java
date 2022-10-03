@@ -67,14 +67,13 @@ public class Digitap implements REST {
                     logtransaction(accountConfig.getTenant(),API_PROVIDER,clientuserid,input,output);
                 }
             }
-            // send output
-            OutputProcessor.send(res,HttpServletResponse.SC_OK,output);
+
         }catch(Exception e){
-            output = new JSONObject();
-            output.put("status",500);
-            output.put("message",e.getMessage());
+            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
             e.printStackTrace();
         }
+        // send output
+        OutputProcessor.send(res,HttpServletResponse.SC_OK,output);
     }
 
     private void logtransaction(JSONObject tenant, String provider, String clientuserid, JSONObject req, JSONObject res) throws Exception{
