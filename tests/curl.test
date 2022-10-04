@@ -14,3 +14,6 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B
 
 # LOS - Workflow definition
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjA3MzFkOGU1Y2FlMDhjZmI1ZjgwZjI0OTYzM2RiOTYz" -d @C:\work\tsi-accelerator\tests\los-workflow-def.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+
+# LOS - Create Loan Application
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjA3MzFkOGU1Y2FlMDhjZmI1ZjgwZjI0OTYzM2RiOTYz" -d @C:\work\tsi-accelerator\tests\create-loan-application.json http://localhost:8080/tsi/solutions/finance/loan/los/proto

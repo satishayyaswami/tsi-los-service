@@ -17,7 +17,6 @@
       "product",
       "cust_id",
       "cust_name",
-      "product_name",
       "amount",
       "score",
       "grade",
@@ -62,9 +61,9 @@
           "state",
           "book",
           "product_id",
+          "product",
           "cust_id",
           "cust_name",
-          "product_name",
           "amount"
         ],
         "output-fields": [

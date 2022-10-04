@@ -17,6 +17,9 @@ public class Proto implements REST {
     private static final String DATA = "_data";
 
     private static final String DEFINE_LOS_WORKFLOW = "define_los_workflow";
+    private static final String CREATE_LOS_APPLICATION = "create_los_application";
+    private static final String POST_LOS_ACTIVITY = "post_los_activity";
+
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse res) {
@@ -25,9 +28,9 @@ public class Proto implements REST {
 
     @Override
     public void post(HttpServletRequest req, HttpServletResponse res) {
-
         JSONObject input = null;
         JSONObject output = null;
+        JSONObject wfdef = null;
         String method = null;
         AccountConfig accountConfig = null;
         JSONObject apiConfig = null;
@@ -39,19 +42,25 @@ public class Proto implements REST {
             accountConfig = InputProcessor.getAccountConfig(req);
             apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
 
-
             if(method != null){
                 if(method.equalsIgnoreCase(DEFINE_LOS_WORKFLOW)){
                     output = defineLOSWorkflow(accountConfig.getTenant(),input);
+                }else if(method.equalsIgnoreCase(CREATE_LOS_APPLICATION)){
+                    wfdef = getLOSWorkflowDef(accountConfig.getTenant(),input);
+                    if(wfdef != null){
+                        createLoanApplication(accountConfig.getTenant(), wfdef, input);
+                        output = new JSONObject();
+                        output.put("created",true);
+                    }
+                }else if(method.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
+                    
                 }
             }
-
+            OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
         }catch(Exception e){
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
             e.printStackTrace();
         }
-        // send output
-        OutputProcessor.send(res,HttpServletResponse.SC_OK,output);
     }
 
     private JSONObject defineLOSWorkflow(JSONObject tenant, JSONObject input) throws Exception{
@@ -122,6 +131,40 @@ public class Proto implements REST {
         query.setValue(Types.VARCHAR,wfdef.toJSONString());
         query.setValue(Types.VARCHAR,workflowcode);
 
+        DB.update(query);
+    }
+
+    private JSONObject getLOSWorkflowDef(JSONObject tenant, JSONObject input) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+        JSONObject wfdef = null;
+        DBResult rs = null;
+        String workflowcode = (String) input.get("los-workflow-code");
+
+        sql = "select wf_def from _solutions_finance_los_tsi_wf_def where wf_code=?";
+        query = new DBQuery( tenant, sql);
+        query.setValue(Types.VARCHAR,workflowcode);
+        rs = DB.fetch(query);
+        if(rs.hasNext()){
+            wfdef = rs.next();
+        }
+        return wfdef;
+    }
+
+    private void createLoanApplication(JSONObject tenant, JSONObject wfdef, JSONObject input) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+        String workflowcode = (String) input.get("los-workflow-code");
+        String clientuserid = (String) input.get("client-user-id");
+        JSONObject data = (JSONObject) input.get("data");
+
+        sql = "insert into _solutions_finance_los_tsi_wf_loan (wf_code,client_user_id,wf_def,data,state) values (?,?,?::json,?::json,?)";
+        query = new DBQuery( tenant, sql);
+        query.setValue(Types.VARCHAR,workflowcode);
+        query.setValue(Types.VARCHAR,clientuserid);
+        query.setValue(Types.VARCHAR,wfdef.toJSONString());
+        query.setValue(Types.VARCHAR,data.toJSONString());
+        query.setValue(Types.VARCHAR,"loan-applied-state");
         DB.update(query);
     }
 
