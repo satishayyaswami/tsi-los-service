@@ -221,8 +221,107 @@ public class DB {
 
     }
 
-    public static void update(List<DBQuery> queries) throws Exception{
 
+    public static void update(List<DBQuery> queries) throws Exception{
+        PreparedStatement pstmt = null;
+        StringBuffer buff = null;
+        Connection con = null;
+        Iterator<JSONObject> valueIt = null;
+        JSONObject value = null;
+        int type = 0;
+        int i=0;
+        JSONArray output = null;
+        DBQuery firstQuery, query = null;
+        Iterator it = null;
+
+        try {
+            firstQuery = queries.get(0);
+            if(firstQuery.tenant != null) {
+                con = DB.getTenant((String) firstQuery.tenant.get("db-name"),
+                        (String) firstQuery.tenant.get("db-user"),
+                        (String) firstQuery.tenant.get("db-pass"),
+                        false);
+            }else{
+                con = DB.getAdmin(false);
+            }
+            it = queries.iterator();
+            while(it.hasNext()) {
+                query = (DBQuery) it.next();
+                pstmt = con.prepareStatement(query.sql);
+                if (query.values != null) {
+                    valueIt = query.values.iterator();
+                    while (valueIt.hasNext()) {
+                        value = (JSONObject) valueIt.next();
+                        type = (int) value.get("type");
+                        i++;
+                        if (type == Types.INTEGER) {
+                            pstmt.setInt(i, Integer.parseInt((String) value.get("value")));
+                        } else if (type == Types.DOUBLE) {
+                            pstmt.setDouble(i, Double.parseDouble((String) value.get("value")));
+                        } else {
+                            pstmt.setString(i, (String) value.get("value"));
+                        }
+                    }
+                }
+                pstmt.executeUpdate();
+            }
+            con.commit();
+        } finally {
+            DB.close(pstmt);
+            DB.close(con);
+        }
+    }
+
+    public static int insert(DBQuery insert) throws Exception{
+        PreparedStatement pstmt = null;
+        StringBuffer buff = null;
+        Connection con = null;
+        Iterator<JSONObject> valueIt = null;
+        JSONObject value = null;
+        int type = 0;
+        int id=0;
+        int i=0;
+        ResultSet rs = null;
+        JSONArray output = null;
+
+        try {
+            if(insert.tenant != null) {
+                con = DB.getTenant((String) insert.tenant.get("db-name"),
+                        (String) insert.tenant.get("db-user"),
+                        (String) insert.tenant.get("db-pass"),
+                        true);
+            }else{
+                con = DB.getAdmin(true);
+            }
+
+            // insert
+            pstmt = con.prepareStatement(insert.sql,Statement.RETURN_GENERATED_KEYS);
+            if (insert.values != null) {
+                valueIt = insert.values.iterator();
+                while (valueIt.hasNext()) {
+                    value = (JSONObject) valueIt.next();
+                    type = (int) value.get("type");
+                    i++;
+                    if (type == Types.INTEGER) {
+                        pstmt.setInt(i, Integer.parseInt((String) value.get("value")));
+                    } else if (type == Types.DOUBLE) {
+                        pstmt.setDouble(i, Double.parseDouble((String) value.get("value")));
+                    } else {
+                        pstmt.setString(i, (String) value.get("value"));
+                    }
+                }
+            }
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+                System.out.println("id2:"+id);
+            }
+        } finally {
+            DB.close(pstmt);
+            DB.close(con);
+        }
+        return id;
     }
 
     public static void close(Connection con) {

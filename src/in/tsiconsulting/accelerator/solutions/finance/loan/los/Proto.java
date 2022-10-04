@@ -35,6 +35,7 @@ public class Proto implements REST {
         AccountConfig accountConfig = null;
         JSONObject apiConfig = null;
         JSONObject data = null;
+        int loanappid = 0;
 
         try {
             input = InputProcessor.getInput(req);
@@ -48,9 +49,9 @@ public class Proto implements REST {
                 }else if(method.equalsIgnoreCase(CREATE_LOS_APPLICATION)){
                     wfdef = getLOSWorkflowDef(accountConfig.getTenant(),input);
                     if(wfdef != null){
-                        createLoanApplication(accountConfig.getTenant(), wfdef, input);
+                        loanappid = createLoanApplication(accountConfig.getTenant(), wfdef, input);
                         output = new JSONObject();
-                        output.put("created",true);
+                        output.put("loan-app-id",loanappid);
                     }
                 }else if(method.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
                     
@@ -151,18 +152,40 @@ public class Proto implements REST {
         return wfdef;
     }
 
-    private void createLoanApplication(JSONObject tenant, JSONObject wfdef, JSONObject input) throws Exception{
+    private int createLoanApplication(JSONObject tenant, JSONObject wfdef, JSONObject input) throws Exception{
+        String sql1,sql2 = null;
+        DBQuery query = null;
+        DBResult rs = null;
+        int loanAppId = 0;
+
+        String workflowcode = (String) input.get("los-workflow-code");
+        String clientuserid = (String) input.get("client-user-id");
+        JSONObject data = (JSONObject) input.get("data");
+
+        sql1 = "insert into _solutions_finance_los_tsi_wf_loan (wf_code,client_user_id,wf_def,data,state) values (?,?,?::json,?::json,?)";
+        query = new DBQuery( tenant, sql1);
+        query.setValue(Types.VARCHAR,workflowcode);
+        query.setValue(Types.VARCHAR,clientuserid);
+        query.setValue(Types.VARCHAR,wfdef.toJSONString());
+        query.setValue(Types.VARCHAR,data.toJSONString());
+        query.setValue(Types.VARCHAR,"loan-applied-state");
+
+        loanAppId = DB.insert(query);
+        return loanAppId;
+    }
+
+    private void postWorkflowHistory(JSONObject tenant, JSONObject input) throws Exception{
         String sql = null;
         DBQuery query = null;
         String workflowcode = (String) input.get("los-workflow-code");
         String clientuserid = (String) input.get("client-user-id");
         JSONObject data = (JSONObject) input.get("data");
 
-        sql = "insert into _solutions_finance_los_tsi_wf_loan (wf_code,client_user_id,wf_def,data,state) values (?,?,?::json,?::json,?)";
+        sql = "insert into _solutions_finance_los_tsi_wf_history (wf_code,wf_loan_id,wf_def,data,state) values (?,?,?::json,?::json,?)";
         query = new DBQuery( tenant, sql);
         query.setValue(Types.VARCHAR,workflowcode);
         query.setValue(Types.VARCHAR,clientuserid);
-        query.setValue(Types.VARCHAR,wfdef.toJSONString());
+       // query.setValue(Types.VARCHAR,wfdef.toJSONString());
         query.setValue(Types.VARCHAR,data.toJSONString());
         query.setValue(Types.VARCHAR,"loan-applied-state");
         DB.update(query);
