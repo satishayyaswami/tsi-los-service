@@ -50,6 +50,7 @@ public class Proto implements REST {
                     wfdef = getLOSWorkflowDef(accountConfig.getTenant(),input);
                     if(wfdef != null){
                         loanappid = createLoanApplication(accountConfig.getTenant(), wfdef, input);
+                        postWorkflowHistory(accountConfig.getTenant(),input,loanappid);
                         output = new JSONObject();
                         output.put("loan-app-id",loanappid);
                     }
@@ -174,20 +175,25 @@ public class Proto implements REST {
         return loanAppId;
     }
 
-    private void postWorkflowHistory(JSONObject tenant, JSONObject input) throws Exception{
+    private void postWorkflowHistory(JSONObject tenant, JSONObject input, int loanAppId) throws Exception{
         String sql = null;
         DBQuery query = null;
         String workflowcode = (String) input.get("los-workflow-code");
         String clientuserid = (String) input.get("client-user-id");
-        JSONObject data = (JSONObject) input.get("data");
+        String clientusername = (String) input.get("client-user-name");
+        String transition = (String) input.get("transition");
+        String latt = (String) input.get("lat");
+        String longt = (String) input.get("long");
 
-        sql = "insert into _solutions_finance_los_tsi_wf_history (wf_code,wf_loan_id,wf_def,data,state) values (?,?,?::json,?::json,?)";
+        sql = "insert into _solutions_finance_los_tsi_wf_history (wf_code,wf_loan_id,client_user_id,client_user_name,transition,lat,long) values (?,?,?,?,?,?,?)";
         query = new DBQuery( tenant, sql);
         query.setValue(Types.VARCHAR,workflowcode);
+        query.setValue(Types.INTEGER,loanAppId+"");
         query.setValue(Types.VARCHAR,clientuserid);
-       // query.setValue(Types.VARCHAR,wfdef.toJSONString());
-        query.setValue(Types.VARCHAR,data.toJSONString());
-        query.setValue(Types.VARCHAR,"loan-applied-state");
+        query.setValue(Types.VARCHAR,clientusername);
+        query.setValue(Types.VARCHAR,transition);
+        query.setValue(Types.DOUBLE,latt);
+        query.setValue(Types.DOUBLE,longt);
         DB.update(query);
     }
 

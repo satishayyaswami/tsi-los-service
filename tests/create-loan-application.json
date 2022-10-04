@@ -1,7 +1,11 @@
 {
   "_method":"create_los_application",
   "client-user-id": "1005",
+  "client-user-name": "test user",
   "los-workflow-code":"demo",
+  "transition": "apply-loan",
+  "lat":"23.34",
+  "long": "45.48",
   "data": {
     "branch_id": "123",
     "branch":"ABC",
@@ -17,5 +21,4 @@
     "cust_name": "adadsa",
     "amount": 40000
   }
-
 }

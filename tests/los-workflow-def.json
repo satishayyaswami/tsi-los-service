@@ -48,7 +48,7 @@
     ],
     "transitions": [
       {
-        "transition": "begin-transition",
+        "transition": "apply-loan",
         "current-states": [],
         "input-fields": [
           "branch_id",
@@ -77,7 +77,7 @@
         }
       },
       {
-        "transition": "credit-appraisal-transition",
+        "transition": "credit-appraisal",
         "current-states": [
           "loan-applied-state"
         ],
@@ -97,7 +97,7 @@
         }
       },
       {
-        "transition": "reject-transition",
+        "transition": "reject-application",
         "current-states": [
           "loan-applied-state",
           "sanction-state",
@@ -114,7 +114,7 @@
         }
       },
       {
-        "transition": "sanction-transition",
+        "transition": "sanction-application",
         "current-states": [
           "sanction-state"
         ],
@@ -131,7 +131,7 @@
         }
       },
       {
-        "transition": "deviation-request-transition",
+        "transition": "deviation-request",
         "current-states": [
           "sanction-state"
         ],
@@ -146,7 +146,7 @@
         }
       },
       {
-        "transition": "deviation-approval-transition",
+        "transition": "deviation-approval",
         "current-states": [
           "deviation-approval-state"
         ],
@@ -163,7 +163,7 @@
         }
       },
       {
-        "transition": "documentation-transition",
+        "transition": "post-documentation",
         "current-states": [
           "documentation-state"
         ],
@@ -178,7 +178,7 @@
         }
       },
       {
-        "transition": "checker-transition",
+        "transition": "checker",
         "current-states": [
           "checker-state"
         ],
@@ -195,7 +195,7 @@
         }
       },
       {
-        "transition": "disbursement-transition",
+        "transition": "disburse",
         "current-states": [
           "disbursement-state"
         ],
@@ -212,7 +212,7 @@
         }
       },
       {
-        "transition": "payment-transition",
+        "transition": "do-payment",
         "current-states": [
           "payment-state"
         ],
@@ -232,7 +232,7 @@
         }
       },
       {
-        "transition": "cancel-transition",
+        "transition": "cancel-application",
         "current-states": [
           "loan-applied-state",
           "sanction-state",
