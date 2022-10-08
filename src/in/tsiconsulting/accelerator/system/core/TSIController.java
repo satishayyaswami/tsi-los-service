@@ -14,7 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class Intercept implements Filter {
+public class TSIController implements Filter {
 
     private static final String URL_DELIMITER = "/";
     private static final String TSI_ACCELERATOR_FRAMEWORK = "tsi";

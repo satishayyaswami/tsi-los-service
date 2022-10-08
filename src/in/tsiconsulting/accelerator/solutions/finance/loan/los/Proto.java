@@ -78,24 +78,24 @@ public class Proto implements REST {
                     destination = getDestination(wfdef, transition, startingstate, useraction);
                     if(destination == null){
                         OutputProcessor.sendError(res,HttpServletResponse.SC_FORBIDDEN,"Invalid workflow configuration");
-                    }
-
-                    destinationtype = (String) destination.get("destination-type");
-                    destinationname = (String) destination.get("destination-name");
-                    while(destinationtype.equalsIgnoreCase("transition")){
-                        postWorkflowHistory(accountConfig.getTenant(),input,loanappid,transition);
-                        destination = getDestination(wfdef, transition, startingstate, useraction);
+                    }else {
                         destinationtype = (String) destination.get("destination-type");
                         destinationname = (String) destination.get("destination-name");
+                        while (destinationtype.equalsIgnoreCase("transition")) {
+                            postWorkflowHistory(accountConfig.getTenant(), input, loanappid, transition);
+                            destination = getDestination(wfdef, transition, startingstate, useraction);
+                            destinationtype = (String) destination.get("destination-type");
+                            destinationname = (String) destination.get("destination-name");
+                        }
+
+                        // Update the final transition and state
+                        postWorkflowHistory(accountConfig.getTenant(), input, loanappid, transition);
+                        updateLoanApplicationState(accountConfig.getTenant(), loanappid, destinationname);
+
+                        // return output
+                        output = new JSONObject();
+                        output.put("updated", true);
                     }
-
-                    // Update the final transition and state
-                    postWorkflowHistory(accountConfig.getTenant(),input,loanappid,transition);
-                    updateLoanApplicationState(accountConfig.getTenant(), loanappid, destinationname);
-
-                    // return output
-                    output = new JSONObject();
-                    output.put("updated",true);
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
