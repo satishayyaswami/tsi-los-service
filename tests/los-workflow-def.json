@@ -48,7 +48,7 @@
     ],
     "transitions": [
       {
-        "transition": "begin",
+        "transition": "apply-loan",
         "current-states": [],
         "input-fields": [
           "branch_id",

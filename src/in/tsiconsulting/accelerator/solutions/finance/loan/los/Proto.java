@@ -23,7 +23,8 @@ public class Proto implements REST {
     private static final String CREATE_LOS_APPLICATION = "create_los_application";
     private static final String POST_LOS_ACTIVITY = "post_los_activity";
 
-    private static final String BEGIN_TRANSITION = "begin";
+    private static final String BEGIN_TRANSITION = "apply-loan";
+    private static final String BEGIN_STATE = "loan-applied-state";
 
 
     @Override
@@ -46,6 +47,8 @@ public class Proto implements REST {
         String startingstate = null;
         String useraction = null;
         JSONObject destination = null;
+        String destinationtype = null;
+        String destinationname = null;
 
         try {
             input = InputProcessor.getInput(req);
@@ -76,12 +79,23 @@ public class Proto implements REST {
                     if(destination == null){
                         OutputProcessor.sendError(res,HttpServletResponse.SC_FORBIDDEN,"Invalid workflow configuration");
                     }
-                    // To do: get transition list and post all activities
-                    //postWorkflowHistory(accountConfig.getTenant(),input,loanappid,transition);
-                    // To do: update the final state
-                    //output = new JSONObject();
-                    //output.put("updated",true);
-                    output = destination;
+
+                    destinationtype = (String) destination.get("destination-type");
+                    destinationname = (String) destination.get("destination-name");
+                    while(destinationtype.equalsIgnoreCase("transition")){
+                        postWorkflowHistory(accountConfig.getTenant(),input,loanappid,transition);
+                        destination = getDestination(wfdef, transition, startingstate, useraction);
+                        destinationtype = (String) destination.get("destination-type");
+                        destinationname = (String) destination.get("destination-name");
+                    }
+
+                    // Update the final transition and state
+                    postWorkflowHistory(accountConfig.getTenant(),input,loanappid,transition);
+                    updateLoanApplicationState(accountConfig.getTenant(), loanappid, destinationname);
+
+                    // return output
+                    output = new JSONObject();
+                    output.put("updated",true);
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
@@ -264,11 +278,25 @@ public class Proto implements REST {
         query.setValue(Types.VARCHAR,clientuserid);
         query.setValue(Types.VARCHAR,wfdef.toJSONString());
         query.setValue(Types.VARCHAR,data.toJSONString());
-        query.setValue(Types.VARCHAR,"loan-applied-state");
+        query.setValue(Types.VARCHAR,BEGIN_STATE);
 
         loanAppId = DB.insert(query);
         return loanAppId;
     }
+
+    private void updateLoanApplicationState(JSONObject tenant, int loanappid, String state) throws Exception{
+        String sql1,sql2 = null;
+        DBQuery query = null;
+        DBResult rs = null;
+
+        sql1 = "update _solutions_finance_los_tsi_wf_loan set state=? where wf_loan_id=?";
+        query = new DBQuery( tenant, sql1);
+        query.setValue(Types.VARCHAR,state);
+        query.setValue(Types.INTEGER,loanappid+"");
+
+        DB.update(query);
+    }
+
 
     private JSONObject getLoanApplication(JSONObject tenant, int loanappid) throws Exception{
         String sql = null;
