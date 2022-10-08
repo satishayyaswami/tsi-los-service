@@ -15,7 +15,7 @@ public class Digitap implements REST {
 
     private static final String API_NAME = "kyc";
 
-    private static final String METHOD = "_method";
+    private static final String FUNCTION = "_func";
     private static final String DATA = "_data";
     private static final String PAN_BASIC_VALIDATION="pan_basic";
 
@@ -28,7 +28,7 @@ public class Digitap implements REST {
     public void post(HttpServletRequest req, HttpServletResponse res) {
         JSONObject input = null;
         JSONObject output = null;
-        String method = null;
+        String func = null;
         AccountConfig accountConfig = null;
         JSONObject apiConfig = null;
         String providerUrl = null;
@@ -45,7 +45,7 @@ public class Digitap implements REST {
 
         try {
             input = InputProcessor.getInput(req);
-            method = (String) input.get(METHOD);
+            func = (String) input.get(FUNCTION);
             accountConfig = InputProcessor.getAccountConfig(req);
             apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
             providerUrl = (String) apiConfig.get("provider.config.apiurl");
@@ -55,8 +55,8 @@ public class Digitap implements REST {
             authorization = "Basic "+ Base64.getEncoder().encodeToString(authinput.getBytes());
             clientuserid = (String) input.get("client_user_id");
 
-            if(method != null){
-                if(method.equalsIgnoreCase(PAN_BASIC_VALIDATION)){
+            if(func != null){
+                if(func.equalsIgnoreCase(PAN_BASIC_VALIDATION)){
                     serviceurl = providerUrl+"kyc/v1/pan_basic";
                     data = new JSONObject();
                     data.put("client_ref_num",(String) input.get("client_ref_num"));

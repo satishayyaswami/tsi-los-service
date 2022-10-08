@@ -2,10 +2,13 @@ package in.tsiconsulting.accelerator.solutions.finance.loan.los;
 
 import in.tsiconsulting.accelerator.system.core.*;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Types;
+import java.util.Iterator;
 
 public class Proto implements REST {
 
@@ -13,12 +16,14 @@ public class Proto implements REST {
 
     private static final String API_NAME = "los";
 
-    private static final String METHOD = "_method";
+    private static final String FUNCTION = "_func";
     private static final String DATA = "_data";
 
     private static final String DEFINE_LOS_WORKFLOW = "define_los_workflow";
     private static final String CREATE_LOS_APPLICATION = "create_los_application";
     private static final String POST_LOS_ACTIVITY = "post_los_activity";
+
+    private static final String BEGIN_TRANSITION = "begin";
 
 
     @Override
@@ -31,31 +36,52 @@ public class Proto implements REST {
         JSONObject input = null;
         JSONObject output = null;
         JSONObject wfdef = null;
-        String method = null;
+        String func = null;
         AccountConfig accountConfig = null;
         JSONObject apiConfig = null;
         JSONObject data = null;
         int loanappid = 0;
+        String transition = null;
+        JSONObject loanapp = null;
+        String startingstate = null;
+        String useraction = null;
+        JSONObject destination = null;
 
         try {
             input = InputProcessor.getInput(req);
-            method = (String) input.get(METHOD);
+            func = (String) input.get(FUNCTION);
             accountConfig = InputProcessor.getAccountConfig(req);
             apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
 
-            if(method != null){
-                if(method.equalsIgnoreCase(DEFINE_LOS_WORKFLOW)){
+            if(func != null){
+                if(func.equalsIgnoreCase(DEFINE_LOS_WORKFLOW)){
                     output = defineLOSWorkflow(accountConfig.getTenant(),input);
-                }else if(method.equalsIgnoreCase(CREATE_LOS_APPLICATION)){
+                }else if(func.equalsIgnoreCase(CREATE_LOS_APPLICATION)){
                     wfdef = getLOSWorkflowDef(accountConfig.getTenant(),input);
                     if(wfdef != null){
                         loanappid = createLoanApplication(accountConfig.getTenant(), wfdef, input);
-                        postWorkflowHistory(accountConfig.getTenant(),input,loanappid);
+                        postWorkflowHistory(accountConfig.getTenant(),input,loanappid, BEGIN_TRANSITION);
                         output = new JSONObject();
                         output.put("loan-app-id",loanappid);
                     }
-                }else if(method.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
-                    
+                }else if(func.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
+                    transition = (String) input.get("transition");
+                    useraction = (String) input.get("action");
+                    loanappid = Integer.parseInt((String) input.get("loan-app-id"));
+                    loanapp = getLoanApplication(accountConfig.getTenant(),loanappid);
+                    // To do: check if transition is applicable for the current state
+                    wfdef = (JSONObject) new JSONParser().parse((String)loanapp.get("wf_def"));
+                    startingstate = (String) loanapp.get("state");
+                    destination = getDestination(wfdef, transition, startingstate, useraction);
+                    if(destination == null){
+                        OutputProcessor.sendError(res,HttpServletResponse.SC_FORBIDDEN,"Invalid workflow configuration");
+                    }
+                    // To do: get transition list and post all activities
+                    //postWorkflowHistory(accountConfig.getTenant(),input,loanappid,transition);
+                    // To do: update the final state
+                    //output = new JSONObject();
+                    //output.put("updated",true);
+                    output = destination;
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
@@ -63,6 +89,75 @@ public class Proto implements REST {
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
             e.printStackTrace();
         }
+    }
+
+    private JSONObject getDestination(JSONObject wfdef, String transition, String startingstate, String useraction) throws Exception{
+        JSONObject destination = null;
+        JSONArray transitions, actions = null;
+        Iterator<JSONObject> it = null;
+        JSONObject def,transitionJSON = null;
+        JSONArray startingstates = null;
+
+        def = (JSONObject) new JSONParser().parse((String)wfdef.get("wf_def"));
+        transitions = (JSONArray) def.get("transitions");
+        it = transitions.iterator();
+        while(it.hasNext()){
+            transitionJSON = (JSONObject) it.next();
+            if(transition.equalsIgnoreCase((String)transitionJSON.get("transition"))){
+                startingstates = (JSONArray) transitionJSON.get("current-states");
+                actions = (JSONArray) transitionJSON.get("actions");
+                if(isStartingStatePresent(startingstates,startingstate) &&
+                        isUserActionPresent(actions, useraction)){
+                    destination = getDestination(actions,useraction);
+                    break;
+                }
+            }
+        }
+        return destination;
+    }
+
+    private JSONObject getDestination(JSONArray actions, String useraction){
+        JSONObject destination = null;
+        String action = null;
+        Iterator it = actions.iterator();
+        while(it.hasNext()){
+            destination = (JSONObject) it.next();
+            action = (String) destination.get("action");
+            if(action.equalsIgnoreCase(useraction)){
+                break;
+            }
+        }
+        return destination;
+    }
+
+    private boolean isUserActionPresent(JSONArray actions, String useraction){
+        boolean present = false;
+        JSONObject destination = null;
+        String action = null;
+        Iterator it = actions.iterator();
+        while(it.hasNext()){
+            destination = (JSONObject) it.next();
+            action = (String) destination.get("action");
+            if(action.equalsIgnoreCase(useraction)){
+                present = true;
+                break;
+            }
+        }
+        return present;
+    }
+
+    private boolean isStartingStatePresent(JSONArray states, String startingstate){
+        boolean present = false;
+        String state = null;
+        Iterator it = states.iterator();
+        while(it.hasNext()){
+            state = (String) it.next();
+            if(state.equalsIgnoreCase(startingstate)){
+                present = true;
+                break;
+            }
+        }
+        return present;
     }
 
     private JSONObject defineLOSWorkflow(JSONObject tenant, JSONObject input) throws Exception{
@@ -175,14 +270,32 @@ public class Proto implements REST {
         return loanAppId;
     }
 
-    private void postWorkflowHistory(JSONObject tenant, JSONObject input, int loanAppId) throws Exception{
+    private JSONObject getLoanApplication(JSONObject tenant, int loanappid) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+        DBResult rs = null;
+        JSONObject record = null;
+        String state = null;
+        JSONObject wfdef = null;
+
+        sql = "select state,wf_def from _solutions_finance_los_tsi_wf_loan where wf_loan_id=?";
+        query = new DBQuery( tenant, sql);
+        query.setValue(Types.INTEGER,loanappid+"");
+
+        rs = DB.fetch(query);
+        if(rs.hasNext()){
+            record = (JSONObject) rs.next();
+        }
+        return record;
+    }
+
+    private void postWorkflowHistory(JSONObject tenant, JSONObject input, int loanAppId, String transition) throws Exception{
         String sql = null;
         DBQuery query = null;
         String workflowcode = (String) input.get("los-workflow-code");
         String clientuserid = (String) input.get("client-user-id");
         String clientusername = (String) input.get("client-user-name");
-        String transition = (String) input.get("transition");
-        String latt = (String) input.get("lat");
+         String latt = (String) input.get("lat");
         String longt = (String) input.get("long");
 
         sql = "insert into _solutions_finance_los_tsi_wf_history (wf_code,wf_loan_id,client_user_id,client_user_name,transition,lat,long) values (?,?,?,?,?,?,?)";
@@ -209,6 +322,35 @@ public class Proto implements REST {
 
     @Override
     public void validate(String method, HttpServletRequest req, HttpServletResponse res) {
+
+        JSONObject input = null;
+        JSONObject output = null;
+        JSONObject wfdef = null;
+        String func = null;
+        AccountConfig accountConfig = null;
+        JSONObject apiConfig = null;
+        JSONObject data = null;
+
+        try {
+            input = InputProcessor.getInput(req);
+            func = (String) input.get(FUNCTION);
+            accountConfig = InputProcessor.getAccountConfig(req);
+            apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
+
+            if(method.equalsIgnoreCase("POST") && func != null){
+                if(func.equalsIgnoreCase(DEFINE_LOS_WORKFLOW)){
+
+                }else if(func.equalsIgnoreCase(CREATE_LOS_APPLICATION)){
+
+                }else if(func.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
+
+                }
+            }
+            OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
+        }catch(Exception e){
+            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
+            e.printStackTrace();
+        }
 
     }
 }

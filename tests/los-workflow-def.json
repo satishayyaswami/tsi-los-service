@@ -1,5 +1,5 @@
 {
-  "_method": "define_los_workflow",
+  "_func": "define_los_workflow",
   "los-workflow-code":"demo",
   "los-workflow-name":"Demo Workflow",
   "client-user-id":"1001",
@@ -48,7 +48,7 @@
     ],
     "transitions": [
       {
-        "transition": "apply-loan",
+        "transition": "begin",
         "current-states": [],
         "input-fields": [
           "branch_id",
@@ -69,12 +69,11 @@
         "output-fields": [
           "loan-app-id"
         ],
-        "actions": {
-          "complete": {
-            "destination": "state",
-            "name": "loan-applied-state"
-          }
-        }
+        "actions":[{
+            "action": "complete",
+            "destination-type": "state",
+            "destination-name": "loan-applied-state"
+          }]
       },
       {
         "transition": "credit-appraisal",
@@ -85,16 +84,15 @@
           "score",
           "grade"
         ],
-        "actions": {
-          "recommend": {
-            "destination": "state",
-            "name": "sanction-state"
-          },
-          "reject": {
-            "destination": "transition",
-            "name": "reject-transition"
-          }
-        }
+        "actions": [{
+            "action":"recommend",
+            "destination-type": "state",
+            "destination-name": "sanction-state"
+          },{
+            "action":"reject",
+            "destination-type": "transition",
+            "destination-name": "reject-application"
+          }]
       },
       {
         "transition": "reject-application",
@@ -106,12 +104,11 @@
         "data-fields": [
           "reject_code"
         ],
-        "actions": {
-          "complete": {
-            "destination": "state",
-            "name": "rejected-state"
-          }
-        }
+        "actions": [{
+          "action":"complete",
+          "destination-type": "state",
+          "destination-name": "rejected-state"
+          }]
       },
       {
         "transition": "sanction-application",
@@ -119,16 +116,15 @@
           "sanction-state"
         ],
         "data-fields": [],
-        "actions": {
-          "success": {
-            "destination": "state",
-            "name": "documentation-state"
-          },
-          "deviation": {
-            "destination": "transition",
-            "name": "deviation-request-transition"
-          }
-        }
+        "actions": [{
+            "action":"success",
+            "destination-type":"state",
+            "destination-name":"documentation-state"
+            },{
+            "action":"deviation",
+            "destination-type": "transition",
+            "destination-name": "deviation-request"
+            }]
       },
       {
         "transition": "deviation-request",
@@ -138,12 +134,11 @@
         "data-fields": [
           "deviation_details"
         ],
-        "actions": {
-          "complete": {
-            "destination": "state",
-            "name": "deviation-approval-state"
-          }
-        }
+        "actions": [{
+            "action":"complete",
+            "destination-type": "state",
+            "destination-name": "deviation-approval-state"
+          }]
       },
       {
         "transition": "deviation-approval",
@@ -151,16 +146,15 @@
           "deviation-approval-state"
         ],
         "data-fields": [],
-        "actions": {
-          "approve": {
-            "destination": "state",
-            "name": "documentation-state"
-          },
-          "reject": {
-            "destination": "transition",
-            "name": "reject-transition"
-          }
-        }
+        "actions": [{
+          "action":"approve",
+          "destination-type": "state",
+          "destination-name": "documentation-state"
+          },{
+          "action":"reject",
+          "destination-type": "transition",
+          "destination-name": "reject-transition"
+          }]
       },
       {
         "transition": "post-documentation",
@@ -170,12 +164,11 @@
         "data-fields": [
           "doc_url"
         ],
-        "actions": {
-          "complete": {
-            "destination": "state",
-            "name": "checker-state"
-          }
-        }
+        "actions": [{
+          "action":"complete",
+          "destination-type": "state",
+          "destination-name": "checker-state"
+          }]
       },
       {
         "transition": "checker",
@@ -183,16 +176,15 @@
           "checker-state"
         ],
         "data-fields": [],
-        "actions": {
-          "approve": {
-            "destination": "state",
-            "name": "disbursement-state"
-          },
-          "reject": {
-            "destination": "state",
-            "name": "documentation-state"
-          }
-        }
+        "actions": [{
+            "action":"approve",
+            "destination-type": "state",
+            "destination-name": "disbursement-state"
+          },{
+            "action":"reject",
+            "destination-type": "state",
+            "destination-name": "documentation-state"
+          }]
       },
       {
         "transition": "disburse",
@@ -200,16 +192,15 @@
           "disbursement-state"
         ],
         "data-fields": [],
-        "actions": {
-          "confirm": {
-            "destination": "state",
-            "name": "payment-state"
-          },
-          "cancel": {
-            "destination": "transition",
-            "name": "cancel-transition"
-          }
-        }
+        "actions": [{
+            "action":"confirm",
+            "destination-type": "state",
+            "destination-name": "payment-state"
+          },{
+            "action":"cancel",
+            "destination-type": "transition",
+            "destination-name": "cancel-transition"
+          }]
       },
       {
         "transition": "do-payment",
@@ -220,16 +211,15 @@
           "ifsc-code",
           "bankac"
         ],
-        "actions": {
-          "confirm": {
-            "destination": "state",
-            "name": "payment-state"
-          },
-          "cancel": {
-            "destination": "transition",
-            "name": "cancel-transition"
-          }
-        }
+        "actions": [{
+            "action":"confirm",
+            "destination-type": "state",
+            "destination-name": "payment-state"
+          },{
+            "action":"cancel",
+            "destination-type": "transition",
+            "destination-name": "cancel-transition"
+          }]
       },
       {
         "transition": "cancel-application",
@@ -244,13 +234,12 @@
         "data-fields": [
           "cancel_code"
         ],
-        "actions": {
-          "complete": {
-            "destination": "state",
-            "name": "cancelled-state"
-          }
+        "actions": [{
+          "action":"complete",
+          "destination-type": "state",
+          "destination-name": "cancelled-state"
+          }]
         }
-      }
     ]
   }
 }

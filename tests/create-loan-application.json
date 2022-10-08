@@ -1,9 +1,8 @@
 {
-  "_method":"create_los_application",
+  "_func":"create_los_application",
   "client-user-id": "1005",
   "client-user-name": "test user",
   "los-workflow-code":"demo",
-  "transition": "apply-loan",
   "lat":"23.34",
   "long": "45.48",
   "data": {
