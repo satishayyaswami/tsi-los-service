@@ -1,5 +1,5 @@
 {
-  "_func":"create_los_application",
+  "_func":"post_los_application",
   "client-user-id": "1005",
   "client-user-name": "test user",
   "los-workflow-code":"demo",

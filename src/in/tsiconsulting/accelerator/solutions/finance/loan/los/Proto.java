@@ -19,9 +19,11 @@ public class Proto implements REST {
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";
 
-    private static final String DEFINE_LOS_WORKFLOW = "define_los_workflow";
-    private static final String CREATE_LOS_APPLICATION = "create_los_application";
+    private static final String POST_LOS_WORKFLOW = "post_los_workflow";
+    private static final String POST_LOS_APPLICATION = "post_los_application";
     private static final String POST_LOS_ACTIVITY = "post_los_activity";
+
+    private static final String GET_LOS_ACTIVITY_SAMPLE = "get_los_activity_sample";
 
     private static final String BEGIN_TRANSITION = "apply-loan";
     private static final String BEGIN_STATE = "loan-applied-state";
@@ -29,6 +31,33 @@ public class Proto implements REST {
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse res) {
+        JSONObject input = null;
+        JSONObject output = null;
+        String func = null;
+        AccountConfig accountConfig = null;
+
+        try {
+            input = InputProcessor.getInput(req);
+            func = (String) input.get(FUNCTION);
+            accountConfig = InputProcessor.getAccountConfig(req);
+
+            if(func != null){
+                if(func.equalsIgnoreCase(POST_LOS_WORKFLOW)){
+
+                }else if(func.equalsIgnoreCase(POST_LOS_APPLICATION)){
+
+                }else if(func.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
+
+                }
+            }
+            OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
+        }catch(Exception e){
+            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
+            e.printStackTrace();
+        }
+
+
+
 
     }
 
@@ -39,7 +68,6 @@ public class Proto implements REST {
         JSONObject wfdef = null;
         String func = null;
         AccountConfig accountConfig = null;
-        JSONObject apiConfig = null;
         JSONObject data = null;
         int loanappid = 0;
         String transition = null;
@@ -54,12 +82,11 @@ public class Proto implements REST {
             input = InputProcessor.getInput(req);
             func = (String) input.get(FUNCTION);
             accountConfig = InputProcessor.getAccountConfig(req);
-            apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
 
             if(func != null){
-                if(func.equalsIgnoreCase(DEFINE_LOS_WORKFLOW)){
+                if(func.equalsIgnoreCase(POST_LOS_WORKFLOW)){
                     output = defineLOSWorkflow(accountConfig.getTenant(),input);
-                }else if(func.equalsIgnoreCase(CREATE_LOS_APPLICATION)){
+                }else if(func.equalsIgnoreCase(POST_LOS_APPLICATION)){
                     wfdef = getLOSWorkflowDef(accountConfig.getTenant(),input);
                     if(wfdef != null){
                         loanappid = createLoanApplication(accountConfig.getTenant(), wfdef, input);
@@ -77,7 +104,7 @@ public class Proto implements REST {
                     startingstate = (String) loanapp.get("state");
                     destination = getDestination(wfdef, transition, startingstate, useraction);
                     if(destination == null){
-                        OutputProcessor.sendError(res,HttpServletResponse.SC_FORBIDDEN,"Invalid workflow configuration");
+                        OutputProcessor.sendError(res,HttpServletResponse.SC_FORBIDDEN,"Input does not match the workflow configuration");
                     }else {
                         destinationtype = (String) destination.get("destination-type");
                         destinationname = (String) destination.get("destination-name");
@@ -366,9 +393,9 @@ public class Proto implements REST {
             apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
 
             if(method.equalsIgnoreCase("POST") && func != null){
-                if(func.equalsIgnoreCase(DEFINE_LOS_WORKFLOW)){
+                if(func.equalsIgnoreCase(POST_LOS_WORKFLOW)){
 
-                }else if(func.equalsIgnoreCase(CREATE_LOS_APPLICATION)){
+                }else if(func.equalsIgnoreCase(POST_LOS_APPLICATION)){
 
                 }else if(func.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
 

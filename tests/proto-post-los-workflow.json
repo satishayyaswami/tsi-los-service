@@ -1,5 +1,5 @@
 {
-  "_func": "define_los_workflow",
+  "_func": "post_los_workflow",
   "los-workflow-code":"demo",
   "los-workflow-name":"Demo Workflow",
   "client-user-id":"1001",

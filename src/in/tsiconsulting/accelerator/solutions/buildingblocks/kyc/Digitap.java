@@ -17,7 +17,7 @@ public class Digitap implements REST {
 
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";
-    private static final String PAN_BASIC_VALIDATION="pan_basic";
+    private static final String POST_PAN_BASIC_VALIDATION="post_pan_basic_validation";
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse res) {
@@ -56,7 +56,7 @@ public class Digitap implements REST {
             clientuserid = (String) input.get("client_user_id");
 
             if(func != null){
-                if(func.equalsIgnoreCase(PAN_BASIC_VALIDATION)){
+                if(func.equalsIgnoreCase(POST_PAN_BASIC_VALIDATION)){
                     serviceurl = providerUrl+"kyc/v1/pan_basic";
                     data = new JSONObject();
                     data.put("client_ref_num",(String) input.get("client_ref_num"));
@@ -67,7 +67,6 @@ public class Digitap implements REST {
                     logtransaction(accountConfig.getTenant(),API_PROVIDER,clientuserid,input,output);
                 }
             }
-
         }catch(Exception e){
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
             e.printStackTrace();
