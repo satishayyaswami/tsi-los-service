@@ -33,7 +33,7 @@
 {
 "name":"los",
 "package":"tsi.accelerator.solutions.finance.loan.los",
-"provider":"tsi",
+"provider":"Proto",
 "provider.config.apiurl":"",
 "provider.config.apikey":"",
 "provider.config.apisecret":"",
