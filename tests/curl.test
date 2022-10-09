@@ -23,3 +23,6 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B
 
 # LOS - GET LOS Workflow
 curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-get-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+
+# LOS - GET LOS Applications
+curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-get-los-applications.json http://localhost:8080/tsi/solutions/finance/loan/los/proto

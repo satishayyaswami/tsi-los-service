@@ -26,9 +26,9 @@ public class Proto implements REST {
     private static final String GET_LOS_WORKFLOW = "get_los_workflow";
     private static final String GET_LOS_ACTIVITY_SAMPLE = "get_los_activity_sample";
 
-    private static final String GET_LOS_APPLICATION = "get_los_application";
+    private static final String GET_LOS_APPLICATIONS = "get_los_applications";
 
-    private static final String GET_LOS_ACTIVITY = "get_los_activity";
+    private static final String GET_LOS_ACTIVITIES = "get_los_activities";
 
     private static final String BEGIN_TRANSITION = "apply-loan";
     private static final String BEGIN_STATE = "loan-applied-state";
@@ -38,6 +38,7 @@ public class Proto implements REST {
     public void get(HttpServletRequest req, HttpServletResponse res) {
         JSONObject input = null;
         JSONObject output = null;
+        JSONArray outputArr = null;
         String func = null;
         AccountConfig accountConfig = null;
 
@@ -51,13 +52,14 @@ public class Proto implements REST {
                     output = getLOSWorkflowDef(accountConfig.getTenant(), input);
                 }else if(func.equalsIgnoreCase(GET_LOS_ACTIVITY_SAMPLE)){
 
-                }else if(func.equalsIgnoreCase(GET_LOS_APPLICATION)){
+                }else if(func.equalsIgnoreCase(GET_LOS_APPLICATIONS)){
+                    outputArr = getLoanApplications(accountConfig.getTenant(), input);
 
-                }else if(func.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
+                }else if(func.equalsIgnoreCase(GET_LOS_ACTIVITIES)) {
 
                 }
             }
-            OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
+            OutputProcessor.send(res, HttpServletResponse.SC_OK, output!=null?output:outputArr);
         }catch(Exception e){
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
             e.printStackTrace();
@@ -325,6 +327,23 @@ public class Proto implements REST {
         query.setValue(Types.INTEGER,loanappid+"");
 
         DB.update(query);
+    }
+
+    private JSONArray getLoanApplications(JSONObject tenant, JSONObject input) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+        DBResult rs = null;
+        int loanAppId = 0;
+        DBResult result = null;
+
+        String workflowcode = (String) input.get("los-workflow-code");
+
+        sql = "select wf_loan_id,client_user_id,data,state from _solutions_finance_los_tsi_wf_loan where wf_code=?";
+        query = new DBQuery( tenant, sql);
+        query.setValue(Types.VARCHAR,workflowcode);
+
+        result = DB.fetch(query);
+        return result.toJSONArray();
     }
 
 

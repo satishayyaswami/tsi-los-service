@@ -24,4 +24,8 @@ public class DBResult {
         i++;
         return next;
     }
+
+    public JSONArray toJSONArray(){
+        return this.result;
+    }
 }
