@@ -1,5 +1,6 @@
 {
   "_func": "get_los_activities",
   "los-workflow-code":"demo",
-  "loan-app-id":"1"
+  "transition": "credit-appraisal",
+  "action":"recommend"
 }

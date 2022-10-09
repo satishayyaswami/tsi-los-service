@@ -50,7 +50,7 @@
       {
         "transition": "apply-loan",
         "current-states": [],
-        "input-fields": [
+        "data-fields": [
           "branch_id",
           "region_id",
           "area_id",

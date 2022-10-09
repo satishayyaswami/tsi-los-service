@@ -29,3 +29,6 @@ curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0
 
 # LOS - GET LOS Activities
 curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-get-los-activities.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+
+# LOS - GET Data Fields
+curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-get-data-fields.json http://localhost:8080/tsi/solutions/finance/loan/los/proto

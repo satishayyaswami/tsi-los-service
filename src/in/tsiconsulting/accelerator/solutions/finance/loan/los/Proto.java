@@ -24,7 +24,7 @@ public class Proto implements REST {
     private static final String POST_LOS_ACTIVITY = "post_los_activity";
 
     private static final String GET_LOS_WORKFLOW = "get_los_workflow";
-    private static final String GET_LOS_ACTIVITY_SAMPLE = "get_los_activity_sample";
+    private static final String GET_DATA_FIELDS = "get_data_fields";
 
     private static final String GET_LOS_APPLICATIONS = "get_los_applications";
 
@@ -41,6 +41,10 @@ public class Proto implements REST {
         JSONArray outputArr = null;
         String func = null;
         AccountConfig accountConfig = null;
+        JSONObject wfdef = null;
+        JSONArray inputfields = null;
+        String transition = null;
+
 
         try {
             input = InputProcessor.getInput(req);
@@ -50,13 +54,15 @@ public class Proto implements REST {
             if(func != null){
                 if(func.equalsIgnoreCase(GET_LOS_WORKFLOW)){
                     output = getLOSWorkflowDef(accountConfig.getTenant(), input);
-                }else if(func.equalsIgnoreCase(GET_LOS_ACTIVITY_SAMPLE)){
-
                 }else if(func.equalsIgnoreCase(GET_LOS_APPLICATIONS)){
                     outputArr = getLoanApplications(accountConfig.getTenant(), input);
-
                 }else if(func.equalsIgnoreCase(GET_LOS_ACTIVITIES)) {
                     outputArr = getLOSActivities(accountConfig.getTenant(), input);
+                }else if(func.equalsIgnoreCase(GET_DATA_FIELDS)) {
+                    transition = (String) input.get("transition");
+                    wfdef = getLOSWorkflowDef(accountConfig.getTenant(), input);
+                    inputfields = getNestedInputFields(wfdef,transition, new JSONArray());
+                    outputArr = inputfields;
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output!=null?output:outputArr);
@@ -137,6 +143,7 @@ public class Proto implements REST {
         }
     }
 
+
     private JSONObject getDestination(JSONObject wfdef, String transition, String startingstate, String useraction) throws Exception{
         JSONObject destination = null;
         JSONArray transitions, actions = null;
@@ -161,6 +168,24 @@ public class Proto implements REST {
         return destination;
     }
 
+
+
+    private JSONObject getTransition(JSONObject wfdef, String transitionname){
+        JSONObject transition = null;
+        JSONArray transitions = null;
+        Iterator<JSONObject> it = null;
+
+        transitions = (JSONArray) wfdef.get("transitions");
+        it = transitions.iterator();
+        while(it.hasNext()){
+            transition = (JSONObject) it.next();
+            if(transitionname.equalsIgnoreCase((String)transition.get("transition"))){
+                break;
+            }
+        }
+        return transition;
+    }
+
     private JSONObject getDestination(JSONArray actions, String useraction){
         JSONObject destination = null;
         String action = null;
@@ -173,6 +198,33 @@ public class Proto implements REST {
             }
         }
         return destination;
+    }
+
+    private JSONArray getNestedInputFields(JSONObject wfdef,String transitionname, JSONArray inputfields){
+        boolean present = false;
+        JSONObject destination = null;
+        String action = null;
+        JSONArray actions = null;
+        String destinationtype = null;
+        String destinationname = null;
+        JSONObject transition = null;
+
+        // add input fields
+        transition = getTransition(wfdef, transitionname);
+        inputfields.addAll((JSONArray) transition.get("data-fields"));
+
+        actions = (JSONArray) transition.get("actions");
+        Iterator it = actions.iterator();
+        while(it.hasNext()){
+            destination = (JSONObject) it.next();
+            action = (String) destination.get("action");
+            destinationtype = (String) destination.get("destination-type");
+            destinationname = (String) destination.get("destination-name");
+            if(destinationtype.equalsIgnoreCase("transition")){
+                getNestedInputFields(wfdef,destinationname,inputfields);
+            }
+        }
+        return inputfields;
     }
 
     private boolean isUserActionPresent(JSONArray actions, String useraction){
@@ -402,7 +454,6 @@ public class Proto implements REST {
         result = DB.fetch(query);
         return result.toJSONArray();
     }
-
 
     @Override
     public void delete(HttpServletRequest req, HttpServletResponse res) {
