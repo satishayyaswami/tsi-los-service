@@ -56,7 +56,7 @@ public class Proto implements REST {
                     outputArr = getLoanApplications(accountConfig.getTenant(), input);
 
                 }else if(func.equalsIgnoreCase(GET_LOS_ACTIVITIES)) {
-
+                    outputArr = getLOSActivities(accountConfig.getTenant(), input);
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output!=null?output:outputArr);
@@ -338,7 +338,7 @@ public class Proto implements REST {
 
         String workflowcode = (String) input.get("los-workflow-code");
 
-        sql = "select wf_loan_id,client_user_id,data,state from _solutions_finance_los_tsi_wf_loan where wf_code=?";
+        sql = "select wf_loan_id,client_user_id,data,state,created from _solutions_finance_los_tsi_wf_loan where wf_code=?";
         query = new DBQuery( tenant, sql);
         query.setValue(Types.VARCHAR,workflowcode);
 
@@ -386,6 +386,23 @@ public class Proto implements REST {
         query.setValue(Types.DOUBLE,longt);
         DB.update(query);
     }
+
+    private JSONArray getLOSActivities(JSONObject tenant, JSONObject input) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+        DBResult result = null;
+
+        String workflowcode = (String) input.get("los-workflow-code");
+        String loanappid = (String) input.get("loan-app-id");
+
+        sql = "select client_user_id,client_user_name,transition,lat,long,created from _solutions_finance_los_tsi_wf_history where wf_code=? and wf_loan_id=?";
+        query = new DBQuery( tenant, sql);
+        query.setValue(Types.VARCHAR,workflowcode);
+        query.setValue(Types.INTEGER,loanappid);
+        result = DB.fetch(query);
+        return result.toJSONArray();
+    }
+
 
     @Override
     public void delete(HttpServletRequest req, HttpServletResponse res) {
