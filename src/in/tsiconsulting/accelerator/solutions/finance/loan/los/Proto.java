@@ -23,7 +23,12 @@ public class Proto implements REST {
     private static final String POST_LOS_APPLICATION = "post_los_application";
     private static final String POST_LOS_ACTIVITY = "post_los_activity";
 
+    private static final String GET_LOS_WORKFLOW = "get_los_workflow";
     private static final String GET_LOS_ACTIVITY_SAMPLE = "get_los_activity_sample";
+
+    private static final String GET_LOS_APPLICATION = "get_los_application";
+
+    private static final String GET_LOS_ACTIVITY = "get_los_activity";
 
     private static final String BEGIN_TRANSITION = "apply-loan";
     private static final String BEGIN_STATE = "loan-applied-state";
@@ -42,9 +47,11 @@ public class Proto implements REST {
             accountConfig = InputProcessor.getAccountConfig(req);
 
             if(func != null){
-                if(func.equalsIgnoreCase(POST_LOS_WORKFLOW)){
+                if(func.equalsIgnoreCase(GET_LOS_WORKFLOW)){
+                    output = getLOSWorkflowDef(accountConfig.getTenant(), input);
+                }else if(func.equalsIgnoreCase(GET_LOS_ACTIVITY_SAMPLE)){
 
-                }else if(func.equalsIgnoreCase(POST_LOS_APPLICATION)){
+                }else if(func.equalsIgnoreCase(GET_LOS_APPLICATION)){
 
                 }else if(func.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
 
@@ -55,10 +62,6 @@ public class Proto implements REST {
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
             e.printStackTrace();
         }
-
-
-
-
     }
 
     @Override
@@ -139,8 +142,7 @@ public class Proto implements REST {
         JSONObject def,transitionJSON = null;
         JSONArray startingstates = null;
 
-        def = (JSONObject) new JSONParser().parse((String)wfdef.get("wf_def"));
-        transitions = (JSONArray) def.get("transitions");
+        transitions = (JSONArray) wfdef.get("transitions");
         it = transitions.iterator();
         while(it.hasNext()){
             transitionJSON = (JSONObject) it.next();
@@ -285,6 +287,7 @@ public class Proto implements REST {
         rs = DB.fetch(query);
         if(rs.hasNext()){
             wfdef = rs.next();
+            wfdef = (JSONObject) new JSONParser().parse((String)wfdef.get("wf_def"));
         }
         return wfdef;
     }

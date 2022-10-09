@@ -7,16 +7,19 @@ curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tes
 # Create New API User
 curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tests\demo-api-user.json http://localhost:8080/tsi/system/setup/apiuser
 
-{"secret":"27a244cbfa6098530a8b709bce1cee0f","user":"demo@tsiconsulting.in"}
+{"secret":"55c0d6cad6f000b960f4bb324649d6e5","user":"demo@tsiconsulting.in"}
 
 # Digitap - KYC validation
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjI3YTI0NGNiZmE2MDk4NTMwYThiNzA5YmNlMWNlZTBm" -d @C:\work\tsi-accelerator\tests\digitap-post-pan-basic-validation.json http://localhost:8080/tsi/solutions/bb/kyc/digitap
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\digitap-post-pan-basic-validation.json http://localhost:8080/tsi/solutions/bb/kyc/digitap
 
 # LOS - Workflow definition
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjI3YTI0NGNiZmE2MDk4NTMwYThiNzA5YmNlMWNlZTBm" -d @C:\work\tsi-accelerator\tests\proto-post-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-post-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
 
 # LOS - Create Loan Application
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjI3YTI0NGNiZmE2MDk4NTMwYThiNzA5YmNlMWNlZTBm" -d @C:\work\tsi-accelerator\tests\proto-post-loan-application.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-post-loan-application.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
 
 # LOS - Post LOS Activity
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjI3YTI0NGNiZmE2MDk4NTMwYThiNzA5YmNlMWNlZTBm" -d @C:\work\tsi-accelerator\tests\proto-post-los-activity.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-post-los-activity.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+
+# LOS - GET LOS Workflow
+curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1" -d @C:\work\tsi-accelerator\tests\proto-get-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto

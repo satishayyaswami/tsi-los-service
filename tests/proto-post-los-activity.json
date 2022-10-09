@@ -1,7 +1,7 @@
 {
   "_func":"post_los_activity",
   "client-user-id": "1005",
-  "loan-app-id": "2",
+  "loan-app-id": "1",
   "client-user-name": "test user",
   "los-workflow-code":"demo",
   "transition": "credit-appraisal",
