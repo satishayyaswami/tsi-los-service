@@ -22,7 +22,7 @@
 "name":"creditbureau",
 "package":"tsi.accelerator.solutions.buildingblocks.creditbureau",
 "provider":"equifax",
-"provider.config.apiurl":"https://svcdemo.digitap.work/validation/",
+"provider.config.apiurl":"",
 "provider.config.apikey":"",
 "provider.config.apisecret":"",
 "async":false,
