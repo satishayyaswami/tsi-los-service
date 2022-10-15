@@ -2,7 +2,7 @@
 "_func":"post_pan_basic_validation",
 "client_user_id": "12321321",
   "client_ref_num": "abcd1236",
-    "pan": "AFTPA2071H",
-    "name": ""
+    "pan": "<<pan-number>>",
+    "name": "<<pan-number>>"
 
 }
