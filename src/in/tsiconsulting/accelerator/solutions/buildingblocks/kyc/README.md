@@ -4,7 +4,7 @@
 
 #### PAN Basic Validation
 
-- Checkout tests/digitap-post-pan-basic-validation.json. Enter the PAN & Name and use the  API below with base64encoded credential for the user.
+Checkout tests/digitap-post-pan-basic-validation.json. Enter the PAN & Name and use the  API below with base64encoded credential for the user.
 ```
 curl -X POST 
      -H "Content-Type: application/json" 
