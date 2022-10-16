@@ -37,7 +37,7 @@ curl -X POST
 ```
 {"secret":"55c0d6cad6f000b960f4bb324649d6e5","user":"demo@tsiconsulting.in"}
 ```
-  Convert the credential user:secret into base64 encoded format. The encoded string will look like below
+  Convert the credential {user}:{secret} into base64 encoded format. The encoded string will look like below
 ```
 ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1
 ```
