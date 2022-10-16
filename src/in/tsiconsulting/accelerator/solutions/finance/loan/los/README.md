@@ -13,7 +13,6 @@ curl -X POST
      -d @..tests\proto-post-los-workflow.json
      http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
-
 #### Create Loan Application
 The frontend system should call this API at the time of loan application creation. Checkout proto-post-loan-application.json for how to pass the loan application data to the Proto system.
 ```
