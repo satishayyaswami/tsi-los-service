@@ -52,8 +52,8 @@ public class APIUser implements REST {
     }
 
     @Override
-    public void validate(String method, HttpServletRequest req, HttpServletResponse res) {
-
+    public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
+        return true;
     }
 
     private boolean exists(String accountcode, String email) throws Exception {

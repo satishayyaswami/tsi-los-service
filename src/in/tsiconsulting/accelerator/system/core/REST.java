@@ -22,5 +22,5 @@ public interface REST {
 
     void put(HttpServletRequest req, HttpServletResponse res);
 
-    void validate(String method, HttpServletRequest req, HttpServletResponse res);
+    boolean validate(String method, HttpServletRequest req, HttpServletResponse res);
 }

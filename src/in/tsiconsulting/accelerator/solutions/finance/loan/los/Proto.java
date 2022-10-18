@@ -466,7 +466,7 @@ public class Proto implements REST {
     }
 
     @Override
-    public void validate(String method, HttpServletRequest req, HttpServletResponse res) {
+    public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
 
         JSONObject input = null;
         JSONObject output = null;
@@ -496,6 +496,7 @@ public class Proto implements REST {
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
             e.printStackTrace();
         }
+        return true;
 
     }
 }

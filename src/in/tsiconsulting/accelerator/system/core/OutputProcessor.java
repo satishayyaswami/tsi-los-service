@@ -2,6 +2,7 @@ package in.tsiconsulting.accelerator.system.core;
 
 import java.util.LinkedHashMap;
 
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,8 +41,14 @@ public class OutputProcessor {
     }
 
     public static void sendError(HttpServletResponse res, int status, String message) {
+        res.setContentType(MEDIA_TYPE_JSON);
+        res.setCharacterEncoding("UTF-8");
+        res.setStatus(status);
+        JSONObject out = new JSONObject();
+        out.put("status",status);
+        out.put("error",message);
         try {
-            res.sendError(status,message);
+            res.getOutputStream().print(String.valueOf(out));
         } catch (Exception e) {
         }
     }

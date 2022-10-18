@@ -40,8 +40,18 @@ public class Account implements REST {
     }
 
     @Override
-    public void validate(String method, HttpServletRequest req, HttpServletResponse res) {
-        // To do
+    public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
+        JSONObject input = null;
+        boolean valid = true;
+        try {
+            input = InputProcessor.getInput(req);
+            //OutputProcessor.sendError(res, HttpServletResponse.SC_BAD_REQUEST, "Field account-code missing");
+        }catch(Exception e){
+            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
+            e.printStackTrace();
+        }
+        return valid;
+
     }
 
     private JSONObject setup(JSONObject input) throws Exception{

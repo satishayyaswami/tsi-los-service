@@ -40,6 +40,7 @@ public class TSIController implements Filter {
         String classname = null;
         String operation = null;
         Properties apiRegistry = null;
+        boolean validrequest = true;
 
         // set response header
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -69,21 +70,23 @@ public class TSIController implements Filter {
                 if (classname == null || method == null) res.sendError(400);
 
                 REST action = ((REST) Class.forName(classname).getConstructor().newInstance());
-                action.validate(method,req,res);
-                if (method.equalsIgnoreCase("GET")) {
-                    res.setContentType("application/json");
-                    action.get(req, res);
-                } else if (method.equalsIgnoreCase("POST")) {
-                    res.setContentType("application/json");
-                    action.post(req, res);
-                } else if (method.equalsIgnoreCase("PUT")) {
-                    res.setContentType("application/json");
-                    action.put(req, res);
-                } else if (method.equalsIgnoreCase("DELETE")) {
-                    res.setContentType("application/json");
-                    action.delete(req, res);
-                } else {
-                    res.sendError(400);
+                validrequest = action.validate(method,req,res);
+                if(validrequest) {
+                    if (method.equalsIgnoreCase("GET")) {
+                        res.setContentType("application/json");
+                        action.get(req, res);
+                    } else if (method.equalsIgnoreCase("POST")) {
+                        res.setContentType("application/json");
+                        action.post(req, res);
+                    } else if (method.equalsIgnoreCase("PUT")) {
+                        res.setContentType("application/json");
+                        action.put(req, res);
+                    } else if (method.equalsIgnoreCase("DELETE")) {
+                        res.setContentType("application/json");
+                        action.delete(req, res);
+                    } else {
+                        res.sendError(400);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -99,7 +99,7 @@ public class Digitap implements REST {
     }
 
     @Override
-    public void validate(String method, HttpServletRequest req, HttpServletResponse res) {
-
+    public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
+        return true;
     }
 }
