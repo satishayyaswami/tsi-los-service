@@ -140,6 +140,15 @@ public class InputProcessor {
         return input;
     }
 
+    public static boolean validateKeys(JSONObject input, String[] keys){
+        boolean validkeys = true;
+
+        //getInput(HttpServletRequest req)
+
+
+        return validkeys;
+    }
+
     public static String applyRules(String value) {
         if (value != null && value.trim().length() > 0) {
             try {
