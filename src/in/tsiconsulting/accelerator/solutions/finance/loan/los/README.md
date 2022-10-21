@@ -10,7 +10,7 @@ Check out tests/proto-get-los-workflow.json. Review the state - transition workf
 curl -X POST 
      -H "Content-Type: application/json"
      -H "Authorization:Basic <<base64encodedstring>>" 
-     -d @..tests\proto-post-los-workflow.json
+     -d @..tests/los/proto-post-los-workflow.json
      http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
 #### Create Loan Application
@@ -19,7 +19,7 @@ The frontend system should call this API at the time of loan application creatio
 curl -X POST 
      -H "Content-Type: application/json"
      -H "Authorization:Basic <<base64encodedstring>>"
-     -d @..\tests\proto-post-loan-application.json
+     -d @../tests/los/proto-post-loan-application.json
      http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
 #### Get Data Fields
@@ -28,7 +28,7 @@ Get Data Fields API helps you get the data fields that needs to be passed for a 
 curl -X GET 
      -H "Content-Type: application/json" 
      -H "Authorization:Basic <<base64encodedstring>>" 
-     -d @..\tests\proto-get-data-fields.json
+     -d @../tests/los/proto-get-data-fields.json
      http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
 #### Post LOS Activity
@@ -37,7 +37,7 @@ The frontend system should call this API upon every transition on the UI. Checko
 curl -X POST
      -H "Content-Type: application/json"
      -H "Authorization:Basic <<base64encodedstring>>"
-     -d @..\tests\proto-post-los-activity.json
+     -d @../tests/los/proto-post-los-activity.json
       http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
 #### Get LOS Workflow
@@ -46,7 +46,7 @@ The API for retrieving the workflow JSON below
 curl -X GET 
      -H "Content-Type: application/json"
      -H "Authorization:Basic <<base64encodedstring>>" 
-     -d @..\tests\proto-get-los-workflow.json 
+     -d @../tests/los/proto-get-los-workflow.json 
      http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
 ####  Get LOS Applications
@@ -55,7 +55,7 @@ The API for retrieving the loan applications
 curl -X GET 
      -H "Content-Type: application/json"
      -H "Authorization:Basic <<base64encodedstring>>"
-     -d @..tests\proto-get-los-applications.json 
+     -d @..tests/los/proto-get-los-applications.json 
      http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
 #### Get LOS Activities
@@ -64,7 +64,7 @@ The API for retrieving the activity history of a loan application
 curl -X GET 
      -H "Content-Type: application/json"
      -H "Authorization:Basic <<base64encodedstring>>"
-     -d @..\tests\proto-get-los-activities.json 
+     -d @..tests/los/proto-get-los-activities.json 
      http://localhost:8080/tsi/solutions/finance/loan/los/proto
 ```
 

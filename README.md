@@ -22,7 +22,7 @@ TSI Accelerator is envisaged as an API server that wraps third party APIs out-of
 ```
 curl -X POST 
      -H "Content-Type: application/json"
-     -d @<<full_path>>/tests/demo-account.json
+     -d @<<full_path>>/tests/setup/demo-account.json
      http://localhost:8080/tsi/system/setup/account
 
 ```
@@ -30,7 +30,7 @@ curl -X POST
 ```
 curl -X POST 
      -H "Content-Type: application/json"
-     -d @<<full_path>>/tests/demo-api-user.json
+     -d @<<full_path>>/tests/setup/demo-api-user.json
      http://localhost:8080/tsi/system/setup/apiuser
 ```
   The API response will look something like below

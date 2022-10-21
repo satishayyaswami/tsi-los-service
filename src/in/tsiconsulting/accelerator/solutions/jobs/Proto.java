@@ -40,7 +40,7 @@ public class Proto implements REST {
         try {
             input = InputProcessor.getInput(req);
             func = (String) input.get(FUNCTION);
-            System.out.println("func:"+func);
+            //System.out.println("func:"+func);
             accountConfig = InputProcessor.getAccountConfig(req);
 
             if(func != null){
