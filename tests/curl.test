@@ -32,3 +32,6 @@ curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0
 
 # LOS - GET Data Fields
 curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOmU4OWNjYzE3MWQ2OGI0NWViMWRmNWQxMDg2MjY3MTZh" -d @C:\work\tsi-accelerator\tests\proto-get-data-fields.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
+
+# Jobs - Scorecard definition
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOmU4OWNjYzE3MWQ2OGI0NWViMWRmNWQxMDg2MjY3MTZh" -d @C:\work\tsi-accelerator\tests\proto-post-senior-candidate-score-def.json http://localhost:8080/tsi/solutions/jobs/proto
