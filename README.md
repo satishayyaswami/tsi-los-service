@@ -8,7 +8,7 @@ TSI Accelerator aims to wrap several third party APIs out-of-the-box (Indian con
 
 #### Init setup
 
-- Install PostgreSQL database
+- Install <a href="https://www.postgresql.org/download/">PostgreSQL</a> database
 - Clone TSI Accelerator into your Projects folder
 - Create the _tsi_admin database and the demoadmin user by following the instructions in db/admin-setup.sql. Make sure that the same database credential is configured in web/WEB-INF/_admin.tsi 
 - Install <a href="https://openjdk.org/projects/jdk/17/">Open JDK</a> and <a href="https://ant.apache.org/bindownload.cgi">Apache Ant</a>
