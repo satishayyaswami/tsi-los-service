@@ -4,7 +4,7 @@
   "client-user-id": "1001",
   "candidate-id": "123",
   "candidate-name": "abc",
-  "data": {
+  "_data": {
     "age": 55,
     "health": "low_risk",
     "work-environment":"average",

@@ -35,7 +35,7 @@ public class Proto implements REST {
         JSONObject scoredef = null;
         String func = null;
         AccountConfig accountConfig = null;
-        JSONObject data = null;
+        JSONObject score = null;
 
         try {
             input = InputProcessor.getInput(req);
@@ -56,6 +56,8 @@ public class Proto implements REST {
             e.printStackTrace();
         }
     }
+
+    private JSONObject compute(J)
 
     private JSONObject defineCandidateScorecard(JSONObject tenant, JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
