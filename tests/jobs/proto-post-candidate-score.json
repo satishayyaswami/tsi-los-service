@@ -1,0 +1,15 @@
+{
+  "_func": "post_candidate_score_data",
+  "scorecard-code": "senior",
+  "client-user-id": "1001",
+  "candidate-id": "123",
+  "candidate-name": "abc",
+  "data": {
+    "age": 55,
+    "health": "low_risk",
+    "work-environment":"average",
+    "oral_communication":"average",
+    "written_communication": "average",
+    "professional_behavior": "average"
+  }
+}
