@@ -57,7 +57,11 @@ public class Proto implements REST {
         }
     }
 
-    private JSONObject compute(J)
+    private JSONObject compute(JSONObject scorecard, JSONObject input){
+        JSONObject score = new JSONObject();
+
+        return score;
+    }
 
     private JSONObject defineCandidateScorecard(JSONObject tenant, JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
