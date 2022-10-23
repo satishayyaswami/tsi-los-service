@@ -35,3 +35,6 @@ curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0
 
 # Jobs - Scorecard definition
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOmU4OWNjYzE3MWQ2OGI0NWViMWRmNWQxMDg2MjY3MTZh" -d @C:\work\tsi-accelerator\tests\jobs\proto-post-senior-candidate-score-def.json http://localhost:8080/tsi/solutions/jobs/proto
+
+# Jobs - Post Candidate Score
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic ZGVtb0B0c2ljb25zdWx0aW5nLmluOmU4OWNjYzE3MWQ2OGI0NWViMWRmNWQxMDg2MjY3MTZh" -d @C:\work\tsi-accelerator\tests\jobs\proto-post-candidate-score.json http://localhost:8080/tsi/solutions/jobs/proto

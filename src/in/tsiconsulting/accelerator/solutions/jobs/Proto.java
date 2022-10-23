@@ -3,10 +3,13 @@ package in.tsiconsulting.accelerator.solutions.jobs;
 import in.tsiconsulting.accelerator.system.core.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Types;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Proto implements REST {
 
@@ -35,19 +38,25 @@ public class Proto implements REST {
         JSONObject scoredef = null;
         String func = null;
         AccountConfig accountConfig = null;
-        JSONObject score = null;
+        JSONArray variables = null;
+        String scode = null;
+        long score = 0;
 
         try {
             input = InputProcessor.getInput(req);
             func = (String) input.get(FUNCTION);
             //System.out.println("func:"+func);
             accountConfig = InputProcessor.getAccountConfig(req);
+            scode = (String) input.get("s-code");
 
             if(func != null){
                 if(func.equalsIgnoreCase(POST_CANDIDATE_SCORE_DEFINITION)){
                     output = defineCandidateScorecard(accountConfig.getTenant(), input);
                 }else if(func.equalsIgnoreCase(POST_CANDIDATE_SCORE_DATA)){
-
+                    variables = getScorecardVariables(accountConfig.getTenant(), scode);
+                    score =  compute(variables, input);
+                    output = new JSONObject();
+                    output.put("score",score);
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
@@ -57,15 +66,75 @@ public class Proto implements REST {
         }
     }
 
-    private JSONObject compute(JSONObject scorecard, JSONObject input){
-        JSONObject score = new JSONObject();
+    private long compute(JSONArray variables, JSONObject input) throws Exception{
+        JSONObject data,var = null;
+        Iterator<JSONObject> it = null;
+        long totalscore=0,weightage=0,levelweightage = 0;
+        String grade = null;
+        String name=null,type = null;
+        JSONArray levels = null;
+        double varscore=0.0;
 
-        return score;
+        data = (JSONObject) input.get(DATA);
+        it = variables.iterator();
+        while(it.hasNext()){
+            var = (JSONObject) it.next();
+            name = (String) var.get("name");
+            type = (String) var.get("type");
+            levels = (JSONArray) var.get("levels");
+            weightage = (long) var.get("weightage");
+            if(type.equalsIgnoreCase("NUM")){
+                levelweightage = getNumTypeLevelWeightage(levels,(long) data.get(name));
+            }else if(type.equalsIgnoreCase("SELECTION")){
+                levelweightage = getSelectionTypeLevelWeightage(levels, (String) data.get(name));
+            }
+            varscore = Math.round((levelweightage * weightage)/100);
+            System.out.println("var:"+name+" weightage:"+weightage+" levelweightage:"+levelweightage+" varscore:"+varscore);
+            totalscore += varscore;
+        }
+        return totalscore;
+    }
+
+    private long getNumTypeLevelWeightage(JSONArray levels, long value){
+        long weightage = 0;
+        JSONObject level = null;
+        Iterator<JSONObject> it = null;
+        long min,max=0;
+
+        it = levels.iterator();
+        while(it.hasNext()){
+            level = (JSONObject) it.next();
+            min = (long) level.get("min");
+            max = (long) level.get("max");
+            if(min <= value && value <= max) {
+                weightage = (long) level.get("level-weightage");
+                break;
+            }
+        }
+        return weightage;
+    }
+
+    private long getSelectionTypeLevelWeightage(JSONArray levels, String value){
+        long weightage = 0;
+        JSONObject level = null;
+        Iterator<JSONObject> it = null;
+        String scode = null;
+
+        it = levels.iterator();
+        while(it.hasNext()){
+            level = (JSONObject) it.next();
+            scode = (String) level.get("choice");
+            if(scode.equalsIgnoreCase(value)) {
+                weightage = (long) level.get("level-weightage");
+                break;
+            }
+        }
+        return weightage;
     }
 
     private JSONObject defineCandidateScorecard(JSONObject tenant, JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
-        String scode = (String) input.get("scorecard-code");
+        String scode = (String) input.get("s-code");
 
         if(scorecardexists(tenant,scode)){
             // update
@@ -76,8 +145,6 @@ public class Proto implements REST {
             insertCandidateScorecard(tenant, input);
             out.put("created",true);
         }
-
-
         return out;
     }
 
@@ -99,8 +166,8 @@ public class Proto implements REST {
     private void insertCandidateScorecard(JSONObject tenant, JSONObject input) throws Exception{
         String sql = null;
         DBQuery query = null;
-        String scode = (String) input.get("scorecard-code");
-        String sdesc = (String) input.get("scorecard-desc");
+        String scode = (String) input.get("s-code");
+        String sdesc = (String) input.get("s-desc");
         String clientuserid = (String) input.get("client-user-id");
         JSONArray variables = (JSONArray) input.get("variables");
 
@@ -117,8 +184,8 @@ public class Proto implements REST {
     private void updateCandidateScorecard(JSONObject tenant, JSONObject input) throws Exception{
         String sql = null;
         DBQuery query = null;
-        String scode = (String) input.get("scorecard-code");
-        String sdesc = (String) input.get("scorecard-desc");
+        String scode = (String) input.get("s-code");
+        String sdesc = (String) input.get("s-desc");
         String clientuserid = (String) input.get("client-user-id");
         JSONArray variables = (JSONArray) input.get("variables");
 
@@ -130,6 +197,24 @@ public class Proto implements REST {
         query.setValue(Types.VARCHAR,scode);
 
         DB.update(query);
+    }
+
+    private JSONArray getScorecardVariables(JSONObject tenant, String scode) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+        JSONArray variables = null;
+        DBResult rs = null;
+        JSONObject record = null;
+
+        sql = "select variables from _solutions_jobs_candidate_score_def where s_code=?";
+        query = new DBQuery( tenant, sql);
+        query.setValue(Types.VARCHAR,scode);
+        rs = DB.fetch(query);
+        if(rs.hasNext()){
+            record = (JSONObject) rs.next();
+            variables = (JSONArray) new JSONParser().parse((String)record.get("variables"));
+        }
+        return variables;
     }
 
     @Override
