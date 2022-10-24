@@ -45,3 +45,5 @@ ZGVtb0B0c2ljb25zdWx0aW5nLmluOjU1YzBkNmNhZDZmMDAwYjk2MGY0YmIzMjQ2NDlkNmU1
 
 - <a href="https://github.com/tsiconsulting/tsi-accelerator/tree/main/src/in/tsiconsulting/accelerator/solutions/buildingblocks/kyc">Running KYC Validation Use Case</a>
 - <a href="https://github.com/tsiconsulting/tsi-accelerator/tree/main/src/in/tsiconsulting/accelerator/solutions/finance/loan/los">Proof-of-concept Loan Origination System</a>
+
+To know more, join the <a href="https://discord.gg/86HT2VhVzS">discord community</a>
