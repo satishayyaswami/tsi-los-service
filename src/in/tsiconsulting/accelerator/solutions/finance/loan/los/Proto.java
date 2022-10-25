@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 public class Proto implements REST {
 
-    private static final String API_PROVIDER = "Proto";
+    private static final String API_PROVIDER = "proto";
 
     private static final String API_NAME = "los";
 
