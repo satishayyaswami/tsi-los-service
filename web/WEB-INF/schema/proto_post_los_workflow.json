@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "los-workflow-code": {
+      "type": "string"
+    },
+    "los-workflow-definition": {
+      "type": "object",
+      "properties": {
+        "data-fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "filter-fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "data-fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "output-fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "current-states": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "actions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "destination-type": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "destination-name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "destination-type",
+                    "action",
+                    "destination-name"
+                  ]
+                }
+              },
+              "transition": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "data-fields",
+              "output-fields",
+              "current-states",
+              "actions",
+              "transition"
+            ]
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "data-fields",
+        "filter-fields",
+        "transitions",
+        "states"
+      ]
+    },
+    "client-user-id": {
+      "type": "string"
+    },
+    "_func": {
+      "type": "string"
+    },
+    "los-workflow-name": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "los-workflow-code",
+    "los-workflow-definition",
+    "client-user-id",
+    "_func",
+    "los-workflow-name"
+  ]
+}

@@ -97,6 +97,7 @@ public class TSIController implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        SystemConfig.load(filterConfig.getServletContext());
+        JSONSchemaValidator.createInstance(filterConfig.getServletContext());
     }
 }

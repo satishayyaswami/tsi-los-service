@@ -3,17 +3,33 @@ package in.tsiconsulting.accelerator.system.core;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.*;
+import org.json.simple.JSONObject;
 
+import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Set;
 
 public class JSONSchemaValidator {
+    private static JSONSchemaValidator jsv = null;
+    private ServletContext ctx = null;
+    private JSONSchemaValidator(ServletContext ctx){
+        this.ctx = ctx;
+    }
 
     private ObjectMapper mapper = new ObjectMapper();
+
+    protected static void createInstance(ServletContext ctx){
+       jsv = new JSONSchemaValidator(ctx);
+    }
+
+    public static JSONSchemaValidator getHandle(){
+        return jsv;
+    }
 
     private JsonNode getJsonNodeFromClasspath(String name) throws IOException {
         InputStream is1 = Thread.currentThread().getContextClassLoader()
@@ -57,8 +73,18 @@ public class JSONSchemaValidator {
         return factory.getSchema(jsonNode);
     }
 
+    public Set<ValidationMessage> validateSchema(String provider, String _func, JSONObject input) throws Exception{
+        Set<ValidationMessage> errors = null;
+        InputStream is = new ByteArrayInputStream(input.toJSONString().getBytes());
+        JsonSchemaFactory factory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V7);
+        JsonSchema jsonSchema = factory.getSchema(ctx.getResourceAsStream("/WEB-INF/schema/"+provider+"_"+_func+".json"));
+        JsonNode jsonNode = jsv.mapper.readTree(is);
+        errors = jsonSchema.validate(jsonNode);
+        return errors;
+    }
+
     public static void main(String[] args) throws Exception{
-        JSONSchemaValidator jsv = new JSONSchemaValidator();
+        JSONSchemaValidator jsv = new JSONSchemaValidator(null);
         JsonSchemaFactory factory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V7);
         JsonSchema jsonSchema = factory.getSchema(JSONSchemaValidator.class.getResourceAsStream("proto-get-los-workflow-schema.json"));
         JsonNode jsonNode = jsv.mapper.readTree(JSONSchemaValidator.class.getResourceAsStream(("proto-get-los-workflow.json")));

@@ -1,5 +1,6 @@
 package in.tsiconsulting.accelerator.solutions.finance.loan.los;
 
+import com.networknt.schema.ValidationMessage;
 import in.tsiconsulting.accelerator.system.core.*;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Types;
 import java.util.Iterator;
+import java.util.Set;
 
 public class Proto implements REST {
 
@@ -24,7 +26,7 @@ public class Proto implements REST {
     private static final String POST_LOS_ACTIVITY = "post_los_activity";
 
     private static final String GET_LOS_WORKFLOW = "get_los_workflow";
-    private static final String GET_DATA_FIELDS = "get_data_fields";
+    private static final String GET_LOS_DATA_FIELDS = "get_los_data_fields";
 
     private static final String GET_LOS_APPLICATIONS = "get_los_applications";
 
@@ -58,7 +60,7 @@ public class Proto implements REST {
                     outputArr = getLoanApplications(accountConfig.getTenant(), input);
                 }else if(func.equalsIgnoreCase(GET_LOS_ACTIVITIES)) {
                     outputArr = getLOSActivities(accountConfig.getTenant(), input);
-                }else if(func.equalsIgnoreCase(GET_DATA_FIELDS)) {
+                }else if(func.equalsIgnoreCase(GET_LOS_DATA_FIELDS)) {
                     transition = (String) input.get("transition");
                     wfdef = getLOSWorkflowDef(accountConfig.getTenant(), input);
                     inputfields = getNestedInputFields(wfdef,transition, new JSONArray());
@@ -475,6 +477,8 @@ public class Proto implements REST {
         AccountConfig accountConfig = null;
         JSONObject apiConfig = null;
         JSONObject data = null;
+        Set<ValidationMessage> errors = null;
+        boolean valid = true;
 
         try {
             input = InputProcessor.getInput(req);
@@ -482,21 +486,23 @@ public class Proto implements REST {
             accountConfig = InputProcessor.getAccountConfig(req);
             apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
 
-            if(method.equalsIgnoreCase("POST") && func != null){
-                if(func.equalsIgnoreCase(POST_LOS_WORKFLOW)){
-
-                }else if(func.equalsIgnoreCase(POST_LOS_APPLICATION)){
-
-                }else if(func.equalsIgnoreCase(POST_LOS_ACTIVITY)) {
-
-                }
+            if(func == null){
+                OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST,"_func missing");
+                valid = false;
+            }else{
+                errors = JSONSchemaValidator.getHandle().validateSchema(API_PROVIDER, func, input);
             }
-            OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
+
+            if(errors != null && errors.size()>0) {
+                OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST, errors.toString());
+                valid = false;
+            }
+
         }catch(Exception e){
-            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
-            e.printStackTrace();
+            OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST,"Unknown input validation error");
+            valid = false;
         }
-        return true;
+        return valid;
 
     }
 }

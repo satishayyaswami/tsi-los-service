@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "client-user-name": {
+      "type": "string"
+    },
+    "los-workflow-code": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object"
+    },
+    "client-user-id": {
+      "type": "string"
+    },
+    "_func": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "loan-app-id": {
+      "type": "string"
+    },
+    "transition": {
+      "type": "string"
+    },
+    "lat": {
+      "type": "string"
+    },
+    "long": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "client-user-name",
+    "los-workflow-code",
+    "data",
+    "client-user-id",
+    "_func",
+    "action",
+    "loan-app-id",
+    "transition",
+    "lat",
+    "long"
+  ]
+}

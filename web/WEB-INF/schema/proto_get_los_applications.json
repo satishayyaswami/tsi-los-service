@@ -11,5 +11,10 @@
     "_func": {
       "type": "string"
     }
-  }
+  },
+  "required": [
+    "los-workflow-code",
+    "client-user-id",
+    "_func"
+  ]
 }
