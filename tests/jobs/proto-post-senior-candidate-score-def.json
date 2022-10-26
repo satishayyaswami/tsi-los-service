@@ -1,0 +1,183 @@
+{
+  "_func": "post_candidate_score_def",
+  "s-code":"senior",
+  "s-desc":"Scorecard for assessing senior citizen suitability",
+  "client-user-id":"1001",
+  "variables": [
+    {
+      "name": "age",
+      "desc": "Candidate Age",
+      "type": "NUM",
+      "weightage":20,
+      "notes": "",
+      "levels": [
+        {
+          "min": 50,
+          "max": 60,
+          "level-weightage": 100
+        },
+        {
+          "min": 61,
+          "max": 65,
+          "level-weightage": 80
+        },
+        {
+          "min": 66,
+          "max": 70,
+          "level-weightage": 60
+        },
+        {
+          "min": 71,
+          "max": 75,
+          "level-weightage": 30
+        },
+        {
+          "min": 76,
+          "max": 100,
+          "level-weightage": 10
+        }
+      ]
+    },
+    {
+      "name": "health",
+      "type": "SELECTION",
+      "weightage":20,
+      "notes": "",
+      "levels": [
+        {
+          "choice": "low_risk",
+          "choice-desc": "Healthy Senior Citizen",
+          "level-weightage": 100
+        },
+        {
+          "choice": "medium_risk",
+          "choice-desc": "Minor Health Issues",
+          "level-weightage": 60
+        },
+        {
+          "choice": "high_risk",
+          "choice-desc": "Major Health Issues",
+          "level-weightage": 10
+        }
+      ]
+    },
+    {
+      "name": "work-environment",
+      "type": "SELECTION",
+      "weightage":20,
+      "notes": "",
+      "levels": [
+        {
+          "choice": "excellent",
+          "choice-desc": "High Quality Environment",
+          "level-weightage": 100
+        },
+        {
+          "choice": "average",
+          "choice-desc": "Average Working Condition",
+          "level-weightage": 60
+        },
+        {
+          "choice": "below_average",
+          "choice-desc": "Poor Quality Setup",
+          "level-weightage": 25
+        }
+      ]
+    },
+    {
+      "name": "oral_communication",
+      "type": "SELECTION",
+      "weightage":10,
+      "notes": "",
+      "levels": [
+        {
+          "choice": "excellent",
+          "choice-desc": "Excellent",
+          "level-weightage": 100
+        },
+        {
+          "choice": "average",
+          "choice-desc": "Average",
+          "level-weightage": 60
+        },
+        {
+          "choice": "below_average",
+          "choice-desc": "Below Average",
+          "level-weightage": 25
+        }
+      ]
+    },
+    {
+      "name": "written_communication",
+      "type": "SELECTION",
+      "weightage":10,
+      "notes": "",
+      "levels": [
+        {
+          "choice": "excellent",
+          "choice-desc": "Excellent",
+          "level-weightage": 100
+        },
+        {
+          "choice": "average",
+          "choice-desc": "Average",
+          "level-weightage": 60
+        },
+        {
+          "choice": "below_average",
+          "choice-desc": "Below Average",
+          "level-weightage": 25
+        }
+      ]
+    },
+    {
+      "name": "professional_behavior",
+      "type": "SELECTION",
+      "weightage":20,
+      "notes": "Showing up on time, Responding to calls, Ability to do followups",
+      "levels": [
+        {
+          "choice": "excellent",
+          "choice-desc": "Excellent",
+          "level-weightage": 100
+        },
+        {
+          "choice": "average",
+          "choice-desc": "Average",
+          "level-weightage": 60
+        },
+        {
+          "choice": "below_average",
+          "choice-desc": "Below Average",
+          "level-weightage": 25
+        }
+      ]
+    }
+  ],
+  "grades": [
+    {
+      "name": "Platinum",
+      "min": 91,
+      "max": 100,
+      "desc": "The creamy layer"
+    },
+    {
+      "name": "Gold",
+      "min": 81,
+      "max": 90,
+      "desc": "..."
+    },
+    {
+      "name": "Silver",
+      "min": 71,
+      "max": 80,
+      "desc": "..."
+    },
+    {
+      "name": "Bronze",
+      "min": 61,
+      "max": 70,
+      "desc": "..."
+    }
+  ]
+}
