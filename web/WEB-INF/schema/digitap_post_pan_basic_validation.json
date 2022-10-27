@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "client_user_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "_func": {
+      "type": "string"
+    },
+    "client_ref_num": {
+      "type": "string"
+    },
+    "pan": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "client_user_id",
+    "name",
+    "_func",
+    "client_ref_num",
+    "pan"
+  ]
+}

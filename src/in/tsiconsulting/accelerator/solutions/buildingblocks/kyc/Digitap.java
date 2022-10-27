@@ -100,6 +100,9 @@ public class Digitap implements REST {
 
     @Override
     public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
-        return true;
+        // Add additional validation if required
+        return InputProcessor.validate( API_PROVIDER,
+                req,
+                res);
     }
 }

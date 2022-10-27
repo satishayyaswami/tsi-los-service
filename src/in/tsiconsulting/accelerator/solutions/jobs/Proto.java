@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class Proto implements REST {
 
-    private static final String API_PROVIDER = "Proto";
+    private static final String API_PROVIDER = "proto";
 
     private static final String API_NAME = "los";
 
@@ -257,6 +257,9 @@ public class Proto implements REST {
 
     @Override
     public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
-        return true;
+        // Add additional validation if required
+        return InputProcessor.validate( API_PROVIDER,
+                req,
+                res);
     }
 }

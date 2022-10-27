@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "s-code": {
+      "type": "string"
+    },
+    "variables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "weightage": {
+            "type": "integer"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "levels": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "min": {
+                  "type": "integer"
+                },
+                "max": {
+                  "type": "integer"
+                },
+                "level-weightage": {
+                  "type": "integer"
+                },
+                "choice-desc": {
+                  "type": "string"
+                },
+                "choice": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "level-weightage"
+              ]
+            }
+          },
+          "desc": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "weightage",
+          "notes",
+          "name",
+          "type",
+          "levels"
+        ]
+      }
+    },
+    "client-user-id": {
+      "type": "string"
+    },
+    "_func": {
+      "type": "string"
+    },
+    "grades": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "integer"
+          },
+          "max": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "desc": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "min",
+          "max",
+          "name",
+          "desc"
+        ]
+      }
+    },
+    "s-desc": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "s-code",
+    "variables",
+    "client-user-id",
+    "_func",
+    "grades",
+    "s-desc"
+  ]
+}
