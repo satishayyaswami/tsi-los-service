@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 
 public class Account implements REST {
 
+    private static final String API_PROVIDER = "system";
+
     @Override
     public void get(HttpServletRequest req, HttpServletResponse res) {
     }
@@ -41,16 +43,10 @@ public class Account implements REST {
 
     @Override
     public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
-        JSONObject input = null;
-        boolean valid = true;
-        try {
-            input = InputProcessor.getInput(req);
-            //OutputProcessor.sendError(res, HttpServletResponse.SC_BAD_REQUEST, "Field account-code missing");
-        }catch(Exception e){
-            OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");
-            e.printStackTrace();
-        }
-        return valid;
+        // Add additional validation if required
+        return InputProcessor.validate( API_PROVIDER,
+                                        req,
+                                        res);
 
     }
 

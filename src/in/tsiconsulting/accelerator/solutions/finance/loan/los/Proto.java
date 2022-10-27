@@ -469,40 +469,10 @@ public class Proto implements REST {
 
     @Override
     public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
-
-        JSONObject input = null;
-        JSONObject output = null;
-        JSONObject wfdef = null;
-        String func = null;
-        AccountConfig accountConfig = null;
-        JSONObject apiConfig = null;
-        JSONObject data = null;
-        Set<ValidationMessage> errors = null;
-        boolean valid = true;
-
-        try {
-            input = InputProcessor.getInput(req);
-            func = (String) input.get(FUNCTION);
-            accountConfig = InputProcessor.getAccountConfig(req);
-            apiConfig = accountConfig.getAPIConfig(API_PROVIDER,API_NAME);
-
-            if(func == null){
-                OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST,"_func missing");
-                valid = false;
-            }else{
-                errors = JSONSchemaValidator.getHandle().validateSchema(API_PROVIDER, func, input);
-            }
-
-            if(errors != null && errors.size()>0) {
-                OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST, errors.toString());
-                valid = false;
-            }
-
-        }catch(Exception e){
-            OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST,"Unknown input validation error");
-            valid = false;
-        }
-        return valid;
+        // Add additional validation if required
+        return InputProcessor.validate( API_PROVIDER,
+                req,
+                res);
 
     }
 }

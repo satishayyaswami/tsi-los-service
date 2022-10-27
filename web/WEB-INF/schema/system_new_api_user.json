@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "user-name": {
+      "type": "string"
+    },
+    "account-code": {
+      "type": "string"
+    },
+    "_func": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "user-name",
+    "account-code",
+    "_func",
+    "email"
+  ]
+}

@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class APIUser implements REST {
+    private static final String API_PROVIDER = "system";
+
     @Override
     public void get(HttpServletRequest req, HttpServletResponse res) {
 
@@ -31,12 +33,14 @@ public class APIUser implements REST {
             email = (String) input.get("email");
             username = (String) input.get("user-name");
             userexist = exists(accountcode, email);
-            if (userexist)
+            if (userexist) {
                 OutputProcessor.sendError(res, HttpServletResponse.SC_NOT_ACCEPTABLE, "User already exists");
+                return;
+            }
             out = create(accountcode, email, username);
         } catch (Exception e) {
             OutputProcessor.sendError(res, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unknown server error");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         OutputProcessor.send(res, HttpServletResponse.SC_OK, out);
     }
@@ -53,7 +57,10 @@ public class APIUser implements REST {
 
     @Override
     public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
-        return true;
+        // Add additional validation if required
+        return InputProcessor.validate( API_PROVIDER,
+                req,
+                res);
     }
 
     private boolean exists(String accountcode, String email) throws Exception {

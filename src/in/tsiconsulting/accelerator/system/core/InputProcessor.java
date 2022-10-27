@@ -7,6 +7,7 @@ import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.networknt.schema.ValidationMessage;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -16,6 +17,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.*;
 import java.sql.Types;
 import java.util.Base64;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class InputProcessor {
@@ -140,13 +142,34 @@ public class InputProcessor {
         return input;
     }
 
-    public static boolean validateKeys(JSONObject input, String[] keys){
-        boolean validkeys = true;
+    public static boolean validate(String apiprovider, HttpServletRequest req, HttpServletResponse res) {
 
-        //getInput(HttpServletRequest req)
+        JSONObject input = null;
+        Set<ValidationMessage> errors = null;
+        boolean valid = true;
+        String func = null;
 
+        try {
+            input = InputProcessor.getInput(req);
+            func = (String) input.get("_func");
 
-        return validkeys;
+            if(func == null){
+                OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST,"_func missing");
+                valid = false;
+            }else{
+                errors = JSONSchemaValidator.getHandle().validateSchema(apiprovider, func, input);
+            }
+
+            if(errors != null && errors.size()>0) {
+                OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST, errors.toString());
+                valid = false;
+            }
+
+        }catch(Exception e){
+            OutputProcessor.sendError(res,HttpServletResponse.SC_BAD_REQUEST,"Unknown input validation error");
+            valid = false;
+        }
+        return valid;
     }
 
     public static String applyRules(String value) {
