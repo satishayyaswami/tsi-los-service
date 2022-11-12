@@ -1,8 +1,8 @@
 ## TSI Accelerator
 
-TSI Accelerator is a backend service wrapper written in Java. While there are several low code frameworks emerging to accelerate digital adoption across organizations on the frontend, we notice that many application development teams are still reinventing the wheel when it comes to integration with the third party services & implementing standard business processes.
+TSI Accelerator is an Opensource Enterprise Information Management System (EIM) for Small & Medium Organisations. The primary purpose is to enable organisations across diverse sectors such as finance, health, agriculture, manufacturing, skill development and commerce go digital quickly and capture new value from technologies such as mobile, cloud, data engineering, AI/ML etc
 
-TSI Accelerator aims to wrap several third party APIs out-of-the-box (Indian context for now). In addition, it aims to come with reference implementations for various commonly used business processes across industries. Organizations can include it as part of their tech stack and benefit from faster development & lower engineering costs. Most importantly it lets them deploy their internal technical teams on the core business. Besides the end user organisations, we believe that the software product & services companies will also benefit by including it as part of their solutions.  
+TSI Accelerator is currently under very early stage of development. We invite software engineers, aspiring engineers to join us and help us build this project.  
 
 ### Getting Started
 
