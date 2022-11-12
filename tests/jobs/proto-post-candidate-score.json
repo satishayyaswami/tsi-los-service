@@ -5,11 +5,11 @@
   "candidate-id": "123",
   "candidate-name": "abc",
   "_data": {
-    "age": 76,
-    "health": "medium_risk",
-    "work-environment":"excellent",
-    "oral_communication":"average",
+    "age": 58,
+    "health": "low_risk",
+    "work-environment":"average",
+    "oral_communication":"excellent",
     "written_communication": "excellent",
-    "professional_behavior": "average"
+    "professional_behavior": "excellent"
   }
 }
