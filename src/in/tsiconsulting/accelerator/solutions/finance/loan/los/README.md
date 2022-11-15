@@ -2,7 +2,7 @@
 
 ### Proto
 
-Proto system lets you define LOS workflow using a JSON file with states & transitions. The frontend system should trigger the workflow using post-loan-application API which returns the loan-app-id. The frontend system should subsequently call the post-los-activity with the appropriate transitions. The Proto system takes care of the workflow management and supports queries such as getLoanApplications(), getLoanActivities(loan-app-id) etc out-of-the-box.  
+Proto system lets you define LOS workflow using a JSON file with <a href="https://en.wikipedia.org/wiki/Finite-state_machine">states & transitions</a>. The frontend system should trigger the workflow using post-loan-application API which returns the loan-app-id. The frontend system should subsequently call the post-los-activity with the appropriate transitions. The Proto system takes care of the workflow management and supports queries such as getLoanApplications(), getLoanActivities(loan-app-id) etc out-of-the-box.  
 
 #### Define LOS Workflow
 Check out tests/proto-get-los-workflow.json. Review the state - transition workflow definitions. Submit the workflow to the LOS system.
