@@ -1,8 +1,8 @@
-## TSI Accelerator
+## TSI Digital Accelerator
 
-TSI Accelerator is an Opensource Enterprise Solutions Library (ESL) for Small & Medium Organisations. The primary purpose is to enable organisations across diverse sectors such as finance, health, agriculture, manufacturing, skill development and commerce go digital quickly and capture new value from technologies such as mobile, cloud, data engineering, AI/ML etc
+TSI Digital Accelerator is an Opensource Enterprise Solutions Library (ESL) for Small & Medium Organisations. The primary purpose is to enable organisations across diverse sectors such as finance, health, agriculture, manufacturing, skill development and commerce go digital quickly and capture new value from technologies such as mobile, cloud, data engineering, AI/ML etc
 
-TSI Accelerator is currently under very early stage of development. We invite volunteer software engineers & aspiring developers to join and help us build this project.  
+TSI Digital Accelerator is currently under very early stage of development. We invite volunteer software engineers & aspiring developers to join and help us build this project.  
 
 ### Getting Started
 
