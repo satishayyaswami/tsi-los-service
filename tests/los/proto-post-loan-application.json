@@ -1,0 +1,23 @@
+{
+  "_func":"post_los_application",
+  "client-user-id": "1005",
+  "client-user-name": "test user",
+  "los-workflow-code":"demo",
+  "lat":"23.34",
+  "long": "45.48",
+  "data": {
+    "branch_id": "123",
+    "branch":"ABC",
+    "region_id": "1",
+    "region": "SOUTH",
+    "area_id": "3",
+    "area": "COIMBATORE",
+    "book_id": "5",
+    "book": "BankY",
+    "product_id": "ABC123",
+    "product": "Loan 1234",
+    "cust_id": "123456",
+    "cust_name": "adadsa",
+    "amount": 40000
+  }
+}

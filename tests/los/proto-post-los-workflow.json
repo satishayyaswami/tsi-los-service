@@ -1,0 +1,255 @@
+{
+  "_func": "post_los_workflow",
+  "los-workflow-code":"demo",
+  "los-workflow-name":"Demo Workflow",
+  "client-user-id":"1001",
+  "los-workflow-definition": {
+    "data-fields": [
+      "branch_id",
+      "branch",
+      "region_id",
+      "region",
+      "area_id",
+      "area",
+      "book_id",
+      "book",
+      "product_id",
+      "product",
+      "cust_id",
+      "cust_name",
+      "amount",
+      "score",
+      "grade",
+      "doc_url",
+      "reject_code",
+      "deviation_details",
+      "cancel_code",
+      "ifsc-code",
+      "bankac"
+    ],
+    "filter-fields": [
+      "branch_id",
+      "region_id",
+      "area_id",
+      "book_id",
+      "product_id"
+    ],
+    "states": [
+      "loan-applied-state",
+      "sanction-state",
+      "deviation-approval-state",
+      "documentation-state",
+      "checker-state",
+      "disbursed-state",
+      "payment-state",
+      "completed-state",
+      "rejected-state",
+      "cancelled-state"
+    ],
+    "transitions": [
+      {
+        "transition": "apply-loan",
+        "current-states": [],
+        "data-fields": [
+          "branch_id",
+          "region_id",
+          "area_id",
+          "book_id",
+          "product_id",
+          "branch",
+          "region",
+          "state",
+          "book",
+          "product_id",
+          "product",
+          "cust_id",
+          "cust_name",
+          "amount"
+        ],
+        "output-fields": [
+          "loan-app-id"
+        ],
+        "actions":[{
+            "action": "complete",
+            "destination-type": "state",
+            "destination-name": "loan-applied-state"
+          }]
+      },
+      {
+        "transition": "credit-appraisal",
+        "current-states": [
+          "loan-applied-state"
+        ],
+        "data-fields": [
+          "score",
+          "grade"
+        ],
+        "output-fields": [],
+        "actions": [{
+            "action":"recommend",
+            "destination-type": "state",
+            "destination-name": "sanction-state"
+          },{
+            "action":"reject",
+            "destination-type": "transition",
+            "destination-name": "reject-application"
+          }]
+      },
+      {
+        "transition": "reject-application",
+        "current-states": [
+          "loan-applied-state",
+          "sanction-state",
+          "deviation-approval-state"
+        ],
+        "data-fields": [
+          "reject_code"
+        ],
+        "output-fields": [],
+        "actions": [{
+          "action":"complete",
+          "destination-type": "state",
+          "destination-name": "rejected-state"
+          }]
+      },
+      {
+        "transition": "sanction-application",
+        "current-states": [
+          "sanction-state"
+        ],
+        "data-fields": [],
+        "output-fields": [],
+        "actions": [{
+            "action":"success",
+            "destination-type":"state",
+            "destination-name":"documentation-state"
+            },{
+            "action":"deviation",
+            "destination-type": "transition",
+            "destination-name": "deviation-request"
+            }]
+      },
+      {
+        "transition": "deviation-request",
+        "current-states": [
+          "sanction-state"
+        ],
+        "data-fields": [
+          "deviation_details"
+        ],
+        "output-fields": [],
+        "actions": [{
+            "action":"complete",
+            "destination-type": "state",
+            "destination-name": "deviation-approval-state"
+          }]
+      },
+      {
+        "transition": "deviation-approval",
+        "current-states": [
+          "deviation-approval-state"
+        ],
+        "data-fields": [],
+        "output-fields": [],
+        "actions": [{
+          "action":"approve",
+          "destination-type": "state",
+          "destination-name": "documentation-state"
+          },{
+          "action":"reject",
+          "destination-type": "transition",
+          "destination-name": "reject-transition"
+          }]
+      },
+      {
+        "transition": "post-documentation",
+        "current-states": [
+          "documentation-state"
+        ],
+        "data-fields": [
+          "doc_url"
+        ],
+        "output-fields": [],
+        "actions": [{
+          "action":"complete",
+          "destination-type": "state",
+          "destination-name": "checker-state"
+          }]
+      },
+      {
+        "transition": "checker",
+        "current-states": [
+          "checker-state"
+        ],
+        "data-fields": [],
+        "output-fields": [],
+        "actions": [{
+            "action":"approve",
+            "destination-type": "state",
+            "destination-name": "disbursement-state"
+          },{
+            "action":"reject",
+            "destination-type": "state",
+            "destination-name": "documentation-state"
+          }]
+      },
+      {
+        "transition": "disburse",
+        "current-states": [
+          "disbursement-state"
+        ],
+        "data-fields": [],
+        "output-fields": [],
+        "actions": [{
+            "action":"confirm",
+            "destination-type": "state",
+            "destination-name": "payment-state"
+          },{
+            "action":"cancel",
+            "destination-type": "transition",
+            "destination-name": "cancel-transition"
+          }]
+      },
+      {
+        "transition": "do-payment",
+        "current-states": [
+          "payment-state"
+        ],
+        "data-fields": [
+          "ifsc-code",
+          "bankac"
+        ],
+        "output-fields": [],
+        "actions": [{
+            "action":"confirm",
+            "destination-type": "state",
+            "destination-name": "payment-state"
+          },{
+            "action":"cancel",
+            "destination-type": "transition",
+            "destination-name": "cancel-transition"
+          }]
+      },
+      {
+        "transition": "cancel-application",
+        "current-states": [
+          "loan-applied-state",
+          "sanction-state",
+          "deviation-approval-state",
+          "documentation-state",
+          "checker-state",
+          "disbursement-state"
+        ],
+        "data-fields": [
+          "cancel_code"
+        ],
+        "output-fields": [],
+        "actions": [{
+          "action":"complete",
+          "destination-type": "state",
+          "destination-name": "cancelled-state"
+          }]
+        }
+    ]
+  }
+}

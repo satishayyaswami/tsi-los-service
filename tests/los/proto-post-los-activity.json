@@ -1,0 +1,14 @@
+{
+  "_func":"post_los_activity",
+  "client-user-id": "1005",
+  "loan-app-id": "2",
+  "client-user-name": "test user",
+  "los-workflow-code":"demo",
+  "transition": "credit-appraisal",
+  "action":"recommend",
+  "lat":"23.34",
+  "long": "45.48",
+  "data": {
+    "doc_url": "84"
+  }
+}

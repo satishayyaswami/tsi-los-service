@@ -1,0 +1,5 @@
+{
+  "_func": "get_los_data_fields",
+  "los-workflow-code":"demo",
+  "transition": "post-documentation"
+}

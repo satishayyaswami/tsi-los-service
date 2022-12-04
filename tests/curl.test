@@ -36,7 +36,7 @@ curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNo
 curl -X GET -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-accelerator\tests\los\proto-get-los-data-fields.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
 
 # Jobs - Scorecard definition
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-accelerator\tests\jobs\proto-post-senior-candidate-score-def.json http://localhost:8080/tsi/solutions/jobs/proto
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YWtpbGVzaEBxYnJpay5pbjo2ODI1ZjhmMTQ0M2Q0ZDRiYzIwYzBjZGY3MmYzMDE3Mg===" -d @C:\work\tsi-accelerator\tests\jobs\proto-post-senior-candidate-score-def.json http://localhost:8080/tsi/solutions/jobs/proto
 
 # Jobs - Post Candidate Score
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic bmlraXRoQGNyb3NzLXNldmVuLmNvbTowNGQzOTc4MDZjYTg5Zjk5MjRmMDBlODc1NTNkZjllZQ==" -d @C:\work\tsi-accelerator\tests\jobs\proto-post-candidate-score.json http://localhost:8080/tsi/solutions/jobs/proto
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YWtpbGVzaEBxYnJpay5pbjo2ODI1ZjhmMTQ0M2Q0ZDRiYzIwYzBjZGY3MmYzMDE3Mg==" -d @C:\work\tsi-accelerator\tests\jobs\proto-post-candidate-score.json http://localhost:8080/tsi/solutions/jobs/proto
