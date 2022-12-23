@@ -1,8 +1,8 @@
-## TSI Digital Accelerator
+## TSI Business Service
 
-TSI Digital Accelerator is an Opensource Enterprise Solutions Library (ESL) that enable organisations across diverse sectors such as finance, health, agriculture, manufacturing, skill development and commerce go digital quickly and capture new value from technologies such as mobile, cloud, data engineering, AI/ML etc
+TSI Business Service, a part of TSI Digital Accelerator, exposes core backend service of a business as REST APIs.
 
-TSI Digital Accelerator is currently under very early stage of development. We invite volunteer software engineers & aspiring developers to join and help us build this project.  
+TSI Business Service is currently under very early stage of development. We invite volunteer software engineers & aspiring developers to join and help us build this project.  
 
 ### Getting Started
 
