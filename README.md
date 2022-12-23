@@ -13,7 +13,7 @@ TSI Business Server is currently under very early stage of development. We invit
 - Create the _tsi_admin database and the demoadmin user by following the instructions in db/admin-setup.sql. Make sure that the same database credential is configured in web/WEB-INF/_admin.tsi 
 - Install <a href="https://openjdk.org/projects/jdk/17/">Open JDK</a> and <a href="https://ant.apache.org/bindownload.cgi">Apache Ant</a>
 - Edit the tsi.bat and change the installation directories as appropriate
-- Start the TSI Digital Accelerator by running the tsi.bat in a cmd window
+- Start the TSI Business Server by running the tsi.bat in a cmd window
 
 #### Setup demo tenant
 
