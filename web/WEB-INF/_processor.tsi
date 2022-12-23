@@ -1,12 +1,8 @@
 # System API definitions
-/tsi/system/setup/account=in.tsiconsulting.accelerator.system.api.setup.Account
-/tsi/system/setup/apiuser=in.tsiconsulting.accelerator.system.api.setup.APIUser
+/tsi/framework/apiuser=in.tsiconsulting.accelerator.framework.api.APIUser
 
-# Solutions - Building blocks
-/tsi/solutions/bb/kyc/digitap=in.tsiconsulting.accelerator.solutions.buildingblocks.kyc.Digitap
+# Workflow
+/tsi/business/workflow=in.tsiconsulting.accelerator.business.workflow.WorkflowService
 
-# Solutions - Finance - LOS
-/tsi/solutions/finance/loan/los/proto=in.tsiconsulting.accelerator.solutions.finance.loan.los.Proto
-
-# Solutions - Jobs
-/tsi/solutions/jobs/proto=in.tsiconsulting.accelerator.solutions.jobs.Proto
+# Scoring
+/tsi/solutions/scoring/basic=in.tsiconsulting.accelerator.business.scoring.BasicScorecard

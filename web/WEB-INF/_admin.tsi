@@ -1,6 +1,0 @@
-# TSI Admin Database
-tsi.admin.db.host=jdbc:postgresql://localhost:5432
-tsi.admin.db.name=_tsi_admin
-tsi.admin.db.user=demoadmin
-tsi.admin.db.password=admin@123
-

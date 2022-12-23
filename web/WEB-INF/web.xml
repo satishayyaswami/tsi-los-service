@@ -3,7 +3,7 @@
 
 <filter>
 	<filter-name>TSI Accelerator</filter-name>
-	<filter-class>in.tsiconsulting.accelerator.system.core.TSIController</filter-class>
+	<filter-class>in.tsiconsulting.accelerator.framework.Controller</filter-class>
 </filter>
 	
 <filter-mapping>
@@ -12,6 +12,6 @@
 </filter-mapping>
 
 	<listener>
-		<listener-class>in.tsiconsulting.accelerator.system.core.DBSync</listener-class>
+		<listener-class>in.tsiconsulting.accelerator.framework.DBSync</listener-class>
 	</listener>
 </web-app>
