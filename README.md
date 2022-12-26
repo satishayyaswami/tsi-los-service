@@ -1,8 +1,8 @@
-## TSI Business Server
+## TSI Business Service
 
-TSI Business Server, a part of TSI Digital Accelerator, exposes core backend services of a business as REST APIs.
+TSI Business Service, a part of TSI Digital Accelerator, exposes core backend services of a business as REST APIs.
 
-TSI Business Server is currently under very early stage of development. We invite volunteer software engineers & aspiring developers to join and help us build this project.  
+TSI Business Service is currently under very early stage of development. We invite volunteer software engineers & aspiring developers to join and help us build this project.  
 
 ### Getting Started
 
