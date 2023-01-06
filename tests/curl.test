@@ -2,7 +2,7 @@ TSI Business Server - v0.1
 --------------------------------------------------------------------------------------------
 
 # Create New API User
-curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-business-server\tests\create-api-user.json http://localhost:8080/tsi/framework/apiuser
+curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-business-service\tests\create-api-user.json http://localhost:8080/tsi/framework/apiuser
 
 
 
