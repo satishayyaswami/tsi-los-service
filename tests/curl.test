@@ -8,12 +8,6 @@ curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-business-servic
 
 curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tests\setup\demo-api-user.json http://localhost:8080/tsi/system/setup/apiuser
 
-{"secret":"e89ccc171d68b45eb1df5d108626716a","user":"demo@tsiconsulting.in"}
-{"secret":"718bb31b1f5f8fd0f6ff8d6f90c0f0a1","user":"satish@tsiconsulting.in"}
-{"secret":"04d397806ca89f9924f00e87553df9ee","user":"nikith@cross-seven.com"}
-
-{"secret":"35f74733d01729567fc77e9dd7714273","user":"uprant@sindhujamicrocredit.com"}
-
 # Digitap - KYC validation
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic dXByYW50QHNpbmRodWphbWljcm9jcmVkaXQuY29tOjM1Zjc0NzMzZDAxNzI5NTY3ZmM3N2U5ZGQ3NzE0Mjcz" -d @C:\work\tsi-accelerator\tests\kyc\digitap-post-pan-basic-validation.json http://localhost:8080/tsi/solutions/bb/kyc/digitap
 
