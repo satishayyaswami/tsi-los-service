@@ -134,7 +134,6 @@ public class WorkflowService implements REST {
         }
     }
 
-
     private JSONObject getDestination(JSONObject wfdef, String transition, String startingstate, String useraction) throws Exception{
         JSONObject destination = null;
         JSONArray transitions, actions = null;
@@ -158,8 +157,6 @@ public class WorkflowService implements REST {
         }
         return destination;
     }
-
-
 
     private JSONObject getTransition(JSONObject wfdef, String transitionname){
         JSONObject transition = null;
