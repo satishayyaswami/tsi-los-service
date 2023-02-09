@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.business.workflow;
+package in.tsiconsulting.accelerator.business;
 
 import in.tsiconsulting.accelerator.framework.*;
 import org.json.simple.JSONArray;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Types;
 import java.util.Iterator;
 
-public class WorkflowService implements REST {
+public class Workflow implements REST {
 
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";

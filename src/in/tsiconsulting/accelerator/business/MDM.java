@@ -1,11 +1,11 @@
-package in.tsiconsulting.accelerator.business.onboarding;
+package in.tsiconsulting.accelerator.business;
 
 import in.tsiconsulting.accelerator.framework.REST;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class Stakeholder implements REST {
+public class MDM implements REST {
     @Override
     public void get(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 

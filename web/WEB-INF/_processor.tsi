@@ -2,7 +2,7 @@
 /tsi/framework/apiuser=in.tsiconsulting.accelerator.framework.api.APIUser
 
 # Workflow
-/tsi/business/workflow=in.tsiconsulting.accelerator.business.workflow.WorkflowService
+/tsi/business/workflow=in.tsiconsulting.accelerator.business.Workflow
 
 # Scoring
-/tsi/solutions/scoring/basic=in.tsiconsulting.accelerator.business.scoring.BasicScorecard
+/tsi/solutions/scoring/basic=in.tsiconsulting.accelerator.business.BasicScorecard

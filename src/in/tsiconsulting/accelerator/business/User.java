@@ -1,15 +1,13 @@
-package in.tsiconsulting.accelerator.business.core;
+package in.tsiconsulting.accelerator.business;
 
 import in.tsiconsulting.accelerator.framework.*;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Types;
 
-public class UserMgmt implements REST {
+public class User implements REST {
 
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";

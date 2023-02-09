@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.business.scoring;
+package in.tsiconsulting.accelerator.business;
 
 import in.tsiconsulting.accelerator.framework.*;
 import org.json.simple.JSONArray;
