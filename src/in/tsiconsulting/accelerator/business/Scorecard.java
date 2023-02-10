@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Types;
 import java.util.Iterator;
 
-public class BasicScorecard implements REST {
+public class Scorecard implements REST {
 
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";

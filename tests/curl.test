@@ -1,13 +1,16 @@
-TSI Business Server - v0.1
+TSI Business Service - v0.1
 --------------------------------------------------------------------------------------------
 
 # Create New API User
-curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-business-service\tests\create-api-user.json http://localhost:8080/tsi/framework/apiuser
+curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-business-service\tests\system\create-api-user.json http://localhost:8080/tsi/framework/apiuser
 
-curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-accelerator\tests\setup\demo-api-user.json http://localhost:8080/tsi/system/setup/apiuser
+# Create Office
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\create-office.json http://localhost:8080/tsi/business/user
 
-# Digitap - KYC validation
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic dXByYW50QHNpbmRodWphbWljcm9jcmVkaXQuY29tOjM1Zjc0NzMzZDAxNzI5NTY3ZmM3N2U5ZGQ3NzE0Mjcz" -d @C:\work\tsi-accelerator\tests\kyc\digitap-post-pan-basic-validation.json http://localhost:8080/tsi/solutions/bb/kyc/digitap
+# Create Role
+
+# Create Agent
+
 
 # LOS - Workflow definition
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-accelerator\tests\los\proto-post-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto

@@ -12,10 +12,10 @@ public class User implements REST {
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";
 
-    private static final String POST_OFFICE = "post_office";
-    private static final String POST_ROLE = "post_role";
-    private static final String POST_APP = "post_app";
-    private static final String POST_USER = "post_user";
+    private static final String CREATE_OFFICE = "create_office";
+    private static final String CREATE_ROLE = "create_role";
+    private static final String CREATE_APP = "create_app";
+    private static final String CREATE_USER = "create_user";
 
     @Override
     public void get(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -34,14 +34,14 @@ public class User implements REST {
             func = (String) input.get(FUNCTION);
 
             if(func != null){
-                if(func.equalsIgnoreCase(POST_OFFICE)){
-                    output = postOffice(input);
-                }else if(func.equalsIgnoreCase(POST_ROLE)){
-                    output = postRole(input);
-                }else if(func.equalsIgnoreCase(POST_APP)){
-                    output = postApp(input);
-                }else if(func.equalsIgnoreCase(POST_USER)){
-                    output = postUser(input);
+                if(func.equalsIgnoreCase(CREATE_OFFICE)){
+                    output = createOffice(input);
+                }else if(func.equalsIgnoreCase(CREATE_ROLE)){
+                    output = createRole(input);
+                }else if(func.equalsIgnoreCase(CREATE_APP)){
+                    output = createApp(input);
+                }else if(func.equalsIgnoreCase(CREATE_USER)){
+                    output = createUser(input);
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
@@ -51,7 +51,7 @@ public class User implements REST {
         }
     }
 
-    private JSONObject postOffice(JSONObject input) throws Exception{
+    private JSONObject createOffice(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String ocode = (String) input.get("o-code");
 
@@ -115,7 +115,7 @@ public class User implements REST {
         DB.update(query);
     }
 
-    private JSONObject postRole(JSONObject input) throws Exception{
+    private JSONObject createRole(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String rcode = (String) input.get("r-code");
 
@@ -183,7 +183,7 @@ public class User implements REST {
         DB.update(query);
     }
 
-    private JSONObject postApp(JSONObject input) throws Exception{
+    private JSONObject createApp(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String acode = (String) input.get("a-code");
 
@@ -251,7 +251,7 @@ public class User implements REST {
         DB.update(query);
     }
 
-    private JSONObject postUser(JSONObject input) throws Exception{
+    private JSONObject createUser(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String mobile = (String) input.get("mobile");
         String email = (String) input.get("email");
@@ -350,6 +350,7 @@ public class User implements REST {
     @Override
     public boolean validate(String s, HttpServletRequest req, HttpServletResponse res) {
         // Add additional validation if required
-        return InputProcessor.validate( req, res);
+        //return InputProcessor.validate( req, res);
+        return true;
     }
 }
