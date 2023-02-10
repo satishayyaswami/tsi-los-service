@@ -1,0 +1,10 @@
+{
+  "_func": "add_user",
+  "mobile":"2131313333",
+  "email":"a@b.com",
+  "passwd":"tsi@123",
+  "o-code":"123",
+  "r-code": "666",
+  "attr": {},
+  "client-user-id":"1001"
+}

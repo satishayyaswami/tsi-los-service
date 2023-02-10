@@ -12,10 +12,10 @@ public class User implements REST {
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";
 
-    private static final String CREATE_OFFICE = "create_office";
-    private static final String CREATE_ROLE = "create_role";
-    private static final String CREATE_APP = "create_app";
-    private static final String CREATE_USER = "create_user";
+    private static final String ADD_OFFICE = "add_office";
+    private static final String ADD_ROLE = "add_role";
+    private static final String ADD_APP = "add_app";
+    private static final String ADD_USER = "add_user";
 
     @Override
     public void get(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -34,14 +34,14 @@ public class User implements REST {
             func = (String) input.get(FUNCTION);
 
             if(func != null){
-                if(func.equalsIgnoreCase(CREATE_OFFICE)){
-                    output = createOffice(input);
-                }else if(func.equalsIgnoreCase(CREATE_ROLE)){
-                    output = createRole(input);
-                }else if(func.equalsIgnoreCase(CREATE_APP)){
-                    output = createApp(input);
-                }else if(func.equalsIgnoreCase(CREATE_USER)){
-                    output = createUser(input);
+                if(func.equalsIgnoreCase(ADD_OFFICE)){
+                    output = addOffice(input);
+                }else if(func.equalsIgnoreCase(ADD_ROLE)){
+                    output = addRole(input);
+                }else if(func.equalsIgnoreCase(ADD_APP)){
+                    output = addApp(input);
+                }else if(func.equalsIgnoreCase(ADD_USER)){
+                    output = addUser(input);
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
@@ -51,7 +51,7 @@ public class User implements REST {
         }
     }
 
-    private JSONObject createOffice(JSONObject input) throws Exception{
+    private JSONObject addOffice(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String ocode = (String) input.get("o-code");
 
@@ -115,7 +115,7 @@ public class User implements REST {
         DB.update(query);
     }
 
-    private JSONObject createRole(JSONObject input) throws Exception{
+    private JSONObject addRole(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String rcode = (String) input.get("r-code");
 
@@ -183,7 +183,7 @@ public class User implements REST {
         DB.update(query);
     }
 
-    private JSONObject createApp(JSONObject input) throws Exception{
+    private JSONObject addApp(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String acode = (String) input.get("a-code");
 
@@ -251,18 +251,18 @@ public class User implements REST {
         DB.update(query);
     }
 
-    private JSONObject createUser(JSONObject input) throws Exception{
+    private JSONObject addUser(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
         String mobile = (String) input.get("mobile");
         String email = (String) input.get("email");
 
         if(userexists(mobile, email)){
             // update
-            updateApp(input);
+            updateUser(input);
             out.put("updated",true);
         }else{
             // insert
-            insertApp(input);
+            insertUser(input);
             out.put("created",true);
         }
         return out;

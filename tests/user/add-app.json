@@ -1,0 +1,12 @@
+{
+  "_func": "add_app",
+  "a-code":"INDV",
+  "a-name":"Individual Loan",
+  "a-desc":"Individual Unsecured Loan",
+  "default-controls": {
+    "submit-application": "grant",
+    "approve-application": "deny",
+    "verify-application": "grant"
+  },
+  "client-user-id":"1001"
+}

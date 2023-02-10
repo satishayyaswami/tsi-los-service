@@ -4,13 +4,17 @@ TSI Business Service - v0.1
 # Create New API User
 curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-business-service\tests\system\create-api-user.json http://localhost:8080/tsi/framework/apiuser
 
-# Create Office
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\create-office.json http://localhost:8080/tsi/business/user
+# Add Office
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\add-office.json http://localhost:8080/tsi/business/user
 
-# Create Role
+# Add App
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\add-app.json http://localhost:8080/tsi/business/user
 
-# Create Agent
+# Add Role
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\add-role.json http://localhost:8080/tsi/business/user
 
+# Add User
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\add-user.json http://localhost:8080/tsi/business/user
 
 # LOS - Workflow definition
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-accelerator\tests\los\proto-post-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
