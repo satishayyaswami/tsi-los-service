@@ -2,7 +2,7 @@ TSI Business Service - v0.1
 --------------------------------------------------------------------------------------------
 
 # Create New API User
-curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-business-service\tests\system\create-api-user.json http://localhost:8080/tsi/framework/apiuser
+curl -X POST -H "Content-Type: application/json" -d @C:\work\tsi-backend-service\tests\system\create-api-user.json http://localhost:8080/tsi/framework/apiuser
 
 # Add Office
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\add-office.json http://localhost:8080/tsi/business/user

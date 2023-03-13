@@ -54,6 +54,7 @@ public class Controller implements Filter {
         if(apisecuritykey != null && apisecuritykey.equalsIgnoreCase("disabled")){
             apiSecurityEnabled = false;
         }
+
         //System.out.println("servletPath:"+servletPath);
         //System.out.println("apiRegistry:"+apiRegistry.toString());
         if (apiRegistry.containsKey(servletPath.trim())) {
@@ -79,6 +80,7 @@ public class Controller implements Filter {
 
                 REST action = ((REST) Class.forName(classname).getConstructor().newInstance());
                 validrequest = action.validate(method,req,res);
+                //System.out.println("validrequest:" + validrequest);
                 if(validrequest) {
                     if (method.equalsIgnoreCase("GET")) {
                         res.setContentType("application/json");

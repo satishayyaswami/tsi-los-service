@@ -1,6 +1,6 @@
 # TSI Accelerator Framework
 framework.db.host=jdbc:postgresql://localhost:5432
-framework.db.name=_tsi_business_service
+framework.db.name=_tsi_backend_service
 framework.db.user=demo
 framework.db.password=demo@123
 
