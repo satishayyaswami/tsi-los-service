@@ -120,6 +120,6 @@ public class Customer implements REST {
 
     @Override
     public boolean validate(String s, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        return false;
+        return true;
     }
 }

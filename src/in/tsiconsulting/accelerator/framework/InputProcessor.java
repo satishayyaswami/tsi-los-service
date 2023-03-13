@@ -99,6 +99,7 @@ public class InputProcessor {
         try {
             inputs = (String) req.getAttribute(InputProcessor.REQUEST_DATA);
             if(inputs!=null) inputs = inputs.trim();
+            //System.out.println("inputs:"+inputs);
             input = (JSONObject) new JSONParser().parse(inputs);
         }catch(Exception e){
             e.printStackTrace();
