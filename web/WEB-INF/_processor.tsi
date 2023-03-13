@@ -5,7 +5,7 @@
 /tsi/business/user=in.tsiconsulting.accelerator.business.User
 
 # Workflow
-/tsi/business/workflow=in.tsiconsulting.accelerator.business.Workflow
+/tsi/business/workflow=in.tsiconsulting.accelerator.business.FSM
 
 # Scoring
 /tsi/solutions/scoring/basic=in.tsiconsulting.accelerator.business.Scorecard

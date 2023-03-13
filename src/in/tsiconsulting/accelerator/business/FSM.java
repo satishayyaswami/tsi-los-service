@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Types;
 import java.util.Iterator;
 
-public class Workflow implements REST {
+public class FSM implements REST {
 
     private static final String FUNCTION = "_func";
     private static final String DATA = "_data";
 
-    private static final String POST_WORKFLOW = "post_workflow_def";
+    private static final String FSM_DEF = "fsm_def";
     private static final String POST_TASK = "post_task";
     private static final String POST_TASK_ACTIVITY = "post_task_activity";
 
-    private static final String GET_WORKFLOW = "get_workflow";
+    private static final String GET_FSM = "get_fsm";
     private static final String GET_DATA_FIELDS = "get_data_fields";
 
     private static final String GET_TASKS = "get_tasks";
@@ -45,7 +45,7 @@ public class Workflow implements REST {
             func = (String) input.get(FUNCTION);
 
             if(func != null){
-                if(func.equalsIgnoreCase(GET_WORKFLOW)){
+                if(func.equalsIgnoreCase(GET_FSM)){
                     output = getWorkflow(input);
                 }else if(func.equalsIgnoreCase(GET_TASKS)){
                     outputArr = getTasks(input);
@@ -86,7 +86,7 @@ public class Workflow implements REST {
             func = (String) input.get(FUNCTION);
 
             if(func != null){
-                if(func.equalsIgnoreCase(POST_WORKFLOW)){
+                if(func.equalsIgnoreCase(FSM_DEF)){
                     output = defineWorkflow(input);
                 }else if(func.equalsIgnoreCase(POST_TASK)){
                     wfdef = getWorkflow(input);

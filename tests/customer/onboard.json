@@ -1,0 +1,22 @@
+{
+  "_func": "onboard",
+  "mobile": "123123213",
+  "ctx":{
+    "bc-code": "ABC",
+    "state": "TN",
+    "region": "CBE",
+    "branch": "Thudialur"
+  },
+  "pii_attrs":{
+    "name": "AB",
+    "gender": "F",
+    "address": "...",
+    "pan": "..."
+  },
+  "other_attrs": {
+    "occupation": "XYZ",
+    "income": "300000",
+    "expense": "160000"
+  },
+  "client-user-id":"1001"
+}

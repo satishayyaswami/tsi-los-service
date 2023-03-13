@@ -16,6 +16,10 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXN
 # Add User
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-business-service\tests\user\add-user.json http://localhost:8080/tsi/business/user
 
+
+
+
+
 # LOS - Workflow definition
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-accelerator\tests\los\proto-post-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
 

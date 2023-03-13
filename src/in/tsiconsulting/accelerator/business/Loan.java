@@ -5,7 +5,7 @@ import in.tsiconsulting.accelerator.framework.REST;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class FileStore implements REST {
+public class Loan implements REST {
     @Override
     public void get(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
