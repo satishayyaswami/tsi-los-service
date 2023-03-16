@@ -31,6 +31,7 @@ public class InputProcessor {
             buffer.append(System.lineSeparator());
         }
         String data = buffer.toString();
+        //System.out.println(data);
         request.setAttribute(REQUEST_DATA, data);
     }
 

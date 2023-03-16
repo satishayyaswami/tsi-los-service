@@ -3,7 +3,7 @@
 
 <filter>
 	<filter-name>TSI Accelerator</filter-name>
-	<filter-class>in.tsiconsulting.accelerator.framework.Controller</filter-class>
+	<filter-class>in.tsiconsulting.accelerator.framework.InterceptingFilter</filter-class>
 </filter>
 	
 <filter-mapping>

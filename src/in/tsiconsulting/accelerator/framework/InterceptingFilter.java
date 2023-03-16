@@ -1,7 +1,5 @@
 package in.tsiconsulting.accelerator.framework;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +8,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-public class Controller implements Filter {
+public class InterceptingFilter implements Filter {
 
     private static final String URL_DELIMITER = "/";
     private static final String TSI_ACCELERATOR_FRAMEWORK = "tsi";

@@ -10,6 +10,9 @@
 # Loan
 /tsi/business/loan=in.tsiconsulting.accelerator.business.Loan
 
+# Document
+/tsi/business/document=in.tsiconsulting.accelerator.business.Document
+
 # FSM - Finite State Machine
 /tsi/business/fsm=in.tsiconsulting.accelerator.business.FSM
 

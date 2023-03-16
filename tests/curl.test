@@ -22,6 +22,10 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmN
 # Apply Loan
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\loan\application.json http://localhost:8080/tsi/business/loan
 
+# Upload Document
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\document\sampledoc.json http://localhost:8080/tsi/business/document
+
+
 # LOS - Workflow definition
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic c2F0aXNoQHRzaWNvbnN1bHRpbmcuaW46NzE4YmIzMWIxZjVmOGZkMGY2ZmY4ZDZmOTBjMGYwYTE=" -d @C:\work\tsi-accelerator\tests\los\proto-post-los-workflow.json http://localhost:8080/tsi/solutions/finance/loan/los/proto
 
