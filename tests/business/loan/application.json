@@ -1,0 +1,22 @@
+{
+  "_func": "apply-loan",
+  "_cid": "123123213",
+  "ctx":{
+    "bc-code": "ABC",
+    "state": "TN",
+    "region": "CBE",
+    "branch": "Thudialur"
+  },
+  "loan_details":{
+    "name": "AB",
+    "gender": "F",
+    "address": "...",
+    "pan": "..."
+  },
+  "schedule": {
+  },
+  "documents": {
+  },
+  "status": "APPLIED",
+  "client-user-id":"1001"
+}

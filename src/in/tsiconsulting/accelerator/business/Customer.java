@@ -42,7 +42,9 @@ public class Customer implements REST {
 
     private JSONObject onboard(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
+        int custId = 0;
         String mobile = (String) input.get("mobile");
+        System.out.println("mobile:"+mobile);
 
         if(customerexists(mobile)){
             // update
@@ -50,8 +52,8 @@ public class Customer implements REST {
             out.put("updated",true);
         }else{
             // insert
-            insertCustomer(input);
-            out.put("created",true);
+            custId = insertCustomer(input);
+            out.put("_cid",custId);
         }
         return out;
     }
@@ -70,7 +72,8 @@ public class Customer implements REST {
         return exists;
     }
 
-    private void insertCustomer(JSONObject input) throws Exception{
+    private int insertCustomer(JSONObject input) throws Exception{
+        int cid = 0;
         String sql = null;
         DBQuery query = null;
         String mobile = (String) input.get("mobile");
@@ -86,7 +89,8 @@ public class Customer implements REST {
         query.setValue(Types.VARCHAR,pii_attrs.toJSONString());
         query.setValue(Types.VARCHAR,other_attrs.toJSONString());
         query.setValue(Types.VARCHAR,clientuserid);
-        DB.update(query);
+        cid = DB.insert(query);
+        return cid;
     }
 
     private void updateCustomer(JSONObject input) throws Exception{
@@ -98,7 +102,7 @@ public class Customer implements REST {
         JSONObject other_attrs = (JSONObject) input.get("other_attrs");
         String clientuserid = (String) input.get("client-user-id");
 
-        sql = "update _customer set ctx=?::json,pii_attrs=?::json,other_attrs=?::json,client_user_id=? where o_code=?";
+        sql = "update _customer set ctx=?::json,pii_attrs=?::json,other_attrs=?::json,client_user_id=? where mobile=?";
         query = new DBQuery(sql);
         query.setValue(Types.VARCHAR,ctx.toJSONString());
         query.setValue(Types.VARCHAR,pii_attrs.toJSONString());

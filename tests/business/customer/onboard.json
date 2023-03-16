@@ -1,6 +1,6 @@
 {
   "_func": "onboard",
-  "mobile": "123123213",
+  "mobile": "1234567891",
   "ctx":{
     "bc-code": "ABC",
     "state": "TN",
@@ -17,6 +17,11 @@
     "occupation": "XYZ",
     "income": "300000",
     "expense": "160000"
+  },
+  "kyc_verification_status": {
+    "aadhaar": "yes",
+    "pan": "yes",
+    "bankaccount": "yes"
   },
   "client-user-id":"1001"
 }
