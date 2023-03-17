@@ -1,20 +1,20 @@
 package in.tsiconsulting.accelerator.business;
 
-import in.tsiconsulting.accelerator.framework.Base64;
-import in.tsiconsulting.accelerator.framework.InputProcessor;
-import in.tsiconsulting.accelerator.framework.OutputProcessor;
-import in.tsiconsulting.accelerator.framework.REST;
+import in.tsiconsulting.accelerator.framework.*;
 import org.json.simple.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Types;
 
 public class Document implements REST {
 
     private static final String FUNCTION = "_func";
 
     private static final String UPLOAD = "upload";
+
+    private static final String FILE_PATH = "C:\\tmp\\upload";
 
     @Override
     public void get(HttpServletRequest req, HttpServletResponse res) {
@@ -33,11 +33,10 @@ public class Document implements REST {
 
             if(func != null){
                 if(func.equalsIgnoreCase(UPLOAD)){
-                    String name = (String) input.get("name");
-                    System.out.println(name);
-                    String filedata = (String) input.get("filedata");
-                    String type = (String) input.get("type");
-                    saveDocFile(Base64.decode(filedata));
+                    String file_extn = (String) input.get("file_extn");
+                    String file_data = (String) input.get("file_data");
+                    int docid = insertDocument(input);
+                    saveDocFile(FILE_PATH,docid,file_extn,Base64.decode(file_data));
                 }
             }
 
@@ -48,12 +47,29 @@ public class Document implements REST {
         }
     }
 
-    public static boolean saveDocFile(byte[] content) {
+    private int insertDocument(JSONObject input) throws Exception{
+        int did = 0;
+        String sql = null;
+        DBQuery query = null;
+        String name = (String) input.get("name");
+        String file_extn = (String) input.get("file_extn");
+        String clientuserid = (String) input.get("client-user-id");
+
+        sql = "insert into _document (name,file_path,file_extn,client_user_id) values (?,?,?,?)";
+        query = new DBQuery( sql);
+        query.setValue(Types.VARCHAR,name);
+        query.setValue(Types.VARCHAR,FILE_PATH);
+        query.setValue(Types.VARCHAR,file_extn);
+        query.setValue(Types.VARCHAR,clientuserid);
+        did = DB.insert(query);
+        return did;
+    }
+
+    public static boolean saveDocFile(String filepath, int docid, String fileextn, byte[] content) {
         boolean isSuccess = false;
         FileOutputStream fos = null;
         try {
-            String sStorageDir = "C:\\tmp\\upload";
-            File file = new File(sStorageDir, "out.png");
+            File file = new File(filepath, docid+"."+fileextn);
             fos = new FileOutputStream(file);
             fos.write(content);
             fos.close();
