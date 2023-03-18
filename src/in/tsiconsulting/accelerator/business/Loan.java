@@ -1,5 +1,6 @@
 package in.tsiconsulting.accelerator.business;
 
+import in.tsiconsulting.accelerator.business.events.Event;
 import in.tsiconsulting.accelerator.framework.*;
 import org.json.simple.JSONObject;
 
@@ -73,6 +74,10 @@ public class Loan implements REST {
         query.setValue(Types.VARCHAR,status);
         query.setValue(Types.VARCHAR,clientuserid);
         _lid = DB.insert(query);
+
+        // Publish Event
+        ctx.put("_id",_lid);
+        Event.publish(Event.APPLY_LOAN,ctx,clientuserid);
         return _lid;
     }
 

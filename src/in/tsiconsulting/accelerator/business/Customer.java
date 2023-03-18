@@ -1,5 +1,6 @@
 package in.tsiconsulting.accelerator.business;
 
+import in.tsiconsulting.accelerator.business.events.Event;
 import in.tsiconsulting.accelerator.framework.*;
 import org.json.simple.JSONObject;
 
@@ -90,6 +91,10 @@ public class Customer implements REST {
         query.setValue(Types.VARCHAR,other_attrs.toJSONString());
         query.setValue(Types.VARCHAR,clientuserid);
         cid = DB.insert(query);
+
+        // Publish Event
+        ctx.put("_id",cid);
+        Event.publish(Event.ONBOARD_CUSTOMER,ctx,clientuserid);
         return cid;
     }
 
