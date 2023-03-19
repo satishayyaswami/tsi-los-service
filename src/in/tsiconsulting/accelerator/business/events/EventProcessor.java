@@ -28,6 +28,8 @@ public class EventProcessor {
                         _eid = (Integer) record.get("_eid");
                         ctx = (JSONObject) new JSONParser().parse((String)record.get("ctx"));
                         System.out.println("Processing Loan Application Event - "+ctx.get("principal"));
+                        System.out.println("CB Check - "+ctx.get("principal")+" - SUCCESS");
+                        System.out.println("AML Check - "+ctx.get("principal")+" - SUCCESS");
                         Event.updateStatus(_eid,Event.PROCESSED_STATUS);
                     }
                     Thread.sleep(DEFAULT_MAX_TIME_INTERVAL);

@@ -18,7 +18,6 @@ public class APIUser implements REST {
 
     @Override
     public void post(HttpServletRequest req, HttpServletResponse res) {
-        System.out.println("here1");
         JSONObject input = null;
         JSONObject output = null;
         boolean userexist = false;
