@@ -19,4 +19,11 @@ public class DBQuery {
         filter.put("value",value);
         values.add(filter);
     }
+
+    public void setValue(int type, int value){
+        JSONObject filter = new JSONObject();
+        filter.put("type", type);
+        filter.put("value",value+"");
+        values.add(filter);
+    }
 }

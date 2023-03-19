@@ -94,7 +94,7 @@ public class Customer implements REST {
 
         // Publish Event
         ctx.put("_id",cid);
-        Event.publish(Event.ONBOARD_CUSTOMER,ctx,clientuserid);
+        Event.add(Event.ONBOARD_CUSTOMER_EVENT,ctx,clientuserid);
         return cid;
     }
 

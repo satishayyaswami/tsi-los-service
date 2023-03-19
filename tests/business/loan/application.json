@@ -5,7 +5,8 @@
     "bc-code": "ABC",
     "state": "TN",
     "region": "CBE",
-    "branch": "Thudialur"
+    "branch": "Thudialur",
+    "principal": "AB"
   },
   "loan_details":{
     "name": "AB",

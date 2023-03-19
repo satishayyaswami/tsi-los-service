@@ -77,7 +77,7 @@ public class Loan implements REST {
 
         // Publish Event
         ctx.put("_id",_lid);
-        Event.publish(Event.APPLY_LOAN,ctx,clientuserid);
+        Event.add(Event.APPLY_LOAN_EVENT,ctx,clientuserid);
         return _lid;
     }
 
