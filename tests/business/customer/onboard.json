@@ -1,8 +1,9 @@
 {
   "_func": "onboard",
-  "mobile": "1234567821",
+  "mobile": "1334567921",
   "ctx":{
-    "bc-code": "ABCD",
+    "partner": "ABCD",
+    "principal": "Satish2",
     "state": "TN",
     "region": "CBE",
     "branch": "Thudialur"

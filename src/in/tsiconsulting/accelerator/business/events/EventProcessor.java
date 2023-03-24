@@ -10,8 +10,38 @@ public class EventProcessor {
     public final static long DEFAULT_MAX_RECORD_LIMIT = 10;
     private static String LAST_MASTER_SYNC_DATE = null;
 
+    CustomerVerificationProcessor cvp = null;
     LoanApplicationProcessor lap = null;
     CollectionProcessor cp = null;
+
+    private static class CustomerVerificationProcessor extends Thread {
+        DBResult result = null;
+        JSONObject record = null;
+        JSONObject ctx = null;
+        int _eid = 0;
+        @Override
+        public void run() {
+            do {
+                try {
+                    result = Event.getEvents(Event.ONBOARD_CUSTOMER_EVENT,Event.NEW_STATUS);
+                    while(result.hasNext()){
+                        record = (JSONObject) result.next();
+                        _eid = (Integer) record.get("_eid");
+                        ctx = (JSONObject) new JSONParser().parse((String)record.get("ctx"));
+                        System.out.println("Processing Customer Onboarding Event - "+ctx.get("principal"));
+                        System.out.println("PAN Verification Check - "+ctx.get("principal")+" - SUCCESS");
+                        System.out.println("VoterId Verification Check - "+ctx.get("principal")+" - SUCCESS");
+                        System.out.println("Penny Drop Check - "+ctx.get("principal")+" - SUCCESS");
+                        Event.updateStatus(_eid,Event.PROCESSED_STATUS);
+                    }
+                    Thread.sleep(DEFAULT_MAX_TIME_INTERVAL);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+            } while(true);
+        }
+    };
 
     private static class LoanApplicationProcessor extends Thread {
         DBResult result = null;
@@ -30,6 +60,13 @@ public class EventProcessor {
                         System.out.println("Processing Loan Application Event - "+ctx.get("principal"));
                         System.out.println("CB Check - "+ctx.get("principal")+" - SUCCESS");
                         System.out.println("AML Check - "+ctx.get("principal")+" - SUCCESS");
+                        /**
+                         * If Loan Amount <= 20000
+                         *  do auto sanction
+                         * else
+                         *  put it in manual sanction queue
+                         */
+
                         Event.updateStatus(_eid,Event.PROCESSED_STATUS);
                     }
                     Thread.sleep(DEFAULT_MAX_TIME_INTERVAL);
@@ -56,15 +93,19 @@ public class EventProcessor {
     };
 
     public void start() {
+        cvp = new CustomerVerificationProcessor();
         lap = new LoanApplicationProcessor();
         cp = new CollectionProcessor();
+        cvp.start();
         lap.start();
         cp.start();
+        System.out.println("Customer Verification Processor Started");
         System.out.println("Loan Application Processor Started");
         System.out.println("Collection Processor Started");
     }
 
     public void stop() {
+        cvp.interrupt();
         lap.interrupt();
         cp.interrupt();
     }

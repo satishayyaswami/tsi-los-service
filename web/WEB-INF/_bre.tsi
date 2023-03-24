@@ -1,0 +1,48 @@
+"segments":[
+  {
+    "name":"Business Loan",
+    "type":"PRODUCT",
+    "id":"BL001",
+    "applicable_rules":["adult_rule","small_ticket_rule","aml_rule"]
+  },
+  {
+    "name":"Group Loan",
+    "type":"PRODUCT",
+    "id":"JLG001",
+    "applicable_rules":["adult_rule","women_only_rule","small_ticket_rule","aml_rule"]
+  }
+],
+"rules":[
+  {
+    "name": "adult_rule",
+    "description": "when age is greater than 18, then mark as adult",
+    "fact": "age",
+    "operator":">",
+    "value":18,
+    "output": true
+  },
+  {
+    "name": "women_only_rule",
+    "description": "when age is greater than 18, then mark as adult",
+    "fact": "gender",
+    "operator":"EQ",
+    "value":"F",
+    "output": true
+  },
+  {
+    "name": "small_ticket_rule",
+    "description": "when loan amount is < 20000, then mark as small ticket",
+    "fact": "amount",
+    "operator":"<",
+    "value":20000,
+    "output": true
+  },
+  {
+    "name": "aml_rule",
+    "description": "when aml confidence score is above 85",
+    "fact": "score",
+    "operator":">=",
+    "value":85,
+    "output": true
+  }
+]

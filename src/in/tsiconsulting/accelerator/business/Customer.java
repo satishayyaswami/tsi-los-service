@@ -93,7 +93,7 @@ public class Customer implements REST {
         cid = DB.insert(query);
 
         // Publish Event
-        ctx.put("_id",cid);
+        ctx.put("_cid",cid);
         Event.add(Event.ONBOARD_CUSTOMER_EVENT,ctx,clientuserid);
         return cid;
     }
