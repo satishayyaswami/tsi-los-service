@@ -47,8 +47,8 @@ public class Loan implements REST {
         String _cid = (String) input.get("_cid");
 
         // insert
-        insertLoan(input);
-        out.put("created",true);
+        _lid = insertLoan(input);
+        out.put("loanid",_lid);
         return out;
     }
 

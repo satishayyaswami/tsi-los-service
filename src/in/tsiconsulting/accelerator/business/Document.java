@@ -37,9 +37,10 @@ public class Document implements REST {
                     String file_data = (String) input.get("file_data");
                     int docid = insertDocument(input);
                     saveDocFile(FILE_PATH,docid,file_extn,Base64.decode(file_data));
+                    output = new JSONObject();
+                    output.put("_docid",docid);
                 }
             }
-
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
         }catch(Exception e){
             OutputProcessor.sendError(res,HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Unknown server error");

@@ -19,11 +19,12 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmN
 # Onboard Customer
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\customer\onboard.json http://localhost:8080/tsi/business/customer
 
+# Upload Document
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\document\sampledoc.json http://localhost:8080/tsi/business/document
+
 # Apply Loan
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\loan\application.json http://localhost:8080/tsi/business/loan
 
-# Upload Document
-curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\document\sampledoc.json http://localhost:8080/tsi/business/document
 
 
 # LOS - Workflow definition

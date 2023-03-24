@@ -1,12 +1,12 @@
 {
   "_func": "apply-loan",
-  "_cid": "3",
+  "_cid": "5",
   "ctx":{
     "bc-code": "ABC",
     "state": "TN",
     "region": "CBE",
     "branch": "Thudialur",
-    "principal": "AB"
+    "principal": "Satish2"
   },
   "loan_details":{
     "name": "AB",
@@ -16,7 +16,11 @@
   },
   "schedule": {
   },
-  "documents": {
+  "documents":{
+    "CUSTOMER_PHOTO": 1,
+    "AADHAAR_CARD": 2,
+    "VOTERID_CARD": 3,
+    "LOAN_AGREEMENT": 4
   },
   "status": "APPLIED",
   "client-user-id":"1001"
