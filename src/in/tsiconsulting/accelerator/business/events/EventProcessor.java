@@ -1,5 +1,6 @@
 package in.tsiconsulting.accelerator.business.events;
 
+import in.tsiconsulting.accelerator.framework.BRE;
 import in.tsiconsulting.accelerator.framework.DBResult;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -66,7 +67,13 @@ public class EventProcessor {
                          * else
                          *  put it in manual sanction queue
                          */
-
+                        JSONObject ruledata = new JSONObject();
+                        ruledata.put("amount",ctx.get("amount"));
+                        boolean met = BRE.fireRule("small_ticket_rule",ruledata);
+                        if(met)
+                            System.out.println("small_ticket_rule  - "+met+" - Auto Sanction Enabled");
+                        else
+                            System.out.println("small_ticket_rule  - "+met+" - Manual Sanction Required");
                         Event.updateStatus(_eid,Event.PROCESSED_STATUS);
                     }
                     Thread.sleep(DEFAULT_MAX_TIME_INTERVAL);

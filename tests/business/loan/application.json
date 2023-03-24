@@ -6,7 +6,8 @@
     "state": "TN",
     "region": "CBE",
     "branch": "Thudialur",
-    "principal": "Satish2"
+    "principal": "Satish2",
+    "amount": 25000
   },
   "loan_details":{
     "name": "AB",
