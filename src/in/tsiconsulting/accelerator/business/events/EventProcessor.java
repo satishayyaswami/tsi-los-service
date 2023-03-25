@@ -1,5 +1,6 @@
 package in.tsiconsulting.accelerator.business.events;
 
+import in.tsiconsulting.accelerator.business.Loan;
 import in.tsiconsulting.accelerator.framework.BRE;
 import in.tsiconsulting.accelerator.framework.DBResult;
 import org.json.simple.JSONObject;
@@ -59,6 +60,7 @@ public class EventProcessor {
                         _eid = (Integer) record.get("_eid");
                         ctx = (JSONObject) new JSONParser().parse((String)record.get("ctx"));
                         System.out.println("Processing Loan Application Event - "+ctx.get("principal"));
+                        System.out.println("---------------------------------");
                         System.out.println("CB Check - "+ctx.get("principal")+" - SUCCESS");
                         System.out.println("AML Check - "+ctx.get("principal")+" - SUCCESS");
                         /**
@@ -70,10 +72,15 @@ public class EventProcessor {
                         JSONObject ruledata = new JSONObject();
                         ruledata.put("amount",ctx.get("amount"));
                         boolean met = BRE.fireRule("small_ticket_rule",ruledata);
-                        if(met)
-                            System.out.println("small_ticket_rule  - "+met+" - Auto Sanction Enabled");
-                        else
-                            System.out.println("small_ticket_rule  - "+met+" - Manual Sanction Required");
+                        if(met) {
+                            System.out.println("small_ticket_rule  - " + met + " - Auto Sanction Enabled");
+                            System.out.println("Auto sanction done. Call back to Fintech Partner posted");
+                            new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.DOCUMENT_VERIFICATION_STATUS);
+                        }
+                        else {
+                            System.out.println("small_ticket_rule  - " + met + " - Manual Sanction Required");
+                            new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.SANCTION_STATUS);
+                        }
                         Event.updateStatus(_eid,Event.PROCESSED_STATUS);
                     }
                     Thread.sleep(DEFAULT_MAX_TIME_INTERVAL);

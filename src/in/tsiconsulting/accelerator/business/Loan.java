@@ -14,6 +14,12 @@ public class Loan implements REST {
 
     private static final String APPLY_LOAN = "apply-loan";
 
+    public static final String APPLIED_STATUS = "APPLIED";
+    public static final String SANCTION_STATUS = "SANCTION";
+    public static final String DOCUMENT_VERIFICATION_STATUS = "DOCUMENTATION";
+    public static final String DISBURSED_STATUS = "DISBURSED";
+    public static final String PAYMENT_STATUS = "PAYMENT_COMPLETE";
+
     @Override
     public void get(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
@@ -79,6 +85,17 @@ public class Loan implements REST {
         ctx.put("_id",_lid);
         Event.add(Event.APPLY_LOAN_EVENT,ctx,clientuserid);
         return _lid;
+    }
+
+    public void updateLoanStatus(int loanId, String status) throws Exception{
+        String sql = null;
+        DBQuery query = null;
+
+        sql = "update _loan set status=? where _lid=?";
+        query = new DBQuery(sql);
+        query.setValue(Types.VARCHAR,status);
+        query.setValue(Types.INTEGER,loanId);
+        DB.update(query);
     }
 
     @Override
