@@ -12,11 +12,14 @@ public class Loan implements REST {
 
     private static final String FUNCTION = "_func";
 
+    // Function definitions
     private static final String APPLY_LOAN = "apply-loan";
+    private static final String POST_SANCTION = "post-sanction";
+    private static final String POST_DISBURSEMENT = "post-disbursement";
 
     public static final String APPLIED_STATUS = "APPLIED";
     public static final String SANCTION_STATUS = "SANCTION";
-    public static final String DOCUMENT_VERIFICATION_STATUS = "DOCUMENTATION";
+    public static final String DOCUMENTATION_STATUS = "DOCUMENTATION";
     public static final String DISBURSED_STATUS = "DISBURSED";
     public static final String PAYMENT_STATUS = "PAYMENT_COMPLETE";
 
@@ -38,6 +41,10 @@ public class Loan implements REST {
             if(func != null){
                 if(func.equalsIgnoreCase(APPLY_LOAN)){
                     output = applyLoan(input);
+                }else if(func.equalsIgnoreCase(POST_SANCTION)){
+                    output = postSanction(input);
+                }else if(func.equalsIgnoreCase(POST_DISBURSEMENT)){
+                    output = postDisbursement(input);
                 }
             }
             OutputProcessor.send(res, HttpServletResponse.SC_OK, output);
@@ -55,6 +62,22 @@ public class Loan implements REST {
         // insert
         _lid = insertLoan(input);
         out.put("loanid",_lid);
+        return out;
+    }
+
+    private JSONObject postSanction(JSONObject input) throws Exception{
+        JSONObject out = new JSONObject();
+        int _lid = Integer.parseInt((String) input.get("_cid"));
+        updateLoanStatus(_lid, Loan.DOCUMENTATION_STATUS);
+        out.put("posted",true);
+        return out;
+    }
+
+    private JSONObject postDisbursement(JSONObject input) throws Exception{
+        JSONObject out = new JSONObject();
+        int _lid = Integer.parseInt((String) input.get("_cid"));
+        updateLoanStatus(_lid, Loan.DISBURSED_STATUS);
+        out.put("posted",true);
         return out;
     }
 

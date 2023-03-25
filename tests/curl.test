@@ -25,6 +25,11 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmN
 # Apply Loan
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\loan\application.json http://localhost:8080/tsi/business/loan
 
+# Post Sanction
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\loan\post-sanction.json http://localhost:8080/tsi/business/loan
+
+# Apply Loan
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\loan\post-disbursement.json http://localhost:8080/tsi/business/loan
 
 
 # LOS - Workflow definition

@@ -75,7 +75,7 @@ public class EventProcessor {
                         if(met) {
                             System.out.println("small_ticket_rule  - " + met + " - Auto Sanction Enabled");
                             System.out.println("Auto sanction done. Call back to Fintech Partner posted");
-                            new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.DOCUMENT_VERIFICATION_STATUS);
+                            new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.DOCUMENTATION_STATUS);
                         }
                         else {
                             System.out.println("small_ticket_rule  - " + met + " - Manual Sanction Required");
