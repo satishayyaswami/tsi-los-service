@@ -75,9 +75,14 @@ public class Loan implements REST {
 
     private JSONObject postDisbursement(JSONObject input) throws Exception{
         JSONObject out = new JSONObject();
+        JSONObject ctx = (JSONObject) input.get("ctx");
         int _lid = Integer.parseInt((String) input.get("_cid"));
+        String clientuserid = (String) input.get("client-user-id");
         updateLoanStatus(_lid, Loan.DISBURSED_STATUS);
         out.put("posted",true);
+
+        ctx.put("_id",_lid);
+        Event.add(Event.POST_DISBURSEMENT_EVENT,ctx,clientuserid);
         return out;
     }
 

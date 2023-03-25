@@ -12,6 +12,7 @@ public class Event {
 
     public final static String ONBOARD_CUSTOMER_EVENT = "onboard_customer";
     public final static String APPLY_LOAN_EVENT = "apply_loan";
+    public final static String POST_DISBURSEMENT_EVENT = "post_disbursement";
 
     public final static String NEW_STATUS = "new";
     public final static String PROCESSED_STATUS = "processed";

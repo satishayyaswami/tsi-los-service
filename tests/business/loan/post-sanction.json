@@ -2,6 +2,14 @@
   "_func": "post-sanction",
   "_cid": "5",
   "_lid": "19",
+  "ctx":{
+    "bc-code": "ABC",
+    "state": "TN",
+    "region": "CBE",
+    "branch": "Thudialur",
+    "principal": "Satish2",
+    "amount": 19000
+  },
   "notes": "In order",
   "client-user-id":"1001"
 }

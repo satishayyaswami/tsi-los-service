@@ -31,6 +31,8 @@ public class EventProcessor {
                         _eid = (Integer) record.get("_eid");
                         ctx = (JSONObject) new JSONParser().parse((String)record.get("ctx"));
                         System.out.println("Processing Customer Onboarding Event - "+ctx.get("principal"));
+                        System.out.println("---------------------------------");
+                        System.out.println("Doing dedup check - "+ctx.get("principal"));
                         System.out.println("PAN Verification Check - "+ctx.get("principal")+" - SUCCESS");
                         System.out.println("VoterId Verification Check - "+ctx.get("principal")+" - SUCCESS");
                         System.out.println("Penny Drop Check - "+ctx.get("principal")+" - SUCCESS");
@@ -46,43 +48,13 @@ public class EventProcessor {
     };
 
     private static class LoanApplicationProcessor extends Thread {
-        DBResult result = null;
-        JSONObject record = null;
-        JSONObject ctx = null;
-        int _eid = 0;
+
         @Override
         public void run() {
             do {
                 try {
-                    result = Event.getEvents(Event.APPLY_LOAN_EVENT,Event.NEW_STATUS);
-                    while(result.hasNext()){
-                        record = (JSONObject) result.next();
-                        _eid = (Integer) record.get("_eid");
-                        ctx = (JSONObject) new JSONParser().parse((String)record.get("ctx"));
-                        System.out.println("Processing Loan Application Event - "+ctx.get("principal"));
-                        System.out.println("---------------------------------");
-                        System.out.println("CB Check - "+ctx.get("principal")+" - SUCCESS");
-                        System.out.println("AML Check - "+ctx.get("principal")+" - SUCCESS");
-                        /**
-                         * If Loan Amount <= 20000
-                         *  do auto sanction
-                         * else
-                         *  put it in manual sanction queue
-                         */
-                        JSONObject ruledata = new JSONObject();
-                        ruledata.put("amount",ctx.get("amount"));
-                        boolean met = BRE.fireRule("small_ticket_rule",ruledata);
-                        if(met) {
-                            System.out.println("small_ticket_rule  - " + met + " - Auto Sanction Enabled");
-                            System.out.println("Auto sanction done. Call back to Fintech Partner posted");
-                            new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.DOCUMENTATION_STATUS);
-                        }
-                        else {
-                            System.out.println("small_ticket_rule  - " + met + " - Manual Sanction Required");
-                            new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.SANCTION_STATUS);
-                        }
-                        Event.updateStatus(_eid,Event.PROCESSED_STATUS);
-                    }
+                    handleApplyLoanEvents();
+                    handlePostDisbursementEvents();
                     Thread.sleep(DEFAULT_MAX_TIME_INTERVAL);
                 } catch(Exception e) {
                     e.printStackTrace();
@@ -91,6 +63,60 @@ public class EventProcessor {
             } while(true);
         }
     };
+
+    private static void handleApplyLoanEvents() throws Exception{
+        DBResult result = null;
+        JSONObject record = null;
+        JSONObject ctx = null;
+        int _eid = 0;
+        result = Event.getEvents(Event.APPLY_LOAN_EVENT,Event.NEW_STATUS);
+        while(result.hasNext()){
+            record = (JSONObject) result.next();
+            _eid = (Integer) record.get("_eid");
+            ctx = (JSONObject) new JSONParser().parse((String)record.get("ctx"));
+            System.out.println("Processing Loan Application Event - "+ctx.get("principal"));
+            System.out.println("---------------------------------");
+            System.out.println("CB Check - "+ctx.get("principal")+" - SUCCESS");
+            System.out.println("AML Check - "+ctx.get("principal")+" - SUCCESS");
+            /**
+             * If Loan Amount <= 20000
+             *  do auto sanction
+             * else
+             *  put it in manual sanction queue
+             */
+            JSONObject ruledata = new JSONObject();
+            ruledata.put("amount",ctx.get("amount"));
+            boolean met = BRE.fireRule("small_ticket_rule",ruledata);
+            if(met) {
+                System.out.println("small_ticket_rule  - " + met + " - Auto Sanction Enabled");
+                System.out.println("Auto sanction done. Call back to Fintech Partner posted");
+                new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.DOCUMENTATION_STATUS);
+            }
+            else {
+                System.out.println("small_ticket_rule  - " + met + " - Manual Sanction Required");
+                new Loan().updateLoanStatus(((Long)ctx.get("_id")).intValue(),Loan.SANCTION_STATUS);
+            }
+            Event.updateStatus(_eid,Event.PROCESSED_STATUS);
+        }
+    }
+
+    private static void handlePostDisbursementEvents() throws Exception{
+        DBResult result = null;
+        JSONObject record = null;
+        JSONObject ctx = null;
+        int _eid = 0;
+        result = Event.getEvents(Event.POST_DISBURSEMENT_EVENT,Event.NEW_STATUS);
+        while(result.hasNext()){
+            record = (JSONObject) result.next();
+            _eid = (Integer) record.get("_eid");
+            ctx = (JSONObject) new JSONParser().parse((String)record.get("ctx"));
+            System.out.println("Processing Post Disbursement Event - "+ctx.get("principal"));
+            System.out.println("---------------------------------");
+            System.out.println("Posting disbursement in CBS");
+            System.out.println("Processing payment");
+            Event.updateStatus(_eid,Event.PROCESSED_STATUS);
+        }
+    }
 
     private static class CollectionProcessor extends Thread {
         @Override
