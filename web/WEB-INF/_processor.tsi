@@ -24,3 +24,9 @@
 
 # Voter ID Validation
 /tsi/integration/kyc/voteridvalidation=in.tsiconsulting.accelerator.integration.kyc.VoterIDValidation
+
+# Aadhaar Basic Validation
+/tsi/integration/kyc/aadhaarbasicvalidation=in.tsiconsulting.accelerator.integration.kyc.AadhaarValidation
+
+# Penny Drop Validation
+/tsi/integration/kyc/pennydropvalidation = in.tsiconsulting.accelerator.integration.kyc.PennyDropValidation

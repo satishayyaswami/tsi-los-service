@@ -1,9 +1,13 @@
 # TSI Accelerator Framework
 framework.db.host=jdbc:postgresql://localhost:5432
 framework.db.name=_tsi_backend_service
-framework.db.user=demo
-framework.db.password=demo@123
+framework.db.user=
+framework.db.password=
 
+# Digitap
+digitap.apiurl=https://svcdemo.digitap.work/validation/
+digitap.apikey=
+digitap.apisecret=
 
-
-
+digitap.pennydrop.apiurl=https://apidemo.digitap.work/
+#digitap.pennydrop.apiurl=https://svcdemo.digitap.work/
