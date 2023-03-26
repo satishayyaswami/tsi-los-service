@@ -19,6 +19,9 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmN
 # Onboard Customer
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\customer\onboard.json http://localhost:8080/tsi/business/customer
 
+# PAN validation
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTo2YmJmNzkyNWRkZmMxNzI2ZmJiZTIzM2QxNjkyYWUwYQ==" -d @C:\work\tsi-backend-service\tests\integration\kyc\pan-validation.json http://localhost:8080/tsi/integration/kyc/panvalidation
+
 # Upload Document
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\document\sampledoc.json http://localhost:8080/tsi/business/document
 

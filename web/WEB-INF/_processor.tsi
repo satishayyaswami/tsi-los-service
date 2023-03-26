@@ -18,3 +18,9 @@
 
 # Scoring
 /tsi/solutions/scoring/basic=in.tsiconsulting.accelerator.business.Scorecard
+
+# PAN Validation
+/tsi/integration/kyc/panvalidation=in.tsiconsulting.accelerator.integration.kyc.PANValidation
+
+# Voter ID Validation
+/tsi/integration/kyc/voteridvalidation=in.tsiconsulting.accelerator.integration.kyc.VoterIDValidation
