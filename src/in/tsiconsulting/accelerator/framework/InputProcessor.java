@@ -49,9 +49,7 @@ public class InputProcessor {
         keysecret = getKeySecret(request,response);
         apikey = (String) keysecret.get("apikey");
         apisecret = (String) keysecret.get("apisecret");
-
-        System.out.println(keysecret);
-
+        //System.out.println(keysecret);
         if(apikey!=null && apisecret!=null){
             sql = "select email from _sys_api_users where api_key=? and api_secret=?";
             query = new DBQuery( sql);
