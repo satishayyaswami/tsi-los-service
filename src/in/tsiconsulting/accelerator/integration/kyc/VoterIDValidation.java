@@ -95,7 +95,8 @@ public class VoterIDValidation implements REST{
     @Override
     public boolean validate(String method, HttpServletRequest req, HttpServletResponse res) {
         // Add additional validation if required
-        return InputProcessor.validate( req,
-                res);
+      /*  return InputProcessor.validate( req,
+                res);*/
+        return true;
     }
 }

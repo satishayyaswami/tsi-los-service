@@ -22,6 +22,12 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmN
 # PAN validation
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTo2YmJmNzkyNWRkZmMxNzI2ZmJiZTIzM2QxNjkyYWUwYQ==" -d @C:\work\tsi-backend-service\tests\integration\kyc\pan-validation.json http://localhost:8080/tsi/integration/kyc/panvalidation
 
+# VoterId Validation
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTo2YmJmNzkyNWRkZmMxNzI2ZmJiZTIzM2QxNjkyYWUwYQ==" -d @C:\work\tsi-backend-service\tests\integration\kyc\voterid-validation.json http://localhost:8080/tsi/integration/kyc/voteridvalidation
+
+# Aadhaar Validation
+curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTo2YmJmNzkyNWRkZmMxNzI2ZmJiZTIzM2QxNjkyYWUwYQ==" -d @C:\work\tsi-backend-service\tests\integration\kyc\aadhaar-validation.json http://localhost:8080/tsi/integration/kyc/aadhaarvalidation
+
 # Upload Document
 curl -X POST -H "Content-Type: application/json" -H "Authorization:Basic YUBiLmNvbTowMjMxOTc2Nzg4N2RiODJlM2MyYTk4OTVkMjhiMGEyOA==" -d @C:\work\tsi-backend-service\tests\business\document\sampledoc.json http://localhost:8080/tsi/business/document
 
