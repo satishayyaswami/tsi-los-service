@@ -2,22 +2,22 @@
 /tsi/framework/apiuser=in.tsiconsulting.accelerator.framework.api.APIUser
 
 # User
-/tsi/business/user=in.tsiconsulting.accelerator.business.User
+/tsi/business/user=in.tsiconsulting.accelerator.los.User
 
 # Customer
-/tsi/business/customer=in.tsiconsulting.accelerator.business.Customer
+/tsi/business/customer=in.tsiconsulting.accelerator.los.Customer
 
 # Loan
-/tsi/business/loan=in.tsiconsulting.accelerator.business.Loan
+/tsi/business/loan=in.tsiconsulting.accelerator.los.Loan
 
 # Document
-/tsi/business/document=in.tsiconsulting.accelerator.business.Document
+/tsi/business/document=in.tsiconsulting.accelerator.los.Document
 
 # FSM - Finite State Machine
-/tsi/business/fsm=in.tsiconsulting.accelerator.business.FSM
+/tsi/business/fsm=in.tsiconsulting.accelerator.los.FSM
 
 # Scoring
-/tsi/solutions/scoring/basic=in.tsiconsulting.accelerator.business.Scorecard
+/tsi/solutions/scoring/basic=in.tsiconsulting.accelerator.los.Scorecard
 
 # PAN Validation
 /tsi/integration/kyc/panvalidation=in.tsiconsulting.accelerator.integration.kyc.PANValidation

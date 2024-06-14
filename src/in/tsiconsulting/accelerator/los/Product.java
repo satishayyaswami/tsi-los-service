@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.business;
+package in.tsiconsulting.accelerator.los;
 
 import in.tsiconsulting.accelerator.framework.REST;
 

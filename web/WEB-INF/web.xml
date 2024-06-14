@@ -15,6 +15,6 @@
 		<listener-class>in.tsiconsulting.accelerator.framework.DBSync</listener-class>
 	</listener>
 	<listener>
-		<listener-class>in.tsiconsulting.accelerator.business.events.EventListener</listener-class>
+		<listener-class>in.tsiconsulting.accelerator.los.events.EventListener</listener-class>
 	</listener>
 </web-app>

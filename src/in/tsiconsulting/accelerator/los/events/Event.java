@@ -1,9 +1,8 @@
-package in.tsiconsulting.accelerator.business.events;
+package in.tsiconsulting.accelerator.los.events;
 
 import in.tsiconsulting.accelerator.framework.DB;
 import in.tsiconsulting.accelerator.framework.DBQuery;
 import in.tsiconsulting.accelerator.framework.DBResult;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.sql.Types;

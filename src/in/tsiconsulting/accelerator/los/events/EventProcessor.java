@@ -1,6 +1,6 @@
-package in.tsiconsulting.accelerator.business.events;
+package in.tsiconsulting.accelerator.los.events;
 
-import in.tsiconsulting.accelerator.business.Loan;
+import in.tsiconsulting.accelerator.los.Loan;
 import in.tsiconsulting.accelerator.framework.BRE;
 import in.tsiconsulting.accelerator.framework.DBResult;
 import org.json.simple.JSONObject;

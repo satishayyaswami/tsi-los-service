@@ -1,6 +1,6 @@
-package in.tsiconsulting.accelerator.business;
+package in.tsiconsulting.accelerator.los;
 
-import in.tsiconsulting.accelerator.business.events.Event;
+import in.tsiconsulting.accelerator.los.events.Event;
 import in.tsiconsulting.accelerator.framework.*;
 import org.json.simple.JSONObject;
 

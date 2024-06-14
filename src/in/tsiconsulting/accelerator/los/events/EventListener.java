@@ -1,4 +1,4 @@
-package in.tsiconsulting.accelerator.business.events;
+package in.tsiconsulting.accelerator.los.events;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

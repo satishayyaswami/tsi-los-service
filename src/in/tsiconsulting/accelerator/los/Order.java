@@ -1,11 +1,11 @@
-package in.tsiconsulting.accelerator.business;
+package in.tsiconsulting.accelerator.los;
 
 import in.tsiconsulting.accelerator.framework.REST;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class Contract implements REST {
+public class Order implements REST {
     @Override
     public void get(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 
